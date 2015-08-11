@@ -31,11 +31,6 @@
             console.log("Disconnected");
         }
 
-        function sendName() {
-            var name = document.getElementById('name').value;
-            stompClient.send("/app/hello", {}, JSON.stringify({ 'name': name }));
-        }
-
         function showScore(message) {
             document.getElementById('wickets').innerHTML = message.wickets;
             document.getElementById('runs').innerHTML = message.runs;
@@ -52,7 +47,7 @@
     <div id="wrapper">
         <div id="contentwrap">
         <div id="content">
-            <div><img src="/images/banner.jpg"/><span width="5px"/></div>
+            <div><img src="/images/banner.jpg" class="banner"/></div>
             <div class="container">
                 <div class="rows">
                     <div class="row">

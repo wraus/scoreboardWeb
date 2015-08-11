@@ -2,22 +2,20 @@ package au.org.howe.scoreboard;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.converter.MappingJackson2MessageConverter;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicLong;
 
 @RestController
 @Controller
 public class ScoreController {
+    private static Score currentScore = new Score();
     private SimpMessagingTemplate template;
 
     @Autowired
@@ -25,8 +23,6 @@ public class ScoreController {
         this.template = template;
         template.setMessageConverter(new MappingJackson2MessageConverter());
     }
-
-    private static Score currentScore = new Score();
 
     @RequestMapping(value = "/score", method = RequestMethod.GET, produces = {"application/json"})
     @ResponseStatus(HttpStatus.OK)
