@@ -59,6 +59,9 @@ img.banner {
     border-radius: 10px;
 }
 
+textarea {
+    border-radius: 10px;
+}
 #wrapper {
     width: 1000px;
 }

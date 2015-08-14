@@ -1,30 +1,44 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<style>
-    @font-face {
-    font-family: 'segmentregular';
-    src: url('fonts/segment-webfont.eot');
-    src: url('fonts/segment-webfont.eot?#iefix') format('embedded-opentype'),
-    url('fonts/segment-webfont.woff') format('woff'),
-    url('fonts/segment-webfont.ttf') format('truetype'),
-    url('fonts/segment-webfont.svg#segmentregular') format('svg');
-    font-weight: normal;
-    font-style: normal;
-    }
-
-    div.clock{
-    font-family: 'segmentregular';
-    }
-
-    div.bold {
-    font-weight: bold;
-    }
-</style>
 <head>
-    <meta charset="UTF-8">
-    <title></title>
+    <meta charset="utf-8">
+    <title>submit demo</title>
+    <style>
+        p {
+        margin: 0;
+        color: blue;
+        }
+        div,p {
+        margin-left: 10px;
+        }
+        span {
+        color: red;
+        }
+    </style>
+    <script src="/scripts/jquery-2.1.4.js"></script>
 </head>
 <body>
-    <div class="clock">1 - 234 5.6 78 90</div>
+
+<p>Type 'correct' to validate.</p>
+<form action="javascript:alert( 'success!' );">
+    <div>
+        <input type="text">
+        <input type="submit">
+    </div>
+</form>
+<span></span>
+
+<script>
+$( "form" ).submit(function( event ) {
+  if ( $( "input:first" ).val() === "correct" ) {
+    $( "span" ).text( "Validated..." ).show();
+    return;
+  }
+ 
+  $( "span" ).text( "Not valid!" ).show().fadeOut( 1000 );
+  event.preventDefault();
+});
+</script>
+
 </body>
 </html>

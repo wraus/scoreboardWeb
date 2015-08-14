@@ -43,9 +43,9 @@ public class ScoreController {
         return currentScore;
     }
 
-    @MessageMapping("/scoreTopic")
-    @SendTo("/topic/score")
-    public Score scoreMessage(Score score) {
-        return score;
+    @MessageMapping("/tweet")
+    @SendTo("/topic/tweet")
+    public Tweet scoreMessage(Tweet tweet) {
+        return tweet;
     }
 }

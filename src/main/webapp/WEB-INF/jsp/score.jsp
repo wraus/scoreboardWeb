@@ -6,10 +6,24 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta id="Viewport" name="viewport" width="initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
     <link rel="stylesheet" type="text/css" href="css/scoreboard.css" />
     <script src="/scripts/sockjs-0.3.4.js"></script>
     <script src="/scripts/stomp.js"></script>
+    <script src="/scripts/jquery-2.1.4.js"></script>
     <script type="text/javascript">
+        $(function(){
+        if( /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent) ) {
+          var ww = ( $(window).width() < window.screen.width ) ? $(window).width() : window.screen.width; //get proper width
+          var mw = 320; // min width of site
+          var ratio =  ww / mw; //calculate ratio
+          if( ww < mw){ //smaller than minimum size
+           $('#Viewport').attr('content', 'initial-scale=' + ratio + ', maximum-scale=' + ratio + ', minimum-scale=' + ratio + ', user-scalable=yes, width=' + ww);
+          }else{ //regular size
+           $('#Viewport').attr('content', 'initial-scale=1.0, maximum-scale=2, minimum-scale=1.0, user-scalable=yes, width=' + ww);
+          }
+        }
+        });
         var stompClient = null;
 
         function connect() {
@@ -20,6 +34,12 @@
                 stompClient.subscribe('/topic/score', function(score){
                     showScore(JSON.parse(score.body));
                 });
+                stompClient.subscribe('/topic/tweet', function(tweet){
+                    json = JSON.parse(tweet.body);
+                    var text = $("#tweets").val();
+                    var newText = json.text + "\n" + text;
+                    $("#tweets").val(newText);
+                });
             });
         }
 
@@ -29,6 +49,10 @@
             }
             setConnected(false);
             console.log("Disconnected");
+        }
+
+        function sendTweet() {
+
         }
 
         function showScore(message) {
@@ -81,5 +105,29 @@
             </div>
         </div>
     <div>
+    <div>
+        <div>
+            <form id="tweet" action="#">
+                <div>
+                    <input id="tweetText" type="text" size="33">
+                    <input type="submit">
+                </div>
+            </form>
+        </div>
+        <div>
+            <div>
+                <textarea id="tweets" cols="40" rows="10" readonly="true"></textarea>
+            </div>
+        </div>
+    </div>
+    <script>
+        $( "form" ).submit(function( event ) {
+            var text = $("input#tweetText").val();
+            stompClient.send("/app/tweet", {}, JSON.stringify({ 'text': text }));
+            event.preventDefault();
+            $("input#tweetText").val("");
+            $("input#tweetText").focus();
+        });
+    </script>
 </body>
 </html>
