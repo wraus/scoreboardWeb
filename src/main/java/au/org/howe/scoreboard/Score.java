@@ -68,4 +68,8 @@ public class Score {
     public void setTarget(Integer target) {
         this.target = target;
     }
+
+    public String getOversAndBalls() {
+        return overs + "." + balls;
+    }
 }

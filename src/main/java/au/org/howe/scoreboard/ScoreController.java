@@ -10,12 +10,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 @RestController
 @Controller
 public class ScoreController {
     private static Score currentScore = new Score();
+    private static List<String> tweets = new ArrayList<>();
+
     private SimpMessagingTemplate template;
 
     @Autowired
@@ -33,6 +37,7 @@ public class ScoreController {
     @RequestMapping(value = "score", method = RequestMethod.GET)
     public ModelAndView scoreHTML(Map<String, Object> model) {
         model.put("score", currentScore);
+        model.put("tweets", tweets);
         return new ModelAndView("/score", model);
     }
 
@@ -46,6 +51,8 @@ public class ScoreController {
     @MessageMapping("/tweet")
     @SendTo("/topic/tweet")
     public Tweet scoreMessage(Tweet tweet) {
-        return tweet;
+        String tweetString =currentScore.getOversAndBalls() + " " + tweet.getText();
+        tweets.add(0, tweetString);
+        return new Tweet(tweetString);
     }
 }
