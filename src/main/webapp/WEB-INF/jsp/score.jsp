@@ -7,10 +7,10 @@
 <head>
     <meta charset="UTF-8">
     <meta id="Viewport" name="viewport" width="initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
-    <link rel="stylesheet" type="text/css" href="css/scoreboard.css" />
-    <script src="/scripts/sockjs-0.3.4.js"></script>
-    <script src="/scripts/stomp.js"></script>
-    <script src="/scripts/jquery-2.1.4.js"></script>
+    <link rel="stylesheet" type="text/css" href="<c:url value='/css/scoreboard.css'/>" />
+    <script src="<c:url value='/scripts/sockjs-0.3.4.js'/>"></script>
+    <script src="<c:url value='/scripts/stomp.js'/>"></script>
+    <script src="<c:url value='/scripts/jquery-2.1.4.js'/>"></script>
     <script type="text/javascript">
         $(function(){
         if( /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent) ) {
@@ -27,7 +27,7 @@
         var stompClient = null;
 
         function connect() {
-        var socket = new SockJS('/scoreTopic');
+        var socket = new SockJS('<c:url value="/scoreTopic"/>');
         stompClient = Stomp.over(socket);
         stompClient.connect({}, function(frame) {
         console.log('Connected: ' + frame);
@@ -71,7 +71,7 @@
     <div id="wrapper">
         <div id="contentwrap">
             <div id="content">
-                <div><img src="/images/banner.jpg" class="banner"/></div>
+                <div><img src="<c:url value='/images/banner.jpg' />" class="banner"/></div>
                 <div class="container">
                     <div class="rows">
                         <div class="row">

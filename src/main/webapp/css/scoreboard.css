@@ -2,8 +2,8 @@
 
 @font-face {
     font-family: '7segment';
-    src: url('/fonts/Classic/DSEG7Classic-Regular.ttf') format('truetype'),
-    url('/fonts/Classic/DSEG7Classic-Regular.woff') format('woff');
+    src: url('../fonts/Classic/DSEG7Classic-Regular.ttf') format('truetype'),
+    url('../fonts/Classic/DSEG7Classic-Regular.woff') format('woff');
     font-weight: normal;
     font-style: normal;
 }

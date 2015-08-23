@@ -50,6 +50,16 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
+            <plugin>
+                <groupId>org.apache.tomcat.maven</groupId>
+                <artifactId>tomcat7-maven-plugin</artifactId>
+                <version>2.2</version>
+                <configuration>
+                    <url>http://ec2-52-26-176-193.us-west-2.compute.amazonaws.com/manager/text</url>
+                    <server>scoreboard-app</server>
+                    <path>/scoreboard</path>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 
