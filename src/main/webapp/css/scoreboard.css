@@ -66,6 +66,19 @@ textarea {
     font-size: 11px;
 }
 
+.inputFields label,.inputFields input {
+    display:inline-block;
+}
+
+.inputFields label {
+    width:100px;
+    color: white;
+}
+
+div.message {
+    color:red;
+}
+
 #wrapper {
     width: 1000px;
 }
