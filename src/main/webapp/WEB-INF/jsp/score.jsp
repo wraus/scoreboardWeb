@@ -29,7 +29,7 @@
         var stompClient = null;
 
         function connect() {
-            var socket = new SockJS('<c:url value="/scoreTopic"/>');
+            var socket = new SockJS('<c:url value="/stomp"/>');
             stompClient = Stomp.over(socket);
             stompClient.connect({}, function(frame) {
                 console.log('Connected: ' + frame);
@@ -53,10 +53,6 @@
             console.log("Disconnected");
         }
 
-        function sendTweet() {
-
-        }
-
         function showScore(message) {
             document.getElementById('wickets').innerHTML = message.wickets;
             document.getElementById('runs').innerHTML = message.runs;
@@ -78,7 +74,7 @@
     <div id="wrapper">
         <div id="contentwrap">
             <div id="content">
-                <div><img src="<c:url value='/images/banner.jpg' />" class="banner"/></div>
+                <div><a href="<c:url value='/login' />"><img src="<c:url value='/images/banner.jpg' />" class="banner"/></a></div>
                 <div class="container">
                     <div class="rows">
                         <div class="row">
@@ -136,11 +132,11 @@
     </div>
     <script>
         $( "form" ).submit(function( event ) {
-        var text = $("input#tweetText").val();
-        stompClient.send("/app/tweet", {}, JSON.stringify({ 'text': text }));
-        event.preventDefault();
-        $("input#tweetText").val("");
-        $("input#tweetText").focus();
+            var text = $("input#tweetText").val();
+            stompClient.send("/app/tweet", {}, JSON.stringify({ 'text': text }));
+            event.preventDefault();
+            $("input#tweetText").val("");
+            $("input#tweetText").focus();
         });
     </script>
 </body>

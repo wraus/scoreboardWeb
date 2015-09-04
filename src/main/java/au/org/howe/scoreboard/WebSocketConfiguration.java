@@ -12,7 +12,7 @@ public class WebSocketConfiguration extends AbstractWebSocketMessageBrokerConfig
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/scoreTopic").withSockJS();
+        registry.addEndpoint("/stomp").withSockJS();
     }
 
     @Override
