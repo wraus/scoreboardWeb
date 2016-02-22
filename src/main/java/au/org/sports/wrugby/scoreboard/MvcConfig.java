@@ -1,4 +1,4 @@
-package au.org.howe.scoreboard;
+package au.org.sports.wrugby.scoreboard;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;

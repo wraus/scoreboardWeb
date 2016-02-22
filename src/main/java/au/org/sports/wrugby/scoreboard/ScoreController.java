@@ -1,4 +1,4 @@
-package au.org.howe.scoreboard;
+package au.org.sports.wrugby.scoreboard;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

@@ -1,4 +1,4 @@
-package au.org.howe.scoreboard;
+package au.org.sports.wrugby.scoreboard;
 
 public class Tweet {
     private String text;

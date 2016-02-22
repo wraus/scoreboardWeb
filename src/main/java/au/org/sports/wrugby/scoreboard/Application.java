@@ -1,4 +1,4 @@
-package au.org.howe.scoreboard;
+package au.org.sports.wrugby.scoreboard;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
