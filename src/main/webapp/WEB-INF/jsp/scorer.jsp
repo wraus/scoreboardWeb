@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<c:set var="req" value="${pageContext.request}" />
+<c:set var="url">${req.requestURL}</c:set>
+<c:set var="uri" value="${req.requestURI}" />
 <html lang="en">
 <head>
     <link rel="stylesheet" type="text/css" href="<c:url value='/css/bootstrap.min.css'/>" />
@@ -9,6 +13,7 @@
     <script src="<c:url value='/scripts/jquery-2.1.4.js'/>"></script>
     <script src="<c:url value='/scripts/jquery.plugin.js'/>"></script>
     <script src="<c:url value='/scripts/jquery.countdown.js'/>"></script>
+    <c:set var="home">${fn:substring(url, 0, fn:length(url) - fn:length(uri))}${req.contextPath}/</c:set>
 </head>
 
 <nav class="navbar navbar-inverse">
@@ -107,7 +112,7 @@
         $.ajax({
             type : "POST",
             contentType : "application/json",
-            url : "http://localhost:8080/score",
+            url : "${home}/score",
             data : JSON.stringify(score),
             dataType : 'json',
             timeout : 100000,
