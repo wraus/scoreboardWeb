@@ -54,6 +54,7 @@
         }
 
         function showScore(message) {
+
             document.getElementById('team1Score').innerHTML = message.team1Score;
             document.getElementById('team2Score').innerHTML = message.team2Score;
             document.getElementById('team1Name').innerHTML = message.team1Name;
@@ -72,6 +73,9 @@
             }*/
 
         }
+        var quarterSirenSound = new Audio('sounds/airHorn.mp3');
+        var shotClockSound = new Audio('sounds/woopWoop.mp3');
+        var umpireSound = new Audio('sounds/dingDong.mp3');
     </script>
     <title></title>
 </head>
@@ -100,8 +104,11 @@
                                 <div class="team"><span id="team2Name">${score.team2Name}</span></div>
                             </div>
                         </div>
-
-
+                        <div class="row">
+                            <span onclick="quarterSirenSound.play()">Quarter End</span>
+                            <span onclick="shotClockSound.play()">Shot Clock</span>
+                            <span onclick="umpireSound.play()">Umpire</span>
+                        </div>
                     </div>
                 </div>
             </div>
