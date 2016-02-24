@@ -42,6 +42,7 @@ public class ScoreboardController {
 
     @RequestMapping(value = "score", method = RequestMethod.POST)
     public @ResponseBody Score updateScore(@RequestBody Score score) {
+System.out.println("Score was submitted...");
         this.currentScore = score;
         this.template.convertAndSend("/topic/score", score);
         return currentScore;
