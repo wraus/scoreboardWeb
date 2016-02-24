@@ -1,75 +1,113 @@
 package au.org.sports.wrugby.scoreboard;
 
 public class Score {
-    private Integer wickets = 0;
-    private Integer runs = 0;
-    private Integer overs = 0;
-    private Integer balls = 0;
-    private Integer wideNBThisOver = 0;
-    private Integer extras = 0;
-    private Integer target = 0;
+
+    private Integer team1Score = 0;
+    private Integer team2Score = 0;
+
+    private String team1Name;
+    private String team2Name;
+
+    private Integer gameClockMins = 0;
+    private Integer gameClockSecs = 0;
+    private Integer gameClockTenthSecs = 0;
+
+    private Integer shotClockSecs = 0;
+    private Integer shotClockTenthSecs = 0;
+
+    private Integer period = 1;
+    private String possession;
 
     public Score() {
 
     }
 
-    public Integer getWickets() {
-        return wickets;
+    public Integer getTeam1Score() {
+        return team1Score;
     }
 
-    public void setWickets(Integer wickets) {
-        this.wickets = wickets;
+    public void setTeam1Score(Integer team1Score) {
+        this.team1Score = team1Score;
     }
 
-    public long getRuns() {
-        return runs;
+    public Integer getTeam2Score() {
+        return team2Score;
     }
 
-    public void setRuns(Integer runs) {
-        this.runs = runs;
+    public void setTeam2Score(Integer team2Score) {
+        this.team2Score = team2Score;
     }
 
-    public Integer getOvers() {
-        return overs;
+    public String getTeam1Name() {
+        return team1Name;
     }
 
-    public void setOvers(Integer overs) {
-        this.overs = overs;
+    public void setTeam1Name(String team1Name) {
+        this.team1Name = team1Name;
     }
 
-    public Integer getBalls() {
-        return balls;
+    public String getTeam2Name() {
+        return team2Name;
     }
 
-    public void setBalls(Integer balls) {
-        this.balls = balls;
+    public void setTeam2Name(String team2Name) {
+        this.team2Name = team2Name;
     }
 
-    public Integer getWideNBThisOver() {
-        return wideNBThisOver;
+    public Integer getGameClockMins() {
+        return gameClockMins;
     }
 
-    public void setWideNBThisOver(Integer wideNBThisOver) {
-        this.wideNBThisOver = wideNBThisOver;
+    public void setGameClockMins(Integer gameClockMins) {
+        this.gameClockMins = gameClockMins;
     }
 
-    public Integer getExtras() {
-        return extras;
+    public Integer getGameClockSecs() {
+        return gameClockSecs;
     }
 
-    public void setExtras(Integer extras) {
-        this.extras = extras;
+    public void setGameClockSecs(Integer gameClockSecs) {
+        this.gameClockSecs = gameClockSecs;
     }
 
-    public Integer getTarget() {
-        return target;
+    public Integer getGameClockTenthSecs() {
+        return gameClockTenthSecs;
     }
 
-    public void setTarget(Integer target) {
-        this.target = target;
+    public void setGameClockTenthSecs(Integer gameClockTenthSecs) {
+        this.gameClockTenthSecs = gameClockTenthSecs;
     }
 
-    public String getOversAndBalls() {
-        return overs + "." + balls;
+    public Integer getShotClockSecs() {
+        return shotClockSecs;
     }
+
+    public void setShotClockSecs(Integer shotClockSecs) {
+        this.shotClockSecs = shotClockSecs;
+    }
+
+    public Integer getShotClockTenthSecs() {
+        return shotClockTenthSecs;
+    }
+
+    public void setShotClockTenthSecs(Integer shotClockTenthSecs) {
+        this.shotClockTenthSecs = shotClockTenthSecs;
+    }
+
+    public Integer getPeriod() {
+        return period;
+    }
+
+    public void setPeriod(Integer period) {
+        this.period = period;
+    }
+
+    public String getPossession() {
+        return possession;
+    }
+
+    public void setPossession(String possession) {
+        this.possession = possession;
+    }
+
 }

@@ -43,10 +43,16 @@ div.heading {
     color: white;
 }
 
-div.digits {
+div.score {
     font-family: '7segment';
     font-size: 64px;
-    color: white;
+    color: red;
+}
+
+div.team {
+    font-family: "arial";
+    font-size: 32px;
+    color: black;
 }
 
 div.digits-alt {
@@ -84,7 +90,7 @@ div.message {
 }
 
 #contentwrap {
-    width: 1000;
+    width: 1000px;
     float: left;
     margin: 0 auto;
 }

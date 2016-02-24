@@ -54,18 +54,23 @@
         }
 
         function showScore(message) {
-            document.getElementById('wickets').innerHTML = message.wickets;
-            document.getElementById('runs').innerHTML = message.runs;
-            document.getElementById('overs').innerHTML = message.overs;
-            document.getElementById('balls').innerHTML = message.balls;
-            document.getElementById('wideNBThisOver').innerHTML = message.wideNBThisOver;
-            if (message.wideNBThisOver == 0) {
+            document.getElementById('team1Score').innerHTML = message.team1Score;
+            document.getElementById('team2Score').innerHTML = message.team2Score;
+            document.getElementById('team1Name').innerHTML = message.team1Name;
+            document.getElementById('team2Name').innerHTML = message.team2Name;
+            /*document.getElementById('gameClockMins').innerHTML = message.gameClockMins;
+            document.getElementById('gameClockSecs').innerHTML = message.gameClockSecs;
+            document.getElementById('gameClockTenthSecs').innerHTML = message.gameClockTenthSecs;
+            document.getElementById('shotClockSecs').innerHTML = message.shotClockSecs;
+            document.getElementById('shotClockTenthSecs').innerHTML = message.shotClockTenthSecs;
+            document.getElementById('period').innerHTML = message.period;
+            document.getElementById('possession').innerHTML = message.possession;*/
+            /*if (message.wideNBThisOver == 0) {
                 $('#wideNBThisOver').hide();
             } else {
                 $('#wideNBThisOver').show();
-            }
-            document.getElementById('extras').innerHTML = message.extras;
-            document.getElementById('target').innerHTML = message.target;
+            }*/
+
         }
     </script>
     <title></title>
@@ -80,57 +85,29 @@
                         <div class="row">
                             <div class="column">
                                 <div class="heading">Score</div>
-                                <div class="digits"><span id="wickets">${score.wickets}</span>-<span id="runs">${score.runs}</span></div>
+                                <div class="score"><span id="team1Score">${score.team1Score}</span></div>
+                            </div>
+                            <div class="column">
+                                <div class="heading">Score</div>
+                                <div class="score"><span id="team2Score">${score.team2Score}</span></div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="column">
-                                <div class="heading">Overs</div>
-                                <div class="digits-alt"><span id="overs">${score.overs}</span>.<span id="balls">${score.balls}</span></div>
+                                <div class="team"><span id="team1Name">${score.team1Name}</span></div>
                             </div>
                             <div class="column">
-                                <div class="heading">Wide/NBs</div>
-                                <div class="digits"><span id="wideNBThisOver"><c:if test="${score.wideNBThisOver != 0}">${score.wideNBThisOver}</c:if></span></div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="column">
-                                <div class="heading">Extras</div>
-                                <div class="digits-alt"><span id="extras">${score.extras}</span></div>
-                            </div>
-                            <div class="column">
-                                <div class="heading">Target</div>
-                                <div class="digits"><span id="target">${score.target}</span></div>
+                                <div class="team"><span id="team2Name">${score.team2Name}</span></div>
                             </div>
                         </div>
 
-                        <sec:authorize access="hasRole('ROLE_ADMIN')">
-                            <div class="row">
-                                <div class="column">
-                                    <form id="tweet" action="#">
-                                        <div>
-                                            <input id="tweetText" type="text" size="30">
-                                            <input type="submit">
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </sec:authorize>
 
-                        <div class="row">
-                            <div class="column">
-                                <div>
-                                    <textarea id="tweets" cols="37" rows="6" readonly="true"><c:forEach var="tweet" items="${tweets}">${tweet}<%='\n'%></c:forEach></textarea>
-                                </div>
-                            </div
-                        </div>
-                        <div class="row"/>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <script>
+    <%--<script>
         $( "form" ).submit(function( event ) {
             var text = $("input#tweetText").val();
             stompClient.send("/app/tweet", {}, JSON.stringify({ 'text': text }));
@@ -138,6 +115,6 @@
             $("input#tweetText").val("");
             $("input#tweetText").focus();
         });
-    </script>
+    </script>--%>
 </body>
 </html>
