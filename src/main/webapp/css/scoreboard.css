@@ -126,6 +126,7 @@ div.panel-shotclock {
 div.panel-extra, div.panel-extra div {
     background: #363;
     color: #AFA !important;
+    font-size: 24px;
 }
 /* ---------- TEAM PANEL ---------------- */
 div.scorePanel {

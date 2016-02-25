@@ -77,7 +77,7 @@
                                             <span class="glyphicon glyphicon-minus"></span>
                                             </button>
                                         </span>
-                                        <input type=text class="form-control input-number" name="period[]" value="1" min="1" max="4">
+                                        <input type=text class="form-control input-number" name="period[]" id="period" value="1" min="1" max="4">
                                         <span class="input-group-btn">
                                             <button type="button" class="btn btn-success btn-number" data-type="plus" data-field="period[]">
                                             <span class="glyphicon glyphicon-plus"></span>
@@ -366,6 +366,9 @@
         $("#team2Score").change(function (event) {
             stompIt();
         });
+        $("#period").change(function (event) {
+            stompIt();
+        });
 
         //$("#score-manager").submit(function (event) {
         $("#bth-save").click(function (event) {
@@ -387,7 +390,7 @@
 
         score["command"] = "START_CLOCK";
         score["actionTime"] = actionTime;
-        score["period"] = 1;
+        score["period"] = $("#period").val();
         score["direction"] = "LEFT";
 
         team1["name"] = $("#team1Name").val();
