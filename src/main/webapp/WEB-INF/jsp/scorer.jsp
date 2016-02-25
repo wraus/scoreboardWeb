@@ -8,20 +8,18 @@
 <html lang="en">
 <head>
     <link rel="stylesheet" type="text/css" href="<c:url value='/css/bootstrap.min.css'/>"/>
-    <link rel="stylesheet" type="text/css" href="<c:url value='/css/jquery.countdown.css'/>"/>
     <link rel="stylesheet" type="text/css" href="<c:url value='/css/scorer.css'/>"/>
     <link rel="stylesheet" type="text/css" href="<c:url value='/css/bootstrap-toggle.min.css'/>"/>
 
     <script src="<c:url value='/scripts/sockjs-0.3.4.js'/>"></script>
     <script src="<c:url value='/scripts/stomp.js'/>"></script>
-
     <script src="<c:url value='/scripts/jquery-2.1.4.js'/>"></script>
-    <script src="<c:url value='/scripts/jquery.plugin.js'/>"></script>
-    <script src="<c:url value='/scripts/jquery.countdown.js'/>"></script>
-    <c:set var="home">${fn:substring(url, 0, fn:length(url) - fn:length(uri))}${req.contextPath}/</c:set>
     <script src="<c:url value='/scripts/bootstrap.min.js'/>"></script>
     <script src="<c:url value='/scripts/bootstrap-toggle.min.js'/>"></script>
     <script src="<c:url value='/scripts/scorer-utils.js'/>"></script>
+    <script src="<c:url value='/scripts/easytimer.min.js'/>"></script>
+
+    <c:set var="home">${fn:substring(url, 0, fn:length(url) - fn:length(uri))}${req.contextPath}/</c:set>
 </head>
 <body onload="connect()">
 <nav class="navbar navbar-inverse">
@@ -46,24 +44,19 @@
 
             <div class="panel panel-primary">
                 <div class="panel-body">
-                    <!--style="text-align:center;"-->
-                    <!--<div class="form-group form-group-lg">-->
-                    <!--<label class="col-sm-2 control-label">Game Clock</label>-->
-
-                    <!--<div class="col-sm-10">-->
-                    <!--<span id="clock"></span>-->
-                    <!--</div>-->
-                    <!--</div>-->
 
                     <div class="row">
                         <div class="col-sm-8">
                             <div class="form-group form-group-lg" >
                                 <label class="col-sm-4 control-label" >Game clock:</label>
                                 <div class="col-sm-2" >
-                                    <input type=text class="form-control input-lg" id="gameClock">
+                                    <input type=text class="form-control input-lg" id="gameClockMins">
+                                </div>
+                                <div class="col-sm-2" >
+                                    <input type=text class="form-control input-lg" id="gameClockSecs">
                                 </div>
                                 <div class="col-sm-4" >
-                                    <button type="submit" id="bth-search" class="btn btn-primary btn-lg">Reset Quarter</button>
+                                    <button type="button" id="bth-reset-qtr" class="btn btn-primary btn-lg">Reset Quarter</button>
                                 </div>
                             </div>
                         </div>
@@ -93,13 +86,13 @@
                             <div class="form-group form-group-lg" >
                                 <label class="col-sm-4 control-label">Shot clock:</label>
                                 <div class="col-sm-2" >
-                                    <input type=text class="form-control input-lg" id="shotClock">
+                                    <input type=text class="form-control input-lg" id="shotClockSecs">
                                 </div>
                                 <div class="col-sm-2" >
-                                    <button type="submit" id="bth-search" class="btn btn-primary btn-lg">Reset 40</button>
+                                    <button type="button" id="bth-reset-40" class="btn btn-primary btn-lg">Reset 40</button>
                                 </div>
                                 <div class="col-sm-2" >
-                                    <button type="submit" id="bth-search" class="btn btn-primary btn-lg">Reset 15</button>
+                                    <button type="button" id="bth-reset-15" class="btn btn-primary btn-lg">Reset 15</button>
                                 </div>
                             </div>
                         </div>
@@ -118,7 +111,7 @@
                         <div class="col-sm-12 align-cntr" >
                             <!-- http://www.bootstraptoggle.com/ -->
                             <!--<button type="submit" id="btn-start-stop" class="btn btn-success btn-lg btn-long">START</button>-->
-                            <input type="checkbox" checked data-toggle="toggle" data-size="large" data-onstyle="success" data-offstyle="danger" data-on="<i class='fa fa-play'></i> START" data-off="<i class='fa fa-pause'></i> STOP">
+                            <input type="checkbox" id="start" checked data-toggle="toggle" data-size="large" data-onstyle="success" data-offstyle="danger" data-on="<i class='fa fa-play'></i> START" data-off="<i class='fa fa-pause'></i> STOP">
                             <!--<input type="checkbox" checked data-toggle="toggle" data-on="<i class=''></i> START" data-off="<i class=''></i> STOP">-->
                         </div>
                     </div>
@@ -290,7 +283,7 @@
 
                         <div class="form-group">
                             <div class="col-sm-offset-5 col-sm-10">
-                                <button type="submit" id="bth-search" class="btn btn-primary btn-lg">Save</button>
+                                <button type="button" id="bth-save" class="btn btn-primary btn-lg">Save</button>
                             </div>
                         </div>
                     </form>
@@ -325,6 +318,12 @@
 <script>
 
     var stompClient = null;
+    var gameClock = new Timer();
+    var shotClock = new Timer();
+    shotClock.addEventListener('targetAchieved', function (e) {
+        //TODO should we display something on contrller to highlight this
+        //alert("SHOT END TIME");
+    });
 
     function connect() {
         var socket = new SockJS('<c:url value="/stomp"/>');
@@ -332,7 +331,7 @@
         stompClient.connect({}, function(frame) {
             console.log('Connected: ' + frame);
             stompClient.subscribe('/topic/score', function(score){
-                showScore(JSON.parse(score.body));
+                //showScore(JSON.parse(score.body));
             });
         });
     }
@@ -345,34 +344,118 @@
         console.log("Disconnected");
     }
 
-    var eightMinsLater = new Date();
-    eightMinsLater.setMinutes(eightMinsLater.getMinutes() + 8);
-    $('#clock').countdown({until: eightMinsLater, format: 'MS'});
+    function startGameClock() {
+        //start quarter clock, default is 8 mins if not already running
+        gameClock.start({countdown: true, startValues: {seconds: 480}});
+            $("#gameClockMins").val(gameClock.getTimeValues().minutes);
+            $("#gameClockSecs").val(gameClock.getTimeValues().seconds);
+        gameClock.addEventListener('secondsUpdated', function (e) {
+            //console.log("GAME CLOCK",gameClock.getTimeValues());
+            $("#gameClockSecs").val(gameClock.getTimeValues().seconds);
+            $("#gameClockMins").val(gameClock.getTimeValues().minutes);
+        });
+        gameClock.addEventListener('targetAchieved', function (e) {
+            alert("QUARTER END");
+        });
+
+        //starting quarter clock should always start shot clock, default 40 secs if not already running
+        startShotClock(40)
+    }
+
+    function startShotClock(secs) {
+        shotClock.start({countdown: true, startValues: {seconds: secs}});
+        $("#shotClockSecs").val(shotClock.getTimeValues().seconds);
+        shotClock.addEventListener('secondsUpdated', function (e) {
+            //console.log("SHOT CLOCK",shotClock.getTimeValues());
+            $("#shotClockSecs").val(shotClock.getTimeValues().seconds);
+        });
+    }
+
+    function pauseShotClock() {
+        shotClock.pause();
+    }
+
+    function pauseGameClock() {
+        gameClock.pause();
+        shotClock.pause();
+    }
+
+    function stopShotClock() {
+        shotClock.stop();
+    }
+
+    function stopGameClock() {
+        gameClock.stop();
+        shotClock.stop();
+    }
 
     jQuery(document).ready(function ($) {
 
-        $("#game-manager").submit(function (event) {
-            if ($("#btn-start-stop").text() == "START") {
-                $("#btn-start-stop").css( "background", "red" );
-                $("#btn-start-stop").text("STOP");
-            } else {
-                $("#btn-start-stop").css( "background", "#5cb85c" );
-                $("#btn-start-stop").text("START");
-                //btn btn-success btn-lg btn-long
+        $("#team1Score").change(function (event) {
+            stompIt("TEAM1_SCORE");
+        });
+        $("#team2Score").change(function (event) {
+            stompIt("TEAM2_SCORE");
+        });
+        $("#period").change(function (event) {
+            stompIt("PERIOD");
+        });
+
+        $("#start").change(function (event) {
+            // Prevent the form from submitting via the browser.
+            event.preventDefault();
+            if (!$("#start").is(':checked')) {
+                startGameClock();
+                stompIt("START_CLOCK");
+            }else{
+                pauseGameClock();
+                stompIt("PAUSE_CLOCK");
             }
         });
 
-        $("#score-manager").submit(function (event) {
+        $("#bth-reset-qtr").click(function (event) {
             // Prevent the form from submitting via the browser.
             event.preventDefault();
+            stopGameClock();
+            if ($("#start").is(':checked')) {
+                $('#start').bootstrapToggle('off')
+            }
+            startGameClock();
+            stompIt("RESET_QTR");
+        });
 
-            stompIt();
+        $("#bth-reset-40").click(function (event) {
+            // Prevent the form from submitting via the browser.
+            event.preventDefault();
+            stopShotClock();
+            if ($("#start").is(':checked')) {
+                $('#start').bootstrapToggle('off')
+            }
+            startShotClock(40);
+            stompIt("RESET_SHOT_40");
+        });
 
+        $("#bth-reset-15").click(function (event) {
+            // Prevent the form from submitting via the browser.
+            event.preventDefault();
+            stopShotClock();
+            if ($("#start").is(':checked')) {
+                $('#start').bootstrapToggle('off')
+            }
+            startShotClock(15);
+            stompIt("RESET_SHOT_15");
+        });
+
+        //#score-manager
+        $("#bth-save").click(function (event) {
+            // Prevent the form from submitting via the browser.
+            event.preventDefault();
+            stompIt("SAVE_TEAM_SETUP");
         });
 
     });
 
-    function stompIt() {
+    function stompIt(command) {
 
         var actionTime = new Date();
         var score = {};
@@ -381,7 +464,7 @@
         var gameClock = {};
         var shotClock = {};
 
-        score["command"] = "START_CLOCK";
+        score["command"] = command;
         score["actionTime"] = actionTime;
         score["period"] = 1;
         score["direction"] = "LEFT";
@@ -400,7 +483,6 @@
         gameClock["secs"] = $("#gameClockSecs").val();
         gameClock["tenths"] = $("#gameClockTenths").val();
 
-        shotClock["mins"] = $("#shotClockMins").val();
         shotClock["secs"] = $("#shotClockSecs").val();
         shotClock["tenths"] = $("#shotClockTenths").val();
 
@@ -408,6 +490,8 @@
         score["team2"] = team2;
         score["gameClock"] = gameClock;
         score["shotClock"] = shotClock;
+
+        console.log("SUCCESS: ", score);
 
         stompClient.send("/topic/score", {}, JSON.stringify(score));
 
