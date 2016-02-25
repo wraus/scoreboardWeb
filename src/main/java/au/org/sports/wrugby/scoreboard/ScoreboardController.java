@@ -45,12 +45,4 @@ public class ScoreboardController {
         return currentScoreboard;
     }
 
-   /* @MessageMapping("/tweet")
-    @SendTo("/topic/tweet")
-    public Tweet scoreMessage(Tweet tweet) {
-        String tweetString =currentScore.getOversAndBalls() + " " + tweet.getText();
-        tweets.add(0, tweetString);
-        //TODO Truncate the list
-        return new Tweet(tweetString);
-    }*/
 }

@@ -13,6 +13,7 @@
     <script src="<c:url value='/scripts/sockjs-0.3.4.js'/>"></script>
     <script src="<c:url value='/scripts/stomp.js'/>"></script>
     <script src="<c:url value='/scripts/jquery-2.1.4.js'/>"></script>
+    <script src="<c:url value='/scripts/easytimer.min.js'/>"></script>
     <script type="text/javascript">
         $(function(){
             if( /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent) ) {
@@ -28,6 +29,65 @@
         });
 
         var stompClient = null;
+        var gameClock = new Timer();
+        var shotClock = new Timer();
+        shotClock.addEventListener('targetAchieved', function (e) {
+            //TODO: play shot siren sound
+        });
+        gameClock.addEventListener('targetAchieved', function (e) {
+            //TODO: play quarter siren sound
+        });
+        var quarterSirenSound = new Audio('sounds/airHorn.mp3');
+        var shotClockSound = new Audio('sounds/woopWoop.mp3');
+        var umpireSound = new Audio('sounds/dingDong.mp3');
+
+        function init() {
+            connect();
+            initDisplay();
+        }
+
+        function startClocks(gameSecs, shotSecs) {
+
+            //stop clocks and reset
+            //TODO: should timers be new instances?
+            stopClocks();
+
+            gameClock.start({countdown: true, startValues: {seconds: gameSecs}});
+            $("#gameClockMins").html(gameClock.getTimeValues().minutes);
+            $("#gameClockSecs").html(gameClock.getTimeValues().seconds);
+            gameClock.addEventListener('secondsUpdated', function (e) {
+                //console.log("GAME CLOCK",gameClock.getTimeValues());
+                //TODO add tenths
+                if(gameClock.getTimeValues().minutes === 0){
+                    $("#gameClockMins").html(gameClock.getTimeValues().seconds);
+                    //$("#gameClockSecs").html(gameClock.getTimeValues().tenths);
+                }else{
+                    $("#gameClockMins").html(gameClock.getTimeValues().minutes);
+                    $("#gameClockSecs").html(gameClock.getTimeValues().seconds);
+                }
+            });
+
+            startShotClock(shotSecs)
+        }
+
+        function startShotClock(secs) {
+            shotClock.start({countdown: true, startValues: {seconds: secs}});
+            $("#shotClockSecs").html(shotClock.getTimeValues().seconds);
+            shotClock.addEventListener('secondsUpdated', function (e) {
+                console.log("SHOT CLOCK",shotClock.getTimeValues());
+                $("#shotClockSecs").html(shotClock.getTimeValues().seconds);
+            });
+        }
+
+        function stopClocks() {
+            gameClock.stop();
+            shotClock.stop();
+        }
+
+        function pauseClocks() {
+            gameClock.pause();
+            shotClock.pause();
+        }
 
         function connect() {
             var socket = new SockJS('<c:url value="/stomp"/>');
@@ -37,12 +97,7 @@
                 stompClient.subscribe('/topic/score', function(score){
                     showScore(JSON.parse(score.body));
                 });
-                stompClient.subscribe('/topic/tweet', function(tweet) {
-                    json = JSON.parse(tweet.body);
-                    var text = $("#tweets").val();
-                    var newText = json.text + "\n" + text;
-                    $("#tweets").val(newText);
-                });
+
             });
         }
 
@@ -61,6 +116,19 @@
             document.getElementById('team2Name').innerHTML = message.team2.name;
             document.getElementById('period').innerHTML = message.period;
 
+            if(message.command === "START_CLOCK"){
+                //synchronize clocks from master clock
+                //TODO add tenths secs
+                startClocks((+message.gameClock.mins * 60) + parseInt(message.gameClock.secs, 10), +message.shotClock.secs);
+            }
+
+            if(message.command === "STOP_CLOCK"){
+                //restart clocks with updated times and then pause.
+                startClocks((+message.gameClock.mins * 60) + parseInt(message.gameClock.secs, 10), +message.shotClock.secs);
+                pauseClocks();
+            }
+
+
             /*document.getElementById('gameClockMins').innerHTML = message.gameClockMins;
             document.getElementById('gameClockSecs').innerHTML = message.gameClockSecs;
             document.getElementById('gameClockTenthSecs').innerHTML = message.gameClockTenthSecs;
@@ -75,10 +143,20 @@
             }*/
 
         }
+
+        function initDisplay() {
+            $("#t1pt3").fadeTo(0, 0.25);
+            $("#t1pt4").fadeTo(0, 0.25);
+            $("#t1ct2").fadeTo(0, 0.25);
+            $("#t2pt2").fadeTo(0, 0.25);
+            $("#t2pt3").fadeTo(0, 0.25);
+            $("#t2pt4").fadeTo(0, 0.25);
+            $("#t2ct2").fadeTo(0, 0.25);
+        }
     </script>
     <title></title>
 </head>
-<body onload="connect()">
+<body onload="init();">
     <div id="wrapper">
         <div id="contentwrap">
             <div id="content">
@@ -99,14 +177,14 @@
                             <div class="panel-body">
                                 <div class="row">
                                     <div class="col-sm-7">
-                                        <img src="images/t.jpg" width="30px" height="30px"/>
-                                        <img src="images/t.jpg" width="30px" height="30px"/>
-                                        <img src="images/t.jpg" width="30px" height="30px"/>
-                                        <img src="images/t.jpg" width="30px" height="30px"/>
+                                        <img id="t1pt1" src="images/t.jpg" width="30px" height="30px"/>
+                                        <img id="t1pt2" src="images/t.jpg" width="30px" height="30px"/>
+                                        <img id="t1pt3" src="images/t.jpg" width="30px" height="30px"/>
+                                        <img id="t1pt4" src="images/t.jpg" width="30px" height="30px"/>
                                     </div>
                                     <div class="col-sm-4" >
-                                        <img src="images/t-coach.jpg" width="30px" height="30px"/>
-                                        <img src="images/t-coach.jpg" width="30px" height="30px"/>
+                                        <img id="t1ct1" src="images/t-coach.jpg" width="30px" height="30px"/>
+                                        <img id="t1ct2" src="images/t-coach.jpg" width="30px" height="30px"/>
                                     </div>
                                 </div>
                             </div>
@@ -118,14 +196,18 @@
                         <div class="panel panel-success">
                             <div class="panel-heading">Game</div>
                             <div class="panel-body game-clock">
-                                <div class="digits-alt">07:55</div>
+                                <div class="digits-alt">
+                                    <span id="gameClockMins">${score.gameClock.mins}</span>:<span id="gameClockSecs">${score.gameClock.secs}</span>
+                                </div>
                             </div>
                         </div>
 
                         <div class="panel panel-shotclock">
                             <div class="panel-heading">Shot clock</div>
                             <div class="panel-body shot-clock">
-                                <div class="digits-alt">00:38</div>
+                                <div class="digits-alt">
+                                    <span id="shotClockSecs">${score.shotClock.secs}</span>
+                                </div>
                             </div>
                         </div>
 
@@ -140,6 +222,12 @@
                                 <div><img src="images/geren-arrow-right.png" width="140px" height="80px"/></div>
                                 <!--<div><img src="images/geren-arrow-left.png" width="140px" height="80px"/></div>-->
                             </div>
+                        </div>
+
+                        <div class="panel panel-extra">
+                            <span onclick="quarterSirenSound.play()">Quarter End</span>
+                            <span onclick="shotClockSound.play()">Shot Clock</span>
+                            <span onclick="umpireSound.play()">Umpire</span>
                         </div>
                         <br/><br/>
 
@@ -158,11 +246,14 @@
                             <div class="panel-body">
                                 <div class="row">
                                     <div class="col-sm-7" >
-                                        <img src="images/t.jpg" width="30px" height="30px"/>
-                                        <img src="images/t.jpg" width="30px" height="30px"/>
+                                        <img id="t2pt1" src="images/t.jpg" width="30px" height="30px"/>
+                                        <img id="t2pt2" src="images/t.jpg" width="30px" height="30px"/>
+                                        <img id="t2pt3" src="images/t.jpg" width="30px" height="30px"/>
+                                        <img id="t2pt4" src="images/t.jpg" width="30px" height="30px"/>
                                     </div>
                                     <div class="col-sm-4" >
-                                        <img src="images/t-coach.jpg" width="30px" height="30px"/>
+                                        <img id="t2ct1" src="images/t-coach.jpg" width="30px" height="30px"/>
+                                        <img id="t2ct2" src="images/t-coach.jpg" width="30px" height="30px"/>
                                     </div>
                                 </div>
                             </div>
@@ -173,14 +264,5 @@
             </div>
         </div>
     </div>
-    <%--<script>
-        $( "form" ).submit(function( event ) {
-            var text = $("input#tweetText").val();
-            stompClient.send("/app/tweet", {}, JSON.stringify({ 'text': text }));
-            event.preventDefault();
-            $("input#tweetText").val("");
-            $("input#tweetText").focus();
-        });
-    </script>--%>
 </body>
 </html>
