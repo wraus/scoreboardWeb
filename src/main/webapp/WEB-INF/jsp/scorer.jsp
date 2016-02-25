@@ -119,7 +119,6 @@
                             <!-- http://www.bootstraptoggle.com/ -->
                             <!--<button type="submit" id="btn-start-stop" class="btn btn-success btn-lg btn-long">START</button>-->
                             <input type="checkbox" checked data-toggle="toggle" data-size="large" data-onstyle="success" data-offstyle="danger" data-on="<i class='fa fa-play'></i> START" data-off="<i class='fa fa-pause'></i> STOP">
-                            <!--<input type="checkbox" checked data-toggle="toggle" data-on="<i class=''></i> START" data-off="<i class=''></i> STOP">-->
                         </div>
                     </div>
 
