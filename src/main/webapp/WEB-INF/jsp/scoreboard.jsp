@@ -142,17 +142,26 @@
                 $('#wideNBThisOver').show();
             }*/
 
+            $("[id^=timeoutT]").fadeTo(0, 0.25);
+            updateTimeouts("timeoutT1P", message.team1.teamTimeouts);
+            updateTimeouts("timeoutT2P", message.team2.teamTimeouts);
+            updateTimeouts("timeoutT1C", message.team1.coachTimeouts);
+            updateTimeouts("timeoutT2C", message.team2.coachTimeouts);
         }
 
         function initDisplay() {
-            $("#t1pt3").fadeTo(0, 0.25);
-            $("#t1pt4").fadeTo(0, 0.25);
-            $("#t1ct2").fadeTo(0, 0.25);
-            $("#t2pt2").fadeTo(0, 0.25);
-            $("#t2pt3").fadeTo(0, 0.25);
-            $("#t2pt4").fadeTo(0, 0.25);
-            $("#t2ct2").fadeTo(0, 0.25);
+            $("[id^=timeoutT]").fadeTo(0, 0.25);
         }
+
+        function updateTimeouts(timeoutGroup, number) {
+            if (number != null) {
+                for (i=0; i<number; i++) {
+                    var num = i+1;
+                    $("#"+timeoutGroup+num).fadeTo(0, 1);
+                }
+            }
+        }
+
     </script>
     <title></title>
 </head>
@@ -177,14 +186,14 @@
                             <div class="panel-body">
                                 <div class="row">
                                     <div class="col-sm-7">
-                                        <img id="t1pt1" src="images/t.jpg" width="30px" height="30px"/>
-                                        <img id="t1pt2" src="images/t.jpg" width="30px" height="30px"/>
-                                        <img id="t1pt3" src="images/t.jpg" width="30px" height="30px"/>
-                                        <img id="t1pt4" src="images/t.jpg" width="30px" height="30px"/>
+                                        <img id="timeoutT1P1" src="images/t.jpg" width="30px" height="30px"/>
+                                        <img id="timeoutT1P2" src="images/t.jpg" width="30px" height="30px"/>
+                                        <img id="timeoutT1P3" src="images/t.jpg" width="30px" height="30px"/>
+                                        <img id="timeoutT1P4" src="images/t.jpg" width="30px" height="30px"/>
                                     </div>
                                     <div class="col-sm-4" >
-                                        <img id="t1ct1" src="images/t-coach.jpg" width="30px" height="30px"/>
-                                        <img id="t1ct2" src="images/t-coach.jpg" width="30px" height="30px"/>
+                                        <img id="timeoutT1C1" src="images/t-coach.jpg" width="30px" height="30px"/>
+                                        <img id="timeoutT1C2" src="images/t-coach.jpg" width="30px" height="30px"/>
                                     </div>
                                 </div>
                             </div>
@@ -246,14 +255,14 @@
                             <div class="panel-body">
                                 <div class="row">
                                     <div class="col-sm-7" >
-                                        <img id="t2pt1" src="images/t.jpg" width="30px" height="30px"/>
-                                        <img id="t2pt2" src="images/t.jpg" width="30px" height="30px"/>
-                                        <img id="t2pt3" src="images/t.jpg" width="30px" height="30px"/>
-                                        <img id="t2pt4" src="images/t.jpg" width="30px" height="30px"/>
+                                        <img id="timeoutT2P1" src="images/t.jpg" width="30px" height="30px"/>
+                                        <img id="timeoutT2P2" src="images/t.jpg" width="30px" height="30px"/>
+                                        <img id="timeoutT2P3" src="images/t.jpg" width="30px" height="30px"/>
+                                        <img id="timeoutT2P4" src="images/t.jpg" width="30px" height="30px"/>
                                     </div>
                                     <div class="col-sm-4" >
-                                        <img id="t2ct1" src="images/t-coach.jpg" width="30px" height="30px"/>
-                                        <img id="t2ct2" src="images/t-coach.jpg" width="30px" height="30px"/>
+                                        <img id="timeoutT2C1" src="images/t-coach.jpg" width="30px" height="30px"/>
+                                        <img id="timeoutT2C2" src="images/t-coach.jpg" width="30px" height="30px"/>
                                     </div>
                                 </div>
                             </div>

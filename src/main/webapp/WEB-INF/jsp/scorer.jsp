@@ -153,7 +153,7 @@
                                                 <span class="glyphicon glyphicon-minus"></span>
                                             </button>
                                         </span>
-                                        <input type=text class="form-control input-number" name="team1Timeout[]" id="team1Timeout" value="1" min="1" max="4">
+                                        <input type=text class="form-control input-number" name="team1Timeout[]" id="team1Timeout" value="0" min="0" max="4">
                                         <span class="input-group-btn">
                                             <button type="button" class="btn btn-success btn-number" data-type="plus" data-field="team1Timeout[]">
                                                 <span class="glyphicon glyphicon-plus"></span>
@@ -171,7 +171,7 @@
                                                 <span class="glyphicon glyphicon-minus"></span>
                                             </button>
                                         </span>
-                                        <input type=text class="form-control input-number" name="coach1Timeout[]" id="coach1Timeout" value="1" min="1" max="2">
+                                        <input type=text class="form-control input-number" name="coach1Timeout[]" id="coach1Timeout" value="0" min="0" max="2">
                                         <span class="input-group-btn">
                                             <button type="button" class="btn btn-success btn-number" data-type="plus" data-field="coach1Timeout[]">
                                                 <span class="glyphicon glyphicon-plus"></span>
@@ -216,7 +216,7 @@
                                                 <span class="glyphicon glyphicon-minus"></span>
                                             </button>
                                         </span>
-                                        <input type=text class="form-control input-number" name="team2Timeout[]" id="team2Timeout" value="1" min="1" max="4">
+                                        <input type=text class="form-control input-number" name="team2Timeout[]" id="team2Timeout" value="0" min="0" max="4">
                                         <span class="input-group-btn">
                                             <button type="button" class="btn btn-success btn-number" data-type="plus" data-field="team2Timeout[]">
                                                 <span class="glyphicon glyphicon-plus"></span>
@@ -234,7 +234,7 @@
                                                 <span class="glyphicon glyphicon-minus"></span>
                                             </button>
                                         </span>
-                                        <input type=text class="form-control input-number" name="coach2Timeout[]" id="coach2Timeout" value="1" min="1" max="2">
+                                        <input type=text class="form-control input-number" name="coach2Timeout[]" id="coach2Timeout" value="0" min="0" max="2">
                                         <span class="input-group-btn">
                                             <button type="button" class="btn btn-success btn-number" data-type="plus" data-field="coach2Timeout[]">
                                                 <span class="glyphicon glyphicon-plus"></span>
@@ -401,15 +401,13 @@
 
     jQuery(document).ready(function ($) {
 
-        $("#team1Score").change(function (event) {
-            stompIt("","TEAM1_SCORE");
-        });
-        $("#team2Score").change(function (event) {
-            stompIt("","TEAM2_SCORE");
-        });
-        $("#period").change(function (event) {
-            stompIt("","PERIOD");
-        });
+        $("#team1Score").change(function (event) { stompIt("","TEAM1_SCORE"); });
+        $("#team2Score").change(function (event) { stompIt("","TEAM2_SCORE"); });
+        $("#team1Timeout").change(function (event) { stompIt("","TEAM1_TIMEOUT"); });
+        $("#team2Timeout").change(function (event) { stompIt("","TEAM2_TIMEOUT"); });
+        $("#coach1Timeout").change(function (event) { stompIt("","COACH1_TIMEOUT"); });
+        $("#coach2Timeout").change(function (event) { stompIt("","COACH2_TIMEOUT"); });
+        $("#period").change(function (event) { stompIt("","PERIOD"); });
 
         $("#start").change(function (event) {
             // Prevent the form from submitting via the browser.
