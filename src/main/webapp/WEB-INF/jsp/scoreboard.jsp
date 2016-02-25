@@ -97,7 +97,7 @@
                         <div class="teamPanel panel-success scorePanel timeout">
                             Timeouts
                             <div class="panel-body">
-                                <div class="row" style="border: 1px solid green; text-align:center; ">
+                                <div class="row">
                                     <div class="col-sm-7">
                                         <img src="images/t.jpg" width="30px" height="30px"/>
                                         <img src="images/t.jpg" width="30px" height="30px"/>
