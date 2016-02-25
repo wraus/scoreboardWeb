@@ -29,15 +29,6 @@
         });
 
         var stompClient = null;
-        var quarterSirenSound = new Audio('sounds/airHorn.mp3');
-        var shotClockSound = new Audio('sounds/woopWoop.mp3');
-        var umpireSound = new Audio('sounds/dingDong.mp3');
-
-        function init() {
-            connect();
-            initDisplay();
-	}    
-	    
         var gameClock = new Timer();
         var shotClock = new Timer();
         shotClock.addEventListener('targetAchieved', function (e) {
@@ -46,6 +37,14 @@
         gameClock.addEventListener('targetAchieved', function (e) {
             //TODO: play quarter siren sound
         });
+        var quarterSirenSound = new Audio('sounds/airHorn.mp3');
+        var shotClockSound = new Audio('sounds/woopWoop.mp3');
+        var umpireSound = new Audio('sounds/dingDong.mp3');
+
+        function init() {
+            connect();
+            initDisplay();
+        }
 
         function startClocks(gameSecs, shotSecs) {
 
