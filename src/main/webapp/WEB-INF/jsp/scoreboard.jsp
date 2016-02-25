@@ -79,31 +79,23 @@
 <body onload="connect()">
     <div id="wrapper">
         <div id="contentwrap">
-            <div id="content">
+            <div id="content" style="border:4px solid green;">
+
                 <div><a href="<c:url value='/login' />"><img src="<c:url value='/images/banner.jpg' />" class="banner"/></a></div>
-                <div class="container">
-                    <div class="rows">
-                        <div class="row">
-                            <div class="column">
-                                <div class="heading">Score</div>
-                                <div class="score"><span id="team1Score">${score.team1.score}</span></div>
 
                 <div class="row">
                     <div class="col-sm-4">
                         <div class="teamPanel panel-primary scorePanel team1">
-                            <p><span id="team1Name">${score.team1Name}</span></p>
+                            <p><span id="team1Name">${score.team1.name}</span></p>
                             <div class="panel-body">
-                                <div class="score"><span id="team1Score">${score.team1Score}</span></div>
+                                <div class="score"><span id="team1Score">${score.team1.score}</span></div>
                             </div>
-                            <div class="column">
-                                <div class="heading">Score</div>
-                                <div class="score"><span id="team2Score">${score.team2.score}</span></div>
                         </div>
 
                         <div class="teamPanel panel-success scorePanel timeout">
                             Timeouts
                             <div class="panel-body">
-                                <div class="row">
+                                <div class="row" style="border: 1px solid green; text-align:center; ">
                                     <div class="col-sm-7">
                                         <img src="images/t.jpg" width="30px" height="30px"/>
                                         <img src="images/t.jpg" width="30px" height="30px"/>
@@ -117,9 +109,6 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="column">
-                                <div class="team"><span id="team1Name">${score.team1.name}</span></div>
 
                     </div>
                     <div class="col-sm-4">
@@ -129,8 +118,6 @@
                             <div class="panel-body game-clock">
                                 <div class="digits-alt">07:55</div>
                             </div>
-                            <div class="column">
-                                <div class="team"><span id="team2Name">${score.team2.name}</span></div>
                         </div>
 
                         <div class="panel panel-shotclock">
@@ -158,9 +145,9 @@
                     <div class="col-sm-4">
 
                         <div class="teamPanel panel-primary scorePanel team1">
-                            <p><span id="team2Name">${score.team2Name}</span></p>
+                            <p><span id="team2Name">${score.team2.name}</span></p>
                             <div class="panel-body">
-                                <div class="score"><span id="team2Score">${score.team2Score}</span></div>
+                                <div class="score"><span id="team2Score">${score.team2.score}</span></div>
                             </div>
                         </div>
 
