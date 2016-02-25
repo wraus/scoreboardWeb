@@ -402,13 +402,13 @@
     jQuery(document).ready(function ($) {
 
         $("#team1Score").change(function (event) {
-            stompIt("TEAM1_SCORE");
+            stompIt("","TEAM1_SCORE");
         });
         $("#team2Score").change(function (event) {
-            stompIt("TEAM2_SCORE");
+            stompIt("","TEAM2_SCORE");
         });
         $("#period").change(function (event) {
-            stompIt("PERIOD");
+            stompIt("","PERIOD");
         });
 
         $("#start").change(function (event) {
@@ -416,10 +416,10 @@
             event.preventDefault();
             if (!$("#start").is(':checked')) {
                 startGameClock();
-                stompIt("START_CLOCK");
+                stompIt("START_CLOCK","START_CLOCK");
             }else{
                 pauseGameClock();
-                stompIt("PAUSE_CLOCK");
+                stompIt("STOP_CLOCK","STOP_CLOCK");
             }
         });
 
@@ -431,7 +431,7 @@
                 $('#start').bootstrapToggle('off')
             }
             startGameClock();
-            stompIt("RESET_QTR");
+            stompIt("START_CLOCK","RESET_QTR");
         });
 
         $("#bth-reset-40").click(function (event) {
@@ -442,7 +442,7 @@
                 $('#start').bootstrapToggle('off')
             }
             startShotClock(40);
-            stompIt("RESET_SHOT_40");
+            stompIt("START_CLOCK","RESET_SHOT_40");
         });
 
         $("#bth-reset-15").click(function (event) {
@@ -453,19 +453,19 @@
                 $('#start').bootstrapToggle('off')
             }
             startShotClock(15);
-            stompIt("RESET_SHOT_15");
+            stompIt("START_CLOCK","RESET_SHOT_15");
         });
 
         //#score-manager
         $("#bth-save").click(function (event) {
             // Prevent the form from submitting via the browser.
             event.preventDefault();
-            stompIt("SAVE_TEAM_SETUP");
+            stompIt("","SAVE_TEAM_SETUP");
         });
 
     });
 
-    function stompIt(command) {
+    function stompIt(clockCommand, logAction) {
 
         var actionTime = new Date();
         var score = {};
@@ -474,7 +474,8 @@
         var gameClock = {};
         var shotClock = {};
 
-        score["command"] = command;
+        score["command"] = clockCommand;
+        score["action"] = logAction;
         score["actionTime"] = actionTime;
         score["period"] = $("#period").val();
         score["direction"] = "LEFT";

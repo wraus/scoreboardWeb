@@ -1,5 +1,7 @@
 package au.org.sports.wrugby.scoreboard;
 
+import java.util.Date;
+
 public class Scoreboard {
 
     private Team team1;
@@ -8,6 +10,9 @@ public class Scoreboard {
     private Clock shotClock;
     private Integer period = 1;
     private String direction;
+    private String command;
+    private String action;
+    private Date actionTime;
 
     public Scoreboard() {
 
@@ -59,5 +64,29 @@ public class Scoreboard {
 
     public void setDirection(String direction) {
         this.direction = direction;
+    }
+
+    public String getCommand() {
+        return command;
+    }
+
+    public void setCommand(String command) {
+        this.command = command;
+    }
+
+    public Date getActionTime() {
+        return actionTime;
+    }
+
+    public void setActionTime(Date actionTime) {
+        this.actionTime = actionTime;
+    }
+
+    public void setAction(String action) {
+        this.action = action;
+    }
+
+    public String getAction() {
+        return action;
     }
 }
