@@ -12,6 +12,9 @@
     <link rel="stylesheet" type="text/css" href="<c:url value='/css/scorer.css'/>"/>
     <link rel="stylesheet" type="text/css" href="<c:url value='/css/bootstrap-toggle.min.css'/>"/>
 
+    <script src="<c:url value='/scripts/sockjs-0.3.4.js'/>"></script>
+    <script src="<c:url value='/scripts/stomp.js'/>"></script>
+
     <script src="<c:url value='/scripts/jquery-2.1.4.js'/>"></script>
     <script src="<c:url value='/scripts/jquery.plugin.js'/>"></script>
     <script src="<c:url value='/scripts/jquery.countdown.js'/>"></script>
@@ -20,7 +23,7 @@
     <script src="<c:url value='/scripts/bootstrap-toggle.min.js'/>"></script>
     <script src="<c:url value='/scripts/scorer-utils.js'/>"></script>
 </head>
-
+<body onload="connect()">
 <nav class="navbar navbar-inverse">
     <div class="container">
         <div class="navbar-header">
@@ -320,6 +323,28 @@
 </div>
 
 <script>
+
+    var stompClient = null;
+
+    function connect() {
+        var socket = new SockJS('<c:url value="/stomp"/>');
+        stompClient = Stomp.over(socket);
+        stompClient.connect({}, function(frame) {
+            console.log('Connected: ' + frame);
+            stompClient.subscribe('/topic/score', function(score){
+                showScore(JSON.parse(score.body));
+            });
+        });
+    }
+
+    function disconnect() {
+        if (stompClient != null) {
+            stompClient.disconnect();
+        }
+        setConnected(false);
+        console.log("Disconnected");
+    }
+
     var eightMinsLater = new Date();
     eightMinsLater.setMinutes(eightMinsLater.getMinutes() + 8);
     $('#clock').countdown({until: eightMinsLater, format: 'MS'});
@@ -341,13 +366,13 @@
             // Prevent the form from submitting via the browser.
             event.preventDefault();
 
-            submitViaAjax();
+            stompIt();
 
         });
 
     });
 
-    function submitViaAjax() {
+    function stompIt() {
 
         var actionTime = new Date();
         var score = {};
@@ -384,23 +409,7 @@
         score["gameClock"] = gameClock;
         score["shotClock"] = shotClock;
 
-        $.ajax({
-            type : "POST",
-            contentType : "application/json",
-            url : "${home}/score",
-            data : JSON.stringify(score),
-            dataType : 'json',
-            timeout : 100000,
-            success : function(data) {
-                console.log("SUCCESS: ", data);
-                display(data);
-            },
-            error: function (e) {
-                console.log("ERROR: ", e);
-                display(e);
-            },
-
-        });
+        stompClient.send("/topic/score", {}, JSON.stringify(score));
 
     }
 
