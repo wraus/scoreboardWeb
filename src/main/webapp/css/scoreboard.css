@@ -10,8 +10,9 @@
 
 body {
     font-family: Verdana, Arial, Helvetica, sans-serif;
-    font-size: 13px;
-    color:#333
+    /*font-size: 13px;*/
+    color: white;
+    background: #000000;
 }
 
 div.rows div.row {
@@ -46,13 +47,13 @@ div.heading {
 div.score {
     font-family: '7segment';
     font-size: 64px;
-    color: red;
+    color: black;
 }
 
 div.team {
     font-family: "arial";
     font-size: 32px;
-    color: black;
+    color: white;
 }
 
 div.digits-alt {
@@ -86,11 +87,11 @@ div.message {
 }
 
 #wrapper {
-    width: 1000px;
+    width: 100%;
 }
 
 #contentwrap {
-    width: 1000px;
+    width: 100%;
     float: left;
     margin: 0 auto;
 }
@@ -100,4 +101,63 @@ div.message {
     border-radius: 10px;
     border: 1px solid #000000;
     margin: 5px;
+    text-align:center;
+}
+
+/* ---------- CLOCK PANEL ---------------- */
+div.panel .game-clock {
+    background:#030;
+    color:#0F0;
+    text-align:center;
+}
+div.panel .shot-clock {
+    background:#020;
+    color:#0F0;
+    text-align:center;
+}
+div.panel .shot-clock div {
+    font-size: 44px !important;
+    color: #0A0 !important;
+}
+div.panel-shotclock {
+    background: #080;
+    color: #010 !important;
+}
+div.panel-extra, div.panel-extra div {
+    background: #363;
+    color: #AFA !important;
+    font-size: 24px;
+}
+/* ---------- TEAM PANEL ---------------- */
+div.scorePanel {
+    width:70%;
+}
+div.teamPanel {
+    border-radius: 16px !important;
+    padding: 0 10px 10px 10px;
+    margin:auto;
+}
+div.teamPanel p {
+    padding: 15px 0 15px 0;
+    font-size: 36px;
+    font-weight: bold;
+}
+div.teamPanel div {
+    border-radius: 16px !important;
+}
+div.teamPanel .panel-body {
+    background: white;
+    color: black;
+    padding: 25px 0 25px 0;
+}
+div.team1 {
+    border-color: red;
+    background: red;
+    margin-top:40px;
+}
+div.timeout {
+    border-color: #555;
+    background: #555;
+    margin-top:20px;
+    margin-bottom:50px;
 }

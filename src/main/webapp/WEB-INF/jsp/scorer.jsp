@@ -70,7 +70,7 @@
                                             <span class="glyphicon glyphicon-minus"></span>
                                             </button>
                                         </span>
-                                        <input type=text class="form-control input-number" name="period[]" value="1" min="1" max="4">
+                                        <input type=text class="form-control input-number" name="period[]" id="period" value="1" min="1" max="4">
                                         <span class="input-group-btn">
                                             <button type="button" class="btn btn-success btn-number" data-type="plus" data-field="period[]">
                                             <span class="glyphicon glyphicon-plus"></span>
@@ -258,28 +258,38 @@
 
                     <form class="form-horizontal" id="score-manager">
 
+
                         <div class="row">
                             <div class="col-sm-6">
 
-                                <div class="form-group form-group-lg">
-                                    <label class="col-sm-4 control-label">Team1 Name</label>
-
-                                    <div class="col-sm-6">
-                                        <input type=text class="form-control" id="team1Name">
+                                <div class="panel panel-success">
+                                    <div class="panel-heading">Team 1</div>
+                                    <div class="panel-body">
+                                        <div class="form-group form-group-lg">
+                                            <label class="col-sm-3 control-label">Name</label>
+                                            <div class="col-sm-7">
+                                                <input type=text class="form-control" id="team1Name">
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-sm-6">
-                                <div class="form-group form-group-lg">
-                                    <label class="col-sm-4 control-label">Team2 Name</label>
-
-                                    <div class="col-sm-6">
-                                        <input type="text" class="form-control" id="team2Name">
+                                <div class="panel panel-success">
+                                    <div class="panel-heading">Team 2</div>
+                                    <div class="panel-body">
+                                        <div class="form-group form-group-lg">
+                                            <label class="col-sm-3 control-label">Name</label>
+                                            <div class="col-sm-7">
+                                                <input type="text" class="form-control" id="team2Name">
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-
                             </div>
                         </div>
+
+
 
                         <div class="form-group">
                             <div class="col-sm-offset-5 col-sm-10">
@@ -466,7 +476,7 @@
 
         score["command"] = command;
         score["actionTime"] = actionTime;
-        score["period"] = 1;
+        score["period"] = $("#period").val();
         score["direction"] = "LEFT";
 
         team1["name"] = $("#team1Name").val();
