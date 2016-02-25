@@ -59,13 +59,15 @@
             document.getElementById('team2Score').innerHTML = message.team2.score;
             document.getElementById('team1Name').innerHTML = message.team1.name;
             document.getElementById('team2Name').innerHTML = message.team2.name;
+            document.getElementById('period').innerHTML = message.period;
+
             /*document.getElementById('gameClockMins').innerHTML = message.gameClockMins;
             document.getElementById('gameClockSecs').innerHTML = message.gameClockSecs;
             document.getElementById('gameClockTenthSecs').innerHTML = message.gameClockTenthSecs;
             document.getElementById('shotClockSecs').innerHTML = message.shotClockSecs;
             document.getElementById('shotClockTenthSecs').innerHTML = message.shotClockTenthSecs;
-            document.getElementById('period').innerHTML = message.period;
             document.getElementById('direction').innerHTML = message.direction;*/
+
             /*if (message.wideNBThisOver == 0) {
                 $('#wideNBThisOver').hide();
             } else {
@@ -79,7 +81,7 @@
 <body onload="connect()">
     <div id="wrapper">
         <div id="contentwrap">
-            <div id="content" style="border:4px solid green;">
+            <div id="content">
 
                 <div><a href="<c:url value='/login' />"><img src="<c:url value='/images/banner.jpg' />" class="banner"/></a></div>
 
@@ -129,7 +131,7 @@
 
                         <div class="panel panel-extra">
                             <div class="panel-body">
-                                <div>Period: 1</div>
+                                Period: <span id="period">${score.period}</span>
                             </div>
                         </div>
 

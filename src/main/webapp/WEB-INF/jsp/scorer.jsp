@@ -63,7 +63,7 @@
                                     <input type=text class="form-control input-lg" id="gameClock">
                                 </div>
                                 <div class="col-sm-4" >
-                                    <button type="submit" id="bth-search" class="btn btn-primary btn-lg">Reset Quarter</button>
+                                    <button type="submit" id="bth-reset-quarter" class="btn btn-primary btn-lg">Reset Quarter</button>
                                 </div>
                             </div>
                         </div>
@@ -77,7 +77,7 @@
                                             <span class="glyphicon glyphicon-minus"></span>
                                             </button>
                                         </span>
-                                        <input type=text class="form-control input-number" name="period[]" value="1" min="1" max="4">
+                                        <input type=text class="form-control input-number" name="period[]" id="period" value="1" min="1" max="4">
                                         <span class="input-group-btn">
                                             <button type="button" class="btn btn-success btn-number" data-type="plus" data-field="period[]">
                                             <span class="glyphicon glyphicon-plus"></span>
@@ -96,10 +96,10 @@
                                     <input type=text class="form-control input-lg" id="shotClock">
                                 </div>
                                 <div class="col-sm-2" >
-                                    <button type="submit" id="bth-search" class="btn btn-primary btn-lg">Reset 40</button>
+                                    <button type="submit" id="bth-reset40" class="btn btn-primary btn-lg">Reset 40</button>
                                 </div>
                                 <div class="col-sm-2" >
-                                    <button type="submit" id="bth-search" class="btn btn-primary btn-lg">Reset 15</button>
+                                    <button type="submit" id="bth-reset15" class="btn btn-primary btn-lg">Reset 15</button>
                                 </div>
                             </div>
                         </div>
@@ -264,32 +264,42 @@
 
                     <form class="form-horizontal" id="score-manager">
 
+
                         <div class="row">
                             <div class="col-sm-6">
 
-                                <div class="form-group form-group-lg">
-                                    <label class="col-sm-4 control-label">Team1 Name</label>
-
-                                    <div class="col-sm-6">
-                                        <input type=text class="form-control" id="team1Name">
+                                <div class="panel panel-success">
+                                    <div class="panel-heading">Team 1</div>
+                                    <div class="panel-body">
+                                        <div class="form-group form-group-lg">
+                                            <label class="col-sm-3 control-label">Name</label>
+                                            <div class="col-sm-7">
+                                                <input type=text class="form-control" id="team1Name">
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-sm-6">
-                                <div class="form-group form-group-lg">
-                                    <label class="col-sm-4 control-label">Team2 Name</label>
-
-                                    <div class="col-sm-6">
-                                        <input type="text" class="form-control" id="team2Name">
+                                <div class="panel panel-success">
+                                    <div class="panel-heading">Team 2</div>
+                                    <div class="panel-body">
+                                        <div class="form-group form-group-lg">
+                                            <label class="col-sm-3 control-label">Name</label>
+                                            <div class="col-sm-7">
+                                                <input type="text" class="form-control" id="team2Name">
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-
                             </div>
                         </div>
 
+
+
                         <div class="form-group">
                             <div class="col-sm-offset-5 col-sm-10">
-                                <button type="submit" id="bth-search" class="btn btn-primary btn-lg">Save</button>
+                                <button type="button" id="bth-save" class="btn btn-primary btn-lg">Save</button>
                             </div>
                         </div>
                     </form>
@@ -350,23 +360,21 @@
 
     jQuery(document).ready(function ($) {
 
-        $("#game-manager").submit(function (event) {
-            if ($("#btn-start-stop").text() == "START") {
-                $("#btn-start-stop").css( "background", "red" );
-                $("#btn-start-stop").text("STOP");
-            } else {
-                $("#btn-start-stop").css( "background", "#5cb85c" );
-                $("#btn-start-stop").text("START");
-                //btn btn-success btn-lg btn-long
-            }
+        $("#team1Score").change(function (event) {
+            stompIt();
+        });
+        $("#team2Score").change(function (event) {
+            stompIt();
+        });
+        $("#period").change(function (event) {
+            stompIt();
         });
 
-        $("#score-manager").submit(function (event) {
+        //$("#score-manager").submit(function (event) {
+        $("#bth-save").click(function (event) {
             // Prevent the form from submitting via the browser.
             event.preventDefault();
-
             stompIt();
-
         });
 
     });
@@ -382,7 +390,7 @@
 
         score["command"] = "START_CLOCK";
         score["actionTime"] = actionTime;
-        score["period"] = 1;
+        score["period"] = $("#period").val();
         score["direction"] = "LEFT";
 
         team1["name"] = $("#team1Name").val();
