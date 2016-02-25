@@ -57,7 +57,7 @@
                             <div class="form-group form-group-lg" >
                                 <label class="col-sm-4 control-label" >Game clock:</label>
                                 <div class="col-sm-2" >
-                                    <input type=text class="form-control input-lg" id="team1Score">
+                                    <input type=text class="form-control input-lg" id="gameClock">
                                 </div>
                                 <div class="col-sm-4" >
                                     <button type="submit" id="bth-search" class="btn btn-primary btn-lg">Reset Quarter</button>
@@ -90,7 +90,7 @@
                             <div class="form-group form-group-lg" >
                                 <label class="col-sm-4 control-label">Shot clock:</label>
                                 <div class="col-sm-2" >
-                                    <input type=text class="form-control input-lg" id="team1Score">
+                                    <input type=text class="form-control input-lg" id="shotClock">
                                 </div>
                                 <div class="col-sm-2" >
                                     <button type="submit" id="bth-search" class="btn btn-primary btn-lg">Reset 40</button>
@@ -102,7 +102,7 @@
                         </div>
                         <div class="col-sm-4">
 
-                                <label class="col-sm-5 control-label">Posession:</label>
+                                <label class="col-sm-5 control-label">Possession:</label>
                                 <div class="col-sm-5">
 
                                     <input type="checkbox" checked data-toggle="toggle" data-onstyle="info" data-offstyle="warning" data-on="<i class='fa fa-play'></i> ---&gt" data-off="<i class='fa fa-pause'></i> &lt---">
@@ -112,7 +112,7 @@
                     </div>
 
                     <div class="form-group">
-                        <div class="col-sm-12 align-cntr"">
+                        <div class="col-sm-12 align-cntr" >
                             <!-- http://www.bootstraptoggle.com/ -->
                             <!--<button type="submit" id="btn-start-stop" class="btn btn-success btn-lg btn-long">START</button>-->
                             <input type="checkbox" checked data-toggle="toggle" data-size="large" data-onstyle="success" data-offstyle="danger" data-on="<i class='fa fa-play'></i> START" data-off="<i class='fa fa-pause'></i> STOP">
@@ -266,7 +266,7 @@
                             <div class="col-sm-6">
 
                                 <div class="form-group form-group-lg">
-                                    <label class="col-sm-4 control-label">Home Team Name</label>
+                                    <label class="col-sm-4 control-label">Team1 Name</label>
 
                                     <div class="col-sm-6">
                                         <input type=text class="form-control" id="team1Name">
@@ -275,7 +275,7 @@
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group form-group-lg">
-                                    <label class="col-sm-4 control-label">Team 1</label>
+                                    <label class="col-sm-4 control-label">Team2 Name</label>
 
                                     <div class="col-sm-6">
                                         <input type="text" class="form-control" id="team2Name">
@@ -349,11 +349,40 @@
 
     function submitViaAjax() {
 
-        var score = {}
-        score["team1Name"] = $("#team1Name").val();
-        score["team2Name"] = $("#team2Name").val();
-        score["team1Score"] = $("#team1Score").val();
-        score["team2Score"] = $("#team2Score").val();
+        var actionTime = new Date();
+        var score = {};
+        var team1 = {};
+        var team2 = {};
+        var gameClock = {};
+        var shotClock = {};
+
+        score["command"] = "START_CLOCK";
+        score["actionTime"] = actionTime;
+        score["period"] = 1;
+        score["direction"] = "LEFT";
+
+        team1["name"] = $("#team1Name").val();
+        team1["score"] = $("#team1Score").val();
+        team1["coachTimeouts"] = $("#coach1Timeout").val();
+        team1["teamTimeouts"] = $("#team1Timeout").val();
+
+        team2["name"] = $("#team2Name").val();
+        team2["score"] = $("#team2Score").val();
+        team2["coachTimeouts"] = $("#coach2Timeout").val();
+        team2["teamTimeouts"] = $("#team2Timeout").val();
+
+        gameClock["mins"] = $("#gameClockMins").val();
+        gameClock["secs"] = $("#gameClockSecs").val();
+        gameClock["tenths"] = $("#gameClockTenths").val();
+
+        shotClock["mins"] = $("#shotClockMins").val();
+        shotClock["secs"] = $("#shotClockSecs").val();
+        shotClock["tenths"] = $("#shotClockTenths").val();
+
+        score["team1"] = team1;
+        score["team2"] = team2;
+        score["gameClock"] = gameClock;
+        score["shotClock"] = shotClock;
 
         $.ajax({
             type : "POST",

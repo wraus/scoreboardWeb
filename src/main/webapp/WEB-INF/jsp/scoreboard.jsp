@@ -54,17 +54,17 @@
         }
 
         function showScore(message) {
-            document.getElementById('team1Score').innerHTML = message.team1Score;
-            document.getElementById('team2Score').innerHTML = message.team2Score;
-            document.getElementById('team1Name').innerHTML = message.team1Name;
-            document.getElementById('team2Name').innerHTML = message.team2Name;
+            document.getElementById('team1Score').innerHTML = message.team1.score;
+            document.getElementById('team2Score').innerHTML = message.team2.score;
+            document.getElementById('team1Name').innerHTML = message.team1.name;
+            document.getElementById('team2Name').innerHTML = message.team2.name;
             /*document.getElementById('gameClockMins').innerHTML = message.gameClockMins;
             document.getElementById('gameClockSecs').innerHTML = message.gameClockSecs;
             document.getElementById('gameClockTenthSecs').innerHTML = message.gameClockTenthSecs;
             document.getElementById('shotClockSecs').innerHTML = message.shotClockSecs;
             document.getElementById('shotClockTenthSecs').innerHTML = message.shotClockTenthSecs;
             document.getElementById('period').innerHTML = message.period;
-            document.getElementById('possession').innerHTML = message.possession;*/
+            document.getElementById('direction').innerHTML = message.direction;*/
             /*if (message.wideNBThisOver == 0) {
                 $('#wideNBThisOver').hide();
             } else {
@@ -85,19 +85,19 @@
                         <div class="row">
                             <div class="column">
                                 <div class="heading">Score</div>
-                                <div class="score"><span id="team1Score">${score.team1Score}</span></div>
+                                <div class="score"><span id="team1Score">${score.team1.score}</span></div>
                             </div>
                             <div class="column">
                                 <div class="heading">Score</div>
-                                <div class="score"><span id="team2Score">${score.team2Score}</span></div>
+                                <div class="score"><span id="team2Score">${score.team2.score}</span></div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="column">
-                                <div class="team"><span id="team1Name">${score.team1Name}</span></div>
+                                <div class="team"><span id="team1Name">${score.team1.name}</span></div>
                             </div>
                             <div class="column">
-                                <div class="team"><span id="team2Name">${score.team2Name}</span></div>
+                                <div class="team"><span id="team2Name">${score.team2.name}</span></div>
                             </div>
                         </div>
 
