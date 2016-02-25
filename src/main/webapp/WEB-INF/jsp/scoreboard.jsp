@@ -115,6 +115,7 @@
             document.getElementById('team1Name').innerHTML = message.team1.name;
             document.getElementById('team2Name').innerHTML = message.team2.name;
             document.getElementById('period').innerHTML = message.period;
+            updateDirection(message.direction);
 
             if(message.command === "START_CLOCK"){
                 //synchronize clocks from master clock
@@ -135,7 +136,6 @@
             document.getElementById('shotClockSecs').innerHTML = message.shotClockSecs;
             document.getElementById('shotClockTenthSecs').innerHTML = message.shotClockTenthSecs;
             document.getElementById('direction').innerHTML = message.direction;*/
-
             /*if (message.wideNBThisOver == 0) {
                 $('#wideNBThisOver').hide();
             } else {
@@ -151,6 +151,16 @@
 
         function initDisplay() {
             $("[id^=timeoutT]").fadeTo(0, 0.25);
+        }
+
+        function updateDirection(direction) {
+            if (direction == "RIGHT") {
+                $("#arrowRight").show();
+                $("#arrowLeft").hide();
+            } else {
+                $("#arrowRight").hide();
+                $("#arrowLeft").show();
+            }
         }
 
         function updateTimeouts(timeoutGroup, number) {
@@ -228,8 +238,8 @@
 
                         <div class="panel panel-shotclock">
                             <div class="panel-body shot-clock">
-                                <div><img src="images/geren-arrow-right.png" width="140px" height="80px"/></div>
-                                <!--<div><img src="images/geren-arrow-left.png" width="140px" height="80px"/></div>-->
+                                <div id="arrowRight"><img src="images/geren-arrow-right.png" width="140px" height="80px"/></div>
+                                <div id="arrowLeft"><img src="images/geren-arrow-left.png" width="140px" height="80px"/></div>
                             </div>
                         </div>
 

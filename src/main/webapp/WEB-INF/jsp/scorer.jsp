@@ -101,7 +101,7 @@
                                 <label class="col-sm-5 control-label">Possession:</label>
                                 <div class="col-sm-5">
 
-                                    <input type="checkbox" checked data-toggle="toggle" data-onstyle="info" data-offstyle="warning" data-on="<i class='fa fa-play'></i> ---&gt" data-off="<i class='fa fa-pause'></i> &lt---">
+                                    <input type="checkbox" id="possession" checked data-toggle="toggle" data-onstyle="info" data-offstyle="warning" data-on="<i class='fa fa-play'></i> ---&gt" data-off="<i class='fa fa-pause'></i> &lt---">
 
                                 </div>
                         </div>
@@ -408,6 +408,7 @@
         $("#coach1Timeout").change(function (event) { stompIt("","COACH1_TIMEOUT"); });
         $("#coach2Timeout").change(function (event) { stompIt("","COACH2_TIMEOUT"); });
         $("#period").change(function (event) { stompIt("","PERIOD"); });
+        $("#possession").change(function (event) { stompIt("","POSSESSION"); });
 
         $("#start").change(function (event) {
             // Prevent the form from submitting via the browser.
@@ -477,6 +478,9 @@
         score["actionTime"] = actionTime;
         score["period"] = $("#period").val();
         score["direction"] = "LEFT";
+
+        if (!$("#possession").is(':checked')) { score["direction"] = "LEFT";  }
+        else { score["direction"] = "RIGHT"; }
 
         team1["name"] = $("#team1Name").val();
         team1["score"] = $("#team1Score").val();
