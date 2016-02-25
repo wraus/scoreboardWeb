@@ -55,17 +55,17 @@
         }
 
         function showScore(message) {
-            document.getElementById('team1Score').innerHTML = message.team1Score;
-            document.getElementById('team2Score').innerHTML = message.team2Score;
-            document.getElementById('team1Name').innerHTML = message.team1Name;
-            document.getElementById('team2Name').innerHTML = message.team2Name;
+            document.getElementById('team1Score').innerHTML = message.team1.score;
+            document.getElementById('team2Score').innerHTML = message.team2.score;
+            document.getElementById('team1Name').innerHTML = message.team1.name;
+            document.getElementById('team2Name').innerHTML = message.team2.name;
             /*document.getElementById('gameClockMins').innerHTML = message.gameClockMins;
             document.getElementById('gameClockSecs').innerHTML = message.gameClockSecs;
             document.getElementById('gameClockTenthSecs').innerHTML = message.gameClockTenthSecs;
             document.getElementById('shotClockSecs').innerHTML = message.shotClockSecs;
             document.getElementById('shotClockTenthSecs').innerHTML = message.shotClockTenthSecs;
             document.getElementById('period').innerHTML = message.period;
-            document.getElementById('possession').innerHTML = message.possession;*/
+            document.getElementById('direction').innerHTML = message.direction;*/
             /*if (message.wideNBThisOver == 0) {
                 $('#wideNBThisOver').hide();
             } else {
@@ -77,12 +77,16 @@
     <title></title>
 </head>
 <body onload="connect()">
-
     <div id="wrapper">
         <div id="contentwrap">
-            <div id="content" style="border:4px solid green;">
-
+            <div id="content">
                 <div><a href="<c:url value='/login' />"><img src="<c:url value='/images/banner.jpg' />" class="banner"/></a></div>
+                <div class="container">
+                    <div class="rows">
+                        <div class="row">
+                            <div class="column">
+                                <div class="heading">Score</div>
+                                <div class="score"><span id="team1Score">${score.team1.score}</span></div>
 
                 <div class="row">
                     <div class="col-sm-4">
@@ -91,6 +95,9 @@
                             <div class="panel-body">
                                 <div class="score"><span id="team1Score">${score.team1Score}</span></div>
                             </div>
+                            <div class="column">
+                                <div class="heading">Score</div>
+                                <div class="score"><span id="team2Score">${score.team2.score}</span></div>
                         </div>
 
                         <div class="teamPanel panel-success scorePanel timeout">
@@ -110,6 +117,9 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="column">
+                                <div class="team"><span id="team1Name">${score.team1.name}</span></div>
 
                     </div>
                     <div class="col-sm-4">
@@ -119,6 +129,8 @@
                             <div class="panel-body game-clock">
                                 <div class="digits-alt">07:55</div>
                             </div>
+                            <div class="column">
+                                <div class="team"><span id="team2Name">${score.team2.name}</span></div>
                         </div>
 
                         <div class="panel panel-shotclock">

@@ -8,17 +8,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 @RestController
 @Controller
 public class ScoreboardController {
 
-    private static Score currentScore = new Score();
-    private static List<String> tweets = new ArrayList<>();
-
+    private static Scoreboard currentScoreboard = new Scoreboard();
     private SimpMessagingTemplate template;
 
     @Autowired
@@ -29,23 +25,24 @@ public class ScoreboardController {
 
     @RequestMapping(value = "/scoreboard", method = RequestMethod.GET, produces = {"application/json"})
     @ResponseStatus(HttpStatus.OK)
-    public Score score() {
-        return currentScore;
+    public Scoreboard score() {
+        return currentScoreboard;
     }
 
     @RequestMapping(value = "scoreboard", method = RequestMethod.GET)
     public ModelAndView scoreHTML(Map<String, Object> model) {
-        model.put("score", currentScore);
-        //model.put("tweets", tweets);
+        model.put("score", currentScoreboard);
         return new ModelAndView("/scoreboard", model);
     }
 
     @RequestMapping(value = "score", method = RequestMethod.POST)
-    public @ResponseBody Score updateScore(@RequestBody Score score) {
-System.out.println("Score was submitted...");
-        this.currentScore = score;
-        this.template.convertAndSend("/topic/score", score);
-        return currentScore;
+    public
+    @ResponseBody
+    Scoreboard updateScore(@RequestBody Scoreboard scoreboard) {
+        System.out.println("Score was submitted...");
+        this.currentScoreboard = scoreboard;
+        this.template.convertAndSend("/topic/score", scoreboard);
+        return currentScoreboard;
     }
 
    /* @MessageMapping("/tweet")

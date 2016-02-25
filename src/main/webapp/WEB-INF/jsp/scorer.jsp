@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<c:set var="req" value="${pageContext.request}" />
+<c:set var="url">${req.requestURL}</c:set>
+<c:set var="uri" value="${req.requestURI}" />
 <html lang="en">
 <head>
     <link rel="stylesheet" type="text/css" href="<c:url value='/css/bootstrap.min.css'/>"/>
@@ -8,14 +12,18 @@
     <link rel="stylesheet" type="text/css" href="<c:url value='/css/scorer.css'/>"/>
     <link rel="stylesheet" type="text/css" href="<c:url value='/css/bootstrap-toggle.min.css'/>"/>
 
+    <script src="<c:url value='/scripts/sockjs-0.3.4.js'/>"></script>
+    <script src="<c:url value='/scripts/stomp.js'/>"></script>
+
     <script src="<c:url value='/scripts/jquery-2.1.4.js'/>"></script>
     <script src="<c:url value='/scripts/jquery.plugin.js'/>"></script>
     <script src="<c:url value='/scripts/jquery.countdown.js'/>"></script>
+    <c:set var="home">${fn:substring(url, 0, fn:length(url) - fn:length(uri))}${req.contextPath}/</c:set>
     <script src="<c:url value='/scripts/bootstrap.min.js'/>"></script>
     <script src="<c:url value='/scripts/bootstrap-toggle.min.js'/>"></script>
     <script src="<c:url value='/scripts/scorer-utils.js'/>"></script>
 </head>
-
+<body onload="connect()">
 <nav class="navbar navbar-inverse">
     <div class="container">
         <div class="navbar-header">
@@ -52,7 +60,7 @@
                             <div class="form-group form-group-lg" >
                                 <label class="col-sm-4 control-label" >Game clock:</label>
                                 <div class="col-sm-2" >
-                                    <input type=text class="form-control input-lg" id="team1Score">
+                                    <input type=text class="form-control input-lg" id="gameClock">
                                 </div>
                                 <div class="col-sm-4" >
                                     <button type="submit" id="bth-search" class="btn btn-primary btn-lg">Reset Quarter</button>
@@ -85,7 +93,7 @@
                             <div class="form-group form-group-lg" >
                                 <label class="col-sm-4 control-label">Shot clock:</label>
                                 <div class="col-sm-2" >
-                                    <input type=text class="form-control input-lg" id="team1Score">
+                                    <input type=text class="form-control input-lg" id="shotClock">
                                 </div>
                                 <div class="col-sm-2" >
                                     <button type="submit" id="bth-search" class="btn btn-primary btn-lg">Reset 40</button>
@@ -97,7 +105,7 @@
                         </div>
                         <div class="col-sm-4">
 
-                                <label class="col-sm-5 control-label">Posession:</label>
+                                <label class="col-sm-5 control-label">Possession:</label>
                                 <div class="col-sm-5">
 
                                     <input type="checkbox" checked data-toggle="toggle" data-onstyle="info" data-offstyle="warning" data-on="<i class='fa fa-play'></i> ---&gt" data-off="<i class='fa fa-pause'></i> &lt---">
@@ -107,7 +115,7 @@
                     </div>
 
                     <div class="form-group">
-                        <div class="col-sm-12 align-cntr"">
+                        <div class="col-sm-12 align-cntr" >
                             <!-- http://www.bootstraptoggle.com/ -->
                             <!--<button type="submit" id="btn-start-stop" class="btn btn-success btn-lg btn-long">START</button>-->
                             <input type="checkbox" checked data-toggle="toggle" data-size="large" data-onstyle="success" data-offstyle="danger" data-on="<i class='fa fa-play'></i> START" data-off="<i class='fa fa-pause'></i> STOP">
@@ -260,7 +268,7 @@
                             <div class="col-sm-6">
 
                                 <div class="form-group form-group-lg">
-                                    <label class="col-sm-4 control-label">Home Team Name</label>
+                                    <label class="col-sm-4 control-label">Team1 Name</label>
 
                                     <div class="col-sm-6">
                                         <input type=text class="form-control" id="team1Name">
@@ -269,7 +277,7 @@
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group form-group-lg">
-                                    <label class="col-sm-4 control-label">Team 1</label>
+                                    <label class="col-sm-4 control-label">Team2 Name</label>
 
                                     <div class="col-sm-6">
                                         <input type="text" class="form-control" id="team2Name">
@@ -314,6 +322,28 @@
 </div>
 
 <script>
+
+    var stompClient = null;
+
+    function connect() {
+        var socket = new SockJS('<c:url value="/stomp"/>');
+        stompClient = Stomp.over(socket);
+        stompClient.connect({}, function(frame) {
+            console.log('Connected: ' + frame);
+            stompClient.subscribe('/topic/score', function(score){
+                showScore(JSON.parse(score.body));
+            });
+        });
+    }
+
+    function disconnect() {
+        if (stompClient != null) {
+            stompClient.disconnect();
+        }
+        setConnected(false);
+        console.log("Disconnected");
+    }
+
     var eightMinsLater = new Date();
     eightMinsLater.setMinutes(eightMinsLater.getMinutes() + 8);
     $('#clock').countdown({until: eightMinsLater, format: 'MS'});
@@ -335,37 +365,50 @@
             // Prevent the form from submitting via the browser.
             event.preventDefault();
 
-            submitViaAjax();
+            stompIt();
 
         });
 
     });
 
-    function submitViaAjax() {
+    function stompIt() {
 
-        var score = {}
-        score["team1Name"] = $("#team1Name").val();
-        score["team2Name"] = $("#team2Name").val();
-        score["team1Score"] = $("#team1Score").val();
-        score["team2Score"] = $("#team2Score").val();
-// TODO we must change hardcoded URL/port... to get dynamically
-        $.ajax({
-            type: "POST",
-            contentType: "application/json",
-            url: "http://localhost:8090/score",
-            data: JSON.stringify(score),
-            dataType: 'json',
-            timeout: 100000,
-            success: function (data) {
-                console.log("SUCCESS: ", data);
-                display(data);
-            },
-            error: function (e) {
-                console.log("ERROR: ", e);
-                display(e);
-            },
+        var actionTime = new Date();
+        var score = {};
+        var team1 = {};
+        var team2 = {};
+        var gameClock = {};
+        var shotClock = {};
 
-        });
+        score["command"] = "START_CLOCK";
+        score["actionTime"] = actionTime;
+        score["period"] = 1;
+        score["direction"] = "LEFT";
+
+        team1["name"] = $("#team1Name").val();
+        team1["score"] = $("#team1Score").val();
+        team1["coachTimeouts"] = $("#coach1Timeout").val();
+        team1["teamTimeouts"] = $("#team1Timeout").val();
+
+        team2["name"] = $("#team2Name").val();
+        team2["score"] = $("#team2Score").val();
+        team2["coachTimeouts"] = $("#coach2Timeout").val();
+        team2["teamTimeouts"] = $("#team2Timeout").val();
+
+        gameClock["mins"] = $("#gameClockMins").val();
+        gameClock["secs"] = $("#gameClockSecs").val();
+        gameClock["tenths"] = $("#gameClockTenths").val();
+
+        shotClock["mins"] = $("#shotClockMins").val();
+        shotClock["secs"] = $("#shotClockSecs").val();
+        shotClock["tenths"] = $("#shotClockTenths").val();
+
+        score["team1"] = team1;
+        score["team2"] = team2;
+        score["gameClock"] = gameClock;
+        score["shotClock"] = shotClock;
+
+        stompClient.send("/topic/score", {}, JSON.stringify(score));
 
     }
 

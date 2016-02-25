@@ -13,8 +13,6 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class ScorerController {
 
-    private static Score currentScore = new Score();
-
     private SimpMessagingTemplate template;
 
     @Autowired
