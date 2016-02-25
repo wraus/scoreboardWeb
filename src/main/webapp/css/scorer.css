@@ -1,0 +1,28 @@
+.btn-long {
+    width:200px !important;
+}
+.align-cntr {
+    text-align: center;
+}
+
+
+.arrow-toggle .icon-arrow-down,
+.arrow-toggle.collapsed .icon-arrow-up {
+    display: inline-block;
+}
+.arrow-toggle.collapsed .icon-arrow-down,
+.arrow-toggle .icon-arrow-up {
+    display: none;
+}
+
+.icon-arrow-left {
+    background-image: url("../images/arrow-left.jpg");
+    width:50px;
+    height:30px;
+    border:1px solid red;
+}
+.icon-arrow-right {
+    background-image: url("images/arrow-right.jpg");
+    width:50px;
+    height:30px;
+}
