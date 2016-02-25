@@ -29,6 +29,15 @@
         });
 
         var stompClient = null;
+        var quarterSirenSound = new Audio('sounds/airHorn.mp3');
+        var shotClockSound = new Audio('sounds/woopWoop.mp3');
+        var umpireSound = new Audio('sounds/dingDong.mp3');
+
+        function init() {
+            connect();
+            initDisplay();
+	}    
+	    
         var gameClock = new Timer();
         var shotClock = new Timer();
         shotClock.addEventListener('targetAchieved', function (e) {
@@ -135,10 +144,20 @@
             }*/
 
         }
+
+        function initDisplay() {
+            $("#t1pt3").fadeTo(0, 0.25);
+            $("#t1pt4").fadeTo(0, 0.25);
+            $("#t1ct2").fadeTo(0, 0.25);
+            $("#t2pt2").fadeTo(0, 0.25);
+            $("#t2pt3").fadeTo(0, 0.25);
+            $("#t2pt4").fadeTo(0, 0.25);
+            $("#t2ct2").fadeTo(0, 0.25);
+        }
     </script>
     <title></title>
 </head>
-<body onload="connect()">
+<body onload="init();">
     <div id="wrapper">
         <div id="contentwrap">
             <div id="content">
@@ -159,14 +178,14 @@
                             <div class="panel-body">
                                 <div class="row" style="border: 1px solid green; text-align:center; ">
                                     <div class="col-sm-7">
-                                        <img src="images/t.jpg" width="30px" height="30px"/>
-                                        <img src="images/t.jpg" width="30px" height="30px"/>
-                                        <img src="images/t.jpg" width="30px" height="30px"/>
-                                        <img src="images/t.jpg" width="30px" height="30px"/>
+                                        <img id="t1pt1" src="images/t.jpg" width="30px" height="30px"/>
+                                        <img id="t1pt2" src="images/t.jpg" width="30px" height="30px"/>
+                                        <img id="t1pt3" src="images/t.jpg" width="30px" height="30px"/>
+                                        <img id="t1pt4" src="images/t.jpg" width="30px" height="30px"/>
                                     </div>
                                     <div class="col-sm-4" >
-                                        <img src="images/t-coach.jpg" width="30px" height="30px"/>
-                                        <img src="images/t-coach.jpg" width="30px" height="30px"/>
+                                        <img id="t1ct1" src="images/t-coach.jpg" width="30px" height="30px"/>
+                                        <img id="t1ct2" src="images/t-coach.jpg" width="30px" height="30px"/>
                                     </div>
                                 </div>
                             </div>
@@ -205,6 +224,12 @@
                                 <!--<div><img src="images/geren-arrow-left.png" width="140px" height="80px"/></div>-->
                             </div>
                         </div>
+
+                        <div class="panel panel-extra">
+                            <span onclick="quarterSirenSound.play()">Quarter End</span>
+                            <span onclick="shotClockSound.play()">Shot Clock</span>
+                            <span onclick="umpireSound.play()">Umpire</span>
+                        </div>
                         <br/><br/>
 
                     </div>
@@ -222,11 +247,14 @@
                             <div class="panel-body">
                                 <div class="row">
                                     <div class="col-sm-7" >
-                                        <img src="images/t.jpg" width="30px" height="30px"/>
-                                        <img src="images/t.jpg" width="30px" height="30px"/>
+                                        <img id="t2pt1" src="images/t.jpg" width="30px" height="30px"/>
+                                        <img id="t2pt2" src="images/t.jpg" width="30px" height="30px"/>
+                                        <img id="t2pt3" src="images/t.jpg" width="30px" height="30px"/>
+                                        <img id="t2pt4" src="images/t.jpg" width="30px" height="30px"/>
                                     </div>
                                     <div class="col-sm-4" >
-                                        <img src="images/t-coach.jpg" width="30px" height="30px"/>
+                                        <img id="t2ct1" src="images/t-coach.jpg" width="30px" height="30px"/>
+                                        <img id="t2ct2" src="images/t-coach.jpg" width="30px" height="30px"/>
                                     </div>
                                 </div>
                             </div>
