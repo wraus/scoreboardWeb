@@ -117,6 +117,9 @@
             document.getElementById('period').innerHTML = message.period;
             updateDirection(message.direction);
 
+            $('div.team1').attr('style','background: '+message.team1.colour);
+            $('div.team2').attr('style','background: '+message.team2.colour);
+
             if(message.command === "START_CLOCK"){
                 //synchronize clocks from master clock
                 //TODO add tenths secs
@@ -253,7 +256,7 @@
                     </div>
                     <div class="col-sm-4">
 
-                        <div class="teamPanel panel-primary scorePanel team1">
+                        <div class="teamPanel panel-primary scorePanel team2">
                             <p><span id="team2Name">${score.team2.name}</span></p>
                             <div class="panel-body">
                                 <div class="score"><span id="team2Score">${score.team2.score}</span></div>

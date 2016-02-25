@@ -20,6 +20,7 @@
     <script src="<c:url value='/scripts/easytimer.min.js'/>"></script>
 
     <c:set var="home">${fn:substring(url, 0, fn:length(url) - fn:length(uri))}${req.contextPath}/</c:set>
+    <c:set var="teamColours">red,green,yellow,blue,orange,#222,#DDD</c:set>
 </head>
 <body onload="connect()">
 <nav class="navbar navbar-inverse">
@@ -261,14 +262,25 @@
 
                         <div class="row">
                             <div class="col-sm-6">
-
                                 <div class="panel panel-success">
                                     <div class="panel-heading">Team 1</div>
                                     <div class="panel-body">
                                         <div class="form-group form-group-lg">
                                             <label class="col-sm-3 control-label">Name</label>
-                                            <div class="col-sm-7">
+                                            <div class="col-sm-8">
                                                 <input type=text class="form-control" id="team1Name">
+                                            </div>
+                                        </div>
+                                        <div class="form-group form-group-lg">
+                                            <label class="col-sm-3 control-label">Colour</label>
+                                            <div class="col-sm-8">
+                                                <div class="radio colour-picker">
+                                                    <ul>
+                                                        <c:forTokens items="${teamColours}" delims="," var="colour">
+                                                            <li><input type="radio" name="team1Colour" value="${colour}"><div style="background:${colour};"></div></li>
+                                                        </c:forTokens>
+                                                    </ul>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -280,8 +292,20 @@
                                     <div class="panel-body">
                                         <div class="form-group form-group-lg">
                                             <label class="col-sm-3 control-label">Name</label>
-                                            <div class="col-sm-7">
+                                            <div class="col-sm-8">
                                                 <input type="text" class="form-control" id="team2Name">
+                                            </div>
+                                        </div>
+                                        <div class="form-group form-group-lg">
+                                            <label class="col-sm-3 control-label">Colour</label>
+                                            <div class="col-sm-8">
+                                                <div class="radio colour-picker">
+                                                    <ul>
+                                                        <c:forTokens items="${teamColours}" delims="," var="colour">
+                                                            <li><input type="radio" name="team2Colour" value="${colour}"><div style="background:${colour};"></div></li>
+                                                        </c:forTokens>
+                                                    </ul>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -486,11 +510,13 @@
         team1["score"] = $("#team1Score").val();
         team1["coachTimeouts"] = $("#coach1Timeout").val();
         team1["teamTimeouts"] = $("#team1Timeout").val();
+        team1["colour"] = $('input[name=team1Colour]:checked', '#score-manager').val();
 
         team2["name"] = $("#team2Name").val();
         team2["score"] = $("#team2Score").val();
         team2["coachTimeouts"] = $("#coach2Timeout").val();
         team2["teamTimeouts"] = $("#team2Timeout").val();
+        team2["colour"] = $('input[name=team2Colour]:checked', '#score-manager').val();
 
         gameClock["mins"] = $("#gameClockMins").val();
         gameClock["secs"] = $("#gameClockSecs").val();

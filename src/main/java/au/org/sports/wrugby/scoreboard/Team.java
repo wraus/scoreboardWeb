@@ -6,6 +6,7 @@ public class Team {
     private Integer coachTimeouts = 0;
     private Integer teamTimeouts = 0;
     private String name;
+    private String colour;
 
     public Team(){
     }
@@ -40,5 +41,13 @@ public class Team {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getColour() {
+        return colour;
+    }
+
+    public void setColour(String colour) {
+        this.colour = colour;
     }
 }

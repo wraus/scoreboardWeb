@@ -155,6 +155,11 @@ div.team1 {
     background: red;
     margin-top:40px;
 }
+div.team2 {
+    border-color: red;
+    background: red;
+    margin-top:40px;
+}
 div.timeout {
     border-color: #555;
     background: #555;
