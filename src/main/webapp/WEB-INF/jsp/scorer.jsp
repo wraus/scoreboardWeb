@@ -266,7 +266,7 @@
                             <div class="col-sm-6">
 
                                 <div class="form-group form-group-lg">
-                                    <label class="col-sm-4 control-label">Home Team Name</label>
+                                    <label class="col-sm-4 control-label">Team1 Name</label>
 
                                     <div class="col-sm-6">
                                         <input type=text class="form-control" id="team1Name">
@@ -275,7 +275,7 @@
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group form-group-lg">
-                                    <label class="col-sm-4 control-label">Team 1</label>
+                                    <label class="col-sm-4 control-label">Team2 Name</label>
 
                                     <div class="col-sm-6">
                                         <input type="text" class="form-control" id="team2Name">

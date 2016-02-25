@@ -1,6 +1,6 @@
 package au.org.sports.wrugby.scoreboard;
 
-public class Score {
+public class Scoreboard {
 
     private Team team1;
     private Team team2;
@@ -9,7 +9,7 @@ public class Score {
     private Integer period = 1;
     private String direction;
 
-    public Score() {
+    public Scoreboard() {
 
     }
 
