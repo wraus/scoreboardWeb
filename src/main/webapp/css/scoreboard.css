@@ -47,7 +47,7 @@ div.heading {
 div.score {
     font-family: '7segment';
     font-size: 64px;
-    color: black;
+    color: yellow;
 }
 
 div.team {
@@ -58,7 +58,7 @@ div.team {
 
 div.digits-alt {
     font-family: '7segment';
-    font-size: 64px;
+    font-size: 124px;
     color: yellow;
 }
 
@@ -104,6 +104,13 @@ div.message {
     text-align:center;
 }
 
+
+/* ---------- OVERRIDING PANEL STYLE ---------------- */
+div.panel {
+    border:0px !important;
+    background:#000;
+}
+
 /* ---------- CLOCK PANEL ---------------- */
 div.panel .game-clock {
     background:#030;
@@ -111,20 +118,21 @@ div.panel .game-clock {
     text-align:center;
 }
 div.panel .shot-clock {
-    background:#020;
+    background:#010;
     color:#0F0;
     text-align:center;
 }
 div.panel .shot-clock div {
-    font-size: 44px !important;
-    color: #0A0 !important;
+    font-size: 84px !important;
+    color: #CA0 !important;
 }
 div.panel-shotclock {
     background: #080;
     color: #010 !important;
 }
 div.panel-extra, div.panel-extra div {
-    background: #363;
+    /*background: #363;*/
+    background:#030;
     color: #AFA !important;
     font-size: 24px;
 }
@@ -146,8 +154,7 @@ div.teamPanel div {
     border-radius: 16px !important;
 }
 div.teamPanel .panel-body {
-    background: white;
-    color: black;
+    background: black;
     padding: 25px 0 25px 0;
 }
 div.team1 {
@@ -161,8 +168,12 @@ div.team2 {
     margin-top:40px;
 }
 div.timeout {
-    border-color: #555;
-    background: #555;
+    /*border-color: #555;
+    background: #555;*/
+    color:#AAA !important;
+    border-color: #000;
+    background: #000;
     margin-top:20px;
     margin-bottom:50px;
 }
+div.timeout .row { border-color: #000; background: #000; padding-left:10px; padding-top:20px;}
