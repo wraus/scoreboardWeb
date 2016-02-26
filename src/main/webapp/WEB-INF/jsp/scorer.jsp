@@ -23,6 +23,7 @@
     <c:set var="teamColours">red,green,yellow,blue,orange,#222,#DDD</c:set>
 </head>
 <body onload="connect()">
+
 <nav class="navbar navbar-inverse">
     <div class="container">
         <div class="navbar-header">
@@ -31,7 +32,7 @@
     </div>
 </nav>
 
-<div class="container" style="min-height: 500px">
+<div class="container" >
 
     <ul class="nav nav-pills">
         <li class="active"><a data-toggle="pill" href="#home">Game</a></li>
@@ -49,11 +50,11 @@
                     <div class="row">
                         <div class="col-sm-8">
                             <div class="form-group form-group-lg" >
-                                <label class="col-sm-4 control-label" >Game clock:</label>
+                                <label class="col-sm-3 control-label" >Game clock:</label>
                                 <div class="col-sm-2" >
                                     <input type=text class="form-control input-lg" id="gameClockMins">
                                 </div>
-                                <div class="col-sm-2" >
+                                <div class="col-sm-3" >
                                     <input type=text class="form-control input-lg" id="gameClockSecs">
                                 </div>
                                 <div class="col-sm-4" >
@@ -63,8 +64,8 @@
                         </div>
                         <div class="col-sm-4">
                             <div class="form-group">
-                                <label class="col-sm-5 control-label">Period:</label>
-                                <div class="col-sm-6">
+                                <label class="col-sm-4 control-label">Period:</label>
+                                <div class="col-sm-7">
                                     <div class="input-group">
                                         <span class="input-group-btn">
                                             <button type="button" class="btn btn-danger btn-number" disabled="disabled" data-type="minus" data-field="period[]">
@@ -85,8 +86,8 @@
                     <div class="row">
                         <div class="col-sm-8">
                             <div class="form-group form-group-lg" >
-                                <label class="col-sm-4 control-label">Shot clock:</label>
-                                <div class="col-sm-2" >
+                                <label class="col-sm-3 control-label">Shot clock:</label>
+                                <div class="col-sm-3">
                                     <input type=text class="form-control input-lg" id="shotClockSecs">
                                 </div>
                                 <div class="col-sm-2" >
@@ -98,12 +99,9 @@
                             </div>
                         </div>
                         <div class="col-sm-4">
-
                                 <label class="col-sm-5 control-label">Possession:</label>
                                 <div class="col-sm-5">
-
                                     <input type="checkbox" id="possession" checked data-toggle="toggle" data-onstyle="info" data-offstyle="warning" data-on="<i class='fa fa-play'></i> ---&gt" data-off="<i class='fa fa-pause'></i> &lt---">
-
                                 </div>
                         </div>
                     </div>
@@ -129,14 +127,14 @@
                         <div class="panel-body">
                             <div class="form-group form-group-lg">
                                 <label class="col-sm-4 control-label">Score</label>
-                                <div class="col-sm-5">
+                                <div class="col-sm-6">
                                     <div class="input-group">
                                         <span class="input-group-btn">
                                             <button type="button" class="btn btn-danger btn-number btn-lg" disabled="disabled" data-type="minus" data-field="team1Score[]">
                                                 <span class="glyphicon glyphicon-minus"></span>
                                             </button>
                                         </span>
-                                        <input type=text class="form-control input-number" name="team1Score[]" id="team1Score" value="1" min="1" max="999">
+                                        <input type=text class="form-control input-number" name="team1Score[]" id="team1Score" value="0" min="0" max="999">
                                         <span class="input-group-btn">
                                             <button type="button" class="btn btn-success btn-number btn-lg" data-type="plus" data-field="team1Score[]">
                                                 <span class="glyphicon glyphicon-plus"></span>
@@ -147,7 +145,7 @@
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-4 control-label">Team Timeouts</label>
-                                <div class="col-sm-4">
+                                <div class="col-sm-5">
                                     <div class="input-group">
                                         <span class="input-group-btn">
                                             <button type="button" class="btn btn-danger btn-number" disabled="disabled" data-type="minus" data-field="team1Timeout[]">
@@ -165,7 +163,7 @@
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-4 control-label">Coach Timeouts</label>
-                                <div class="col-sm-4">
+                                <div class="col-sm-5">
                                     <div class="input-group">
                                         <span class="input-group-btn">
                                             <button type="button" class="btn btn-danger btn-number" disabled="disabled" data-type="minus" data-field="coach1Timeout[]">
@@ -190,7 +188,7 @@
                         <div class="panel-body">
                             <div class="form-group form-group-lg">
                                 <label class="col-sm-4 control-label">Score</label>
-                                <div class="col-sm-5">
+                                <div class="col-sm-6">
 
                                     <div class="input-group">
                                         <span class="input-group-btn">
@@ -198,7 +196,7 @@
                                                 <span class="glyphicon glyphicon-minus"></span>
                                             </button>
                                         </span>
-                                        <input type=text class="form-control input-number" name="team2Score[]" id="team2Score" value="1" min="1" max="999">
+                                        <input type=text class="form-control input-number" name="team2Score[]" id="team2Score" value="0" min="0" max="999">
                                         <span class="input-group-btn">
                                             <button type="button" class="btn btn-success btn-number btn-lg" data-type="plus" data-field="team2Score[]">
                                                 <span class="glyphicon glyphicon-plus"></span>
@@ -210,7 +208,7 @@
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-4 control-label">Team Timeouts</label>
-                                <div class="col-sm-4">
+                                <div class="col-sm-5">
                                     <div class="input-group">
                                         <span class="input-group-btn">
                                             <button type="button" class="btn btn-danger btn-number" disabled="disabled" data-type="minus" data-field="team2Timeout[]">
@@ -228,7 +226,7 @@
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-4 control-label">Coach Timeouts</label>
-                                <div class="col-sm-4">
+                                <div class="col-sm-5">
                                     <div class="input-group">
                                         <span class="input-group-btn">
                                             <button type="button" class="btn btn-danger btn-number" disabled="disabled" data-type="minus" data-field="coach2Timeout[]">
