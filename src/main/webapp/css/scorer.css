@@ -29,3 +29,6 @@ div.colour-picker div {
     width:23px;
     height:23px;
 }
+.container {
+    width:95% !important;
+}
