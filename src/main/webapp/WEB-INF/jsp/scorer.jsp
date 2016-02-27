@@ -281,6 +281,19 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="form-group form-group-lg">
+                                            <label class="col-sm-3 control-label">Icon</label>
+                                            <div class="col-sm-8">
+                                                <span class="btn btn-primary btn-file">
+                                                    Browse<input type="file" id="team1-logo-select" name="team1Logo" />
+                                                </span>
+                                                <button type="button" id="btn-team1-logo-upload" class="btn btn-primary">Upload</button>
+                                                <input id="team1-filename" type="text" class="form-control" readonly />
+                                            </div>
+                                            <div class="col-sm-8">
+                                                <img id="team1-logo" src="/scorer/image?team=team1" />
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -304,6 +317,19 @@
                                                         </c:forTokens>
                                                     </ul>
                                                 </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group form-group-lg">
+                                            <label class="col-sm-3 control-label">Icon</label>
+                                            <div class="col-sm-8">
+                                                <span class="btn btn-primary btn-file">
+                                                    Browse<input type="file" id="team2-logo-select" name="team2Logo" />
+                                                </span>
+                                                <button type="button" id="btn-team2-logo-upload" class="btn btn-primary">Upload</button>
+                                                <input id="team2-filename" type="text" class="form-control" readonly />
+                                            </div>
+                                            <div class="col-sm-8">
+                                                <img id="team2-logo" src="/scorer/image?team=team2" />
                                             </div>
                                         </div>
                                     </div>
@@ -347,7 +373,7 @@
     </footer>
 </div>
 
-<script>
+<script type="text/javascript">
 
     var stompClient = null;
     var gameClock = new Timer();
@@ -484,7 +510,64 @@
             stompIt("","SAVE_TEAM_SETUP");
         });
 
+        $("#team1-logo-select").change(function (event) {
+            label = event.currentTarget.value.replace(/\\/g, '/').replace(/.*\//, '');
+            $("#team1-filename").val(label);
+        });
+
+        $("#btn-team1-logo-upload").click(function (event) {
+            event.preventDefault();
+            uploadLogo("team1");
+        });
+
+        $("#team2-logo-select").change(function (event) {
+            label = event.currentTarget.value.replace(/\\/g, '/').replace(/.*\//, '');
+            $("#team2-filename").val(label);
+        });
+
+        $("#btn-team2-logo-upload").click(function (event) {
+            event.preventDefault();
+            uploadLogo("team2");
+        });
     });
+
+    function uploadLogo(team) {
+        var fileSelect = $("#" + team + "-logo-select")[0];
+        var files = fileSelect.files;
+        var formData = new FormData();
+
+        // Loop through each of the selected files.
+        for (var i = 0; i < files.length; i++) {
+          var file = files[i];
+
+          // Add the file to the request.
+          formData.append('logo', file, file.name);
+        }
+        formData.append('team', team);
+        $.ajax({
+            url: 'scorer/image',  //Server script to process data
+            type: 'POST',
+            xhr: function() {  // Custom XMLHttpRequest
+                var myXhr = $.ajaxSettings.xhr();
+                if(myXhr.upload){ // Check if upload property exists
+                    //myXhr.upload.addEventListener('progress',progressHandlingFunction, false); // For handling the progress of the upload
+                }
+                return myXhr;
+            },
+            //Ajax events
+            //beforeSend: beforeSendHandler,
+            success: function (result) {
+                $("#" + team + "-logo").attr("src", "/scorer/image?team=" + team + "&"+new Date().getTime());
+            },
+            //error: errorHandler,
+            // Form data
+            data: formData,
+            //Options to tell jQuery not to process data or worry about content-type.
+            cache: false,
+            contentType: false,
+            processData: false
+        });
+    }
 
     function stompIt(clockCommand, logAction) {
 
