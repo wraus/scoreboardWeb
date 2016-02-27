@@ -115,38 +115,39 @@
             document.getElementById('period').innerHTML = message.period;
             updateDirection(message.direction);
 
-            if(message.command === "START_CLOCK"){
-                //synchronize clocks from master clock
-                startClocks((+message.gameClock.mins * 600) + (+message.gameClock.secs * 10)
+            $('div.team1').attr('style','background: '+message.team1.colour);
+            $('div.team2').attr('style','background: '+message.team2.colour);
+
+            switch (message.command) {
+                case "START_CLOCK":
+                    //synchronize clocks from master clock
+                    startClocks((+message.gameClock.mins * 600) + (+message.gameClock.secs * 10)
                         + parseInt(message.gameClock.tenths, 10),
                         (+message.shotClock.secs * 10) + parseInt(message.shotClock.tenths, 10));
-            }
-
-            if(message.command === "STOP_CLOCK"){
-                //restart clocks with updated times and then pause.
-                startClocks((+message.gameClock.mins * 600) + (+message.gameClock.secs * 10)
+                    break;
+                case "STOP_CLOCK":
+                    //restart clocks with updated times and then pause.
+                    startClocks((+message.gameClock.mins * 600) + (+message.gameClock.secs * 10)
                         + parseInt(message.gameClock.tenths, 10),
                         (+message.shotClock.secs * 10) + parseInt(message.shotClock.tenths, 10));
-                pauseClocks();
-            }
-
-            if(message.command === "SHOT_CLOCK_END"){
-                shotClock.stop();
-                gameClock.pause();
-                $("#shotClockSecs").html(padDigits(0));
-                shotClockSound.play();
-            }
-
-            if(message.command === "QTR_END"){
-                stopClocks();
-                $("#shotClockSecs").html(padDigits(0));
-                $("#gameClockSecs").html(padDigits(0));
-                $("#gameClockTenths").html(padDigits(0));
-                quarterSirenSound.play();
-            }
-
-            if(message.command === "ALERT_UMPIRE"){
-                umpireSound.play();
+                    pauseClocks();
+                    break;
+                case "SHOT_CLOCK_END":
+                    shotClock.stop();
+                    gameClock.pause();
+                    $("#shotClockSecs").html(padDigits(0));
+                    shotClockSound.play();
+                    break;
+                case "QUARTER_END":
+                    stopClocks();
+                    $("#shotClockSecs").html(padDigits(0));
+                    $("#gameClockSecs").html(padDigits(0));
+                    $("#gameClockTenths").html(padDigits(0));
+                    quarterSirenSound.play();
+                    break;
+                case "NOTIFY_UMPIRE":
+                    umpireSound.play();
+                    break;
             }
 
             $("[id^=timeoutT]").fadeTo(0, 0.25);
@@ -198,9 +199,9 @@
                             </div>
                         </div>
 
-                        <div class="teamPanel panel-success scorePanel timeout">
+                        <div class="teamPanel scorePanel timeout">
                             Timeouts
-                            <div class="panel-body">
+                            <!--<div class="panel-body">-->
                                 <div class="row">
                                     <div class="col-sm-7">
                                         <img id="timeoutT1P1" src="images/t.jpg" width="30px" height="30px"/>
@@ -208,19 +209,19 @@
                                         <img id="timeoutT1P3" src="images/t.jpg" width="30px" height="30px"/>
                                         <img id="timeoutT1P4" src="images/t.jpg" width="30px" height="30px"/>
                                     </div>
-                                    <div class="col-sm-4" >
+                                    <div class="col-sm-5">
                                         <img id="timeoutT1C1" src="images/t-coach.jpg" width="30px" height="30px"/>
                                         <img id="timeoutT1C2" src="images/t-coach.jpg" width="30px" height="30px"/>
                                     </div>
                                 </div>
-                            </div>
+                            <!--</div>-->
                         </div>
 
                     </div>
                     <div class="col-sm-4">
-
-                        <div class="panel panel-success">
-                            <div class="panel-heading">Game</div>
+                        <br/><br/>
+                        <div class="panel">
+                            <!--<div class="panel-heading">Game</div>-->
                             <div class="panel-body game-clock">
                                 <div class="digits-alt">
                                     <span id="gameClockMins">${score.gameClock.mins}</span>:<span id="gameClockSecs">${score.gameClock.secs}</span>
@@ -229,7 +230,7 @@
                         </div>
 
                         <div class="panel panel-shotclock">
-                            <div class="panel-heading">Shot clock</div>
+                            <!--<div class="panel-heading">Shot clock</div>-->
                             <div class="panel-body shot-clock">
                                 <div class="digits-alt">
                                     <span id="shotClockSecs">${score.shotClock.secs}</span>
@@ -243,8 +244,8 @@
                             </div>
                         </div>
 
-                        <div class="panel panel-shotclock">
-                            <div class="panel-body shot-clock">
+                        <div class="panel">
+                            <div class="panel-body">
                                 <div id="arrowRight"><img src="images/geren-arrow-right.png" width="140px" height="80px"/></div>
                                 <div id="arrowLeft"><img src="images/geren-arrow-left.png" width="140px" height="80px"/></div>
                             </div>
@@ -254,7 +255,7 @@
                     </div>
                     <div class="col-sm-4">
 
-                        <div class="teamPanel panel-primary scorePanel team1">
+                        <div class="teamPanel panel-primary scorePanel team2">
                             <p><span id="team2Name">${score.team2.name}</span></p>
                             <div class="panel-body">
                                 <div class="score"><span id="team2Score">${score.team2.score}</span></div>
@@ -263,20 +264,20 @@
 
                         <div class="teamPanel panel-success scorePanel timeout">
                             Timeouts
-                            <div class="panel-body">
-                                <div class="row">
-                                    <div class="col-sm-7" >
-                                        <img id="timeoutT2P1" src="images/t.jpg" width="30px" height="30px"/>
-                                        <img id="timeoutT2P2" src="images/t.jpg" width="30px" height="30px"/>
-                                        <img id="timeoutT2P3" src="images/t.jpg" width="30px" height="30px"/>
-                                        <img id="timeoutT2P4" src="images/t.jpg" width="30px" height="30px"/>
-                                    </div>
-                                    <div class="col-sm-4" >
-                                        <img id="timeoutT2C1" src="images/t-coach.jpg" width="30px" height="30px"/>
-                                        <img id="timeoutT2C2" src="images/t-coach.jpg" width="30px" height="30px"/>
-                                    </div>
+                            <!--<div class="panel-body">-->
+                            <div class="row">
+                                <div class="col-sm-7">
+                                    <img id="timeoutT2P1" src="images/t.jpg" width="30px" height="30px"/>
+                                    <img id="timeoutT2P2" src="images/t.jpg" width="30px" height="30px"/>
+                                    <img id="timeoutT2P3" src="images/t.jpg" width="30px" height="30px"/>
+                                    <img id="timeoutT2P4" src="images/t.jpg" width="30px" height="30px"/>
+                                </div>
+                                <div class="col-sm-5">
+                                    <img id="timeoutT2C1" src="images/t-coach.jpg" width="30px" height="30px"/>
+                                    <img id="timeoutT2C2" src="images/t-coach.jpg" width="30px" height="30px"/>
                                 </div>
                             </div>
+                            <!--</div>-->
                         </div>
                     </div>
                 </div>

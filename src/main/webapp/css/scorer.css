@@ -6,23 +6,29 @@
 }
 
 
-.arrow-toggle .icon-arrow-down,
-.arrow-toggle.collapsed .icon-arrow-up {
-    display: inline-block;
+div.colour-picker ul
+{
+    margin: 7px 0 0 20px;
+    padding: 0;
+    list-style: none;
 }
-.arrow-toggle.collapsed .icon-arrow-down,
-.arrow-toggle .icon-arrow-up {
-    display: none;
-}
+div.colour-picker ul li {
+    float:left !important;
+    margin: 1px 15px 1px 0px;
+    padding-left:5px;
+    width:16px;
+    height:16px;
 
-.icon-arrow-left {
-    background-image: url("../images/arrow-left.jpg");
-    width:50px;
-    height:30px;
-    border:1px solid red;
+    /*
+    float:left !important;
+    margin: 0 0 0 0;
+    */
 }
-.icon-arrow-right {
-    background-image: url("images/arrow-right.jpg");
-    width:50px;
-    height:30px;
+div.colour-picker div {
+    margin-left:-25px;
+    width:23px;
+    height:23px;
+}
+.container {
+    width:95% !important;
 }

@@ -20,8 +20,10 @@
     <script src="<c:url value='/scripts/easytimer.min.js'/>"></script>
 
     <c:set var="home">${fn:substring(url, 0, fn:length(url) - fn:length(uri))}${req.contextPath}/</c:set>
+    <c:set var="teamColours">red,green,yellow,blue,orange,#222,#DDD</c:set>
 </head>
 <body onload="connect()">
+
 <nav class="navbar navbar-inverse">
     <div class="container">
         <div class="navbar-header">
@@ -30,7 +32,7 @@
     </div>
 </nav>
 
-<div class="container" style="min-height: 500px">
+<div class="container" >
 
     <ul class="nav nav-pills">
         <li class="active"><a data-toggle="pill" href="#home">Game</a></li>
@@ -65,8 +67,8 @@
                         </div>
                         <div class="col-sm-4">
                             <div class="form-group">
-                                <label class="col-sm-5 control-label">Period:</label>
-                                <div class="col-sm-6">
+                                <label class="col-sm-4 control-label">Period:</label>
+                                <div class="col-sm-7">
                                     <div class="input-group">
                                         <span class="input-group-btn">
                                             <button type="button" class="btn btn-danger btn-number" disabled="disabled" data-type="minus" data-field="period[]">
@@ -103,25 +105,29 @@
                             </div>
                         </div>
                         <div class="col-sm-4">
-
                                 <label class="col-sm-5 control-label">Possession:</label>
                                 <div class="col-sm-5">
-
                                     <input type="checkbox" id="possession" checked data-toggle="toggle" data-onstyle="info" data-offstyle="warning" data-on="<i class='fa fa-play'></i> ---&gt" data-off="<i class='fa fa-pause'></i> &lt---">
-
                                 </div>
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <div class="col-sm-12 align-cntr" >
-                            <!-- http://www.bootstraptoggle.com/ -->
-                            <!--<button type="submit" id="btn-start-stop" class="btn btn-success btn-lg btn-long">START</button>-->
-                            <input type="checkbox" id="start" checked data-toggle="toggle" data-size="large" data-onstyle="success" data-offstyle="danger" data-on="<i class='fa fa-play'></i> START" data-off="<i class='fa fa-pause'></i> STOP">
-                            <!--<input type="checkbox" checked data-toggle="toggle" data-on="<i class=''></i> START" data-off="<i class=''></i> STOP">-->
+                        <div class="row">
+                            <div class="col-sm-3 align-left" >
+                                <div class="col-sm-2" >
+                                    <button type="button" id="btn-umpire" class="btn btn-primary btn-lg">Umpire</button>
+                                </div>
+                            </div>
+                            <div class="col-sm-7 align-cntr" >
+                                <!-- http://www.bootstraptoggle.com/ -->
+                                <!--<button type="submit" id="btn-start-stop" class="btn btn-success btn-lg btn-long">START</button>-->
+                                <input type="checkbox" id="start" checked data-toggle="toggle" data-size="large" data-onstyle="success" data-offstyle="danger" data-on="<i class='fa fa-play'></i> START" data-off="<i class='fa fa-pause'></i> STOP">
+                                <!--<input type="checkbox" checked data-toggle="toggle" data-on="<i class=''></i> START" data-off="<i class=''></i> STOP">-->
+                            </div>
+                            <div class="col-sm-3 align-right" />
                         </div>
                     </div>
-
                 </div>
             </div>
 
@@ -134,14 +140,14 @@
                         <div class="panel-body">
                             <div class="form-group form-group-lg">
                                 <label class="col-sm-4 control-label">Score</label>
-                                <div class="col-sm-5">
+                                <div class="col-sm-6">
                                     <div class="input-group">
                                         <span class="input-group-btn">
                                             <button type="button" class="btn btn-danger btn-number btn-lg" disabled="disabled" data-type="minus" data-field="team1Score[]">
                                                 <span class="glyphicon glyphicon-minus"></span>
                                             </button>
                                         </span>
-                                        <input type=text class="form-control input-number" name="team1Score[]" id="team1Score" value="1" min="1" max="999">
+                                        <input type=text class="form-control input-number" name="team1Score[]" id="team1Score" value="0" min="0" max="999">
                                         <span class="input-group-btn">
                                             <button type="button" class="btn btn-success btn-number btn-lg" data-type="plus" data-field="team1Score[]">
                                                 <span class="glyphicon glyphicon-plus"></span>
@@ -152,7 +158,7 @@
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-4 control-label">Team Timeouts</label>
-                                <div class="col-sm-4">
+                                <div class="col-sm-5">
                                     <div class="input-group">
                                         <span class="input-group-btn">
                                             <button type="button" class="btn btn-danger btn-number" disabled="disabled" data-type="minus" data-field="team1Timeout[]">
@@ -170,7 +176,7 @@
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-4 control-label">Coach Timeouts</label>
-                                <div class="col-sm-4">
+                                <div class="col-sm-5">
                                     <div class="input-group">
                                         <span class="input-group-btn">
                                             <button type="button" class="btn btn-danger btn-number" disabled="disabled" data-type="minus" data-field="coach1Timeout[]">
@@ -195,7 +201,7 @@
                         <div class="panel-body">
                             <div class="form-group form-group-lg">
                                 <label class="col-sm-4 control-label">Score</label>
-                                <div class="col-sm-5">
+                                <div class="col-sm-6">
 
                                     <div class="input-group">
                                         <span class="input-group-btn">
@@ -203,7 +209,7 @@
                                                 <span class="glyphicon glyphicon-minus"></span>
                                             </button>
                                         </span>
-                                        <input type=text class="form-control input-number" name="team2Score[]" id="team2Score" value="1" min="1" max="999">
+                                        <input type=text class="form-control input-number" name="team2Score[]" id="team2Score" value="0" min="0" max="999">
                                         <span class="input-group-btn">
                                             <button type="button" class="btn btn-success btn-number btn-lg" data-type="plus" data-field="team2Score[]">
                                                 <span class="glyphicon glyphicon-plus"></span>
@@ -215,7 +221,7 @@
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-4 control-label">Team Timeouts</label>
-                                <div class="col-sm-4">
+                                <div class="col-sm-5">
                                     <div class="input-group">
                                         <span class="input-group-btn">
                                             <button type="button" class="btn btn-danger btn-number" disabled="disabled" data-type="minus" data-field="team2Timeout[]">
@@ -233,7 +239,7 @@
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-4 control-label">Coach Timeouts</label>
-                                <div class="col-sm-4">
+                                <div class="col-sm-5">
                                     <div class="input-group">
                                         <span class="input-group-btn">
                                             <button type="button" class="btn btn-danger btn-number" disabled="disabled" data-type="minus" data-field="coach2Timeout[]">
@@ -254,7 +260,6 @@
                 </div>
             </div>
 
-
             </form>
         </div>
         <div id="menu1" class="tab-pane fade">
@@ -264,17 +269,27 @@
 
                     <form class="form-horizontal" id="score-manager">
 
-
                         <div class="row">
                             <div class="col-sm-6">
-
                                 <div class="panel panel-success">
                                     <div class="panel-heading">Team 1</div>
                                     <div class="panel-body">
                                         <div class="form-group form-group-lg">
                                             <label class="col-sm-3 control-label">Name</label>
-                                            <div class="col-sm-7">
+                                            <div class="col-sm-8">
                                                 <input type=text class="form-control" id="team1Name">
+                                            </div>
+                                        </div>
+                                        <div class="form-group form-group-lg">
+                                            <label class="col-sm-3 control-label">Colour</label>
+                                            <div class="col-sm-8">
+                                                <div class="radio colour-picker">
+                                                    <ul>
+                                                        <c:forTokens items="${teamColours}" delims="," var="colour">
+                                                            <li><input type="radio" name="team1Colour" value="${colour}"><div style="background:${colour};"></div></li>
+                                                        </c:forTokens>
+                                                    </ul>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -286,16 +301,26 @@
                                     <div class="panel-body">
                                         <div class="form-group form-group-lg">
                                             <label class="col-sm-3 control-label">Name</label>
-                                            <div class="col-sm-7">
+                                            <div class="col-sm-8">
                                                 <input type="text" class="form-control" id="team2Name">
+                                            </div>
+                                        </div>
+                                        <div class="form-group form-group-lg">
+                                            <label class="col-sm-3 control-label">Colour</label>
+                                            <div class="col-sm-8">
+                                                <div class="radio colour-picker">
+                                                    <ul>
+                                                        <c:forTokens items="${teamColours}" delims="," var="colour">
+                                                            <li><input type="radio" name="team2Colour" value="${colour}"><div style="background:${colour};"></div></li>
+                                                        </c:forTokens>
+                                                    </ul>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
-
 
                         <div class="form-group">
                             <div class="col-sm-offset-5 col-sm-10">
@@ -346,7 +371,7 @@
         $('#start').on('change', handleStartStop);
         $('#possession').bootstrapToggle('toggle');
         $('#period').val(+$("#period").val() + 1);
-        stompIt("QTR_END","QTR_END");
+        stompIt("QUARTER_END","QUARTER_END");
         startGameClock();
         pauseClocks();
     });
@@ -496,6 +521,12 @@
             stompIt("STOP_CLOCK","RESET_SHOT_15");
         });
 
+        $("#btn-umpire").click(function (event) {
+            // Prevent the form from submitting via the browser.
+            event.preventDefault();
+            stompIt("NOTIFY_UMPIRE","NOTIFY_UMPIRE");
+        });
+
         //#score-manager
         $("#bth-save").click(function (event) {
             // Prevent the form from submitting via the browser.
@@ -530,11 +561,13 @@
         team1["score"] = $("#team1Score").val();
         team1["coachTimeouts"] = $("#coach1Timeout").val();
         team1["teamTimeouts"] = $("#team1Timeout").val();
+        team1["colour"] = $('input[name=team1Colour]:checked', '#score-manager').val();
 
         team2["name"] = $("#team2Name").val();
         team2["score"] = $("#team2Score").val();
         team2["coachTimeouts"] = $("#coach2Timeout").val();
         team2["teamTimeouts"] = $("#team2Timeout").val();
+        team2["colour"] = $('input[name=team2Colour]:checked', '#score-manager').val();
 
         gameClock["mins"] = $("#gameClockMins").val();
         gameClock["secs"] = $("#gameClockSecs").val();
