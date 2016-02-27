@@ -48,12 +48,15 @@
                     <div class="row">
                         <div class="col-sm-8">
                             <div class="form-group form-group-lg" >
-                                <label class="col-sm-4 control-label" >Game clock:</label>
+                                <label class="col-sm-3 control-label" >Game clock:</label>
                                 <div class="col-sm-2" >
                                     <input type=text class="form-control input-lg" id="gameClockMins">
                                 </div>
                                 <div class="col-sm-2" >
                                     <input type=text class="form-control input-lg" id="gameClockSecs">
+                                </div>
+                                <div class="col-sm-2" >
+                                    <input type=text class="form-control input-lg" id="gameClockTenths">
                                 </div>
                                 <div class="col-sm-4" >
                                     <button type="button" id="bth-reset-qtr" class="btn btn-primary btn-lg">Reset Quarter</button>
@@ -84,9 +87,12 @@
                     <div class="row">
                         <div class="col-sm-8">
                             <div class="form-group form-group-lg" >
-                                <label class="col-sm-4 control-label">Shot clock:</label>
+                                <label class="col-sm-3 control-label">Shot clock:</label>
                                 <div class="col-sm-2" >
                                     <input type=text class="form-control input-lg" id="shotClockSecs">
+                                </div>
+                                <div class="col-sm-2" >
+                                    <input type=text class="form-control input-lg" id="shotClockTenths">
                                 </div>
                                 <div class="col-sm-2" >
                                     <button type="button" id="bth-reset-40" class="btn btn-primary btn-lg">Reset 40</button>
@@ -303,18 +309,6 @@
         </div>
     </div>
 
-    <!--<div class="panel-group">-->
-
-
-    <!--</div>-->
-
-    <!--
-        <div class="starter-template">
-            <h1>Score Controller</h1>
-            <br>
-        </div>
-    -->
-
 </div>
 
 <div class="container">
@@ -330,10 +324,36 @@
     var stompClient = null;
     var gameClock = new Timer();
     var shotClock = new Timer();
+
     shotClock.addEventListener('targetAchieved', function (e) {
-        //TODO should we display something on contrller to highlight this
-        //alert("SHOT END TIME");
+        pauseGameClock();
+        stopShotClock();
+        $("#shotClockTenths").val(padDigits(0));
+        stompIt("SHOT_CLOCK_END","SHOT_CLOCK_END");
+        startShotClock(40);
+        pauseShotClock();
+        $('#start').off('change');
+        $('#start').bootstrapToggle('on');
+        $('#start').on('change', handleStartStop);
     });
+
+    gameClock.addEventListener('targetAchieved', function (e) {
+        stopClocks();
+        $("#shotClockTenths").val(padDigits(0));
+        $("#gameClockTenths").val(padDigits(0));
+        $('#start').off('change');
+        $('#start').bootstrapToggle('on');
+        $('#start').on('change', handleStartStop);
+        $('#possession').bootstrapToggle('toggle');
+        $('#period').val(+$("#period").val() + 1);
+        stompIt("QTR_END","QTR_END");
+        startGameClock();
+        pauseClocks();
+    });
+
+    function padDigits(number) {
+        return ("0" + number).slice(-2);
+    }
 
     function connect() {
         var socket = new SockJS('<c:url value="/stomp"/>');
@@ -355,29 +375,31 @@
     }
 
     function startGameClock() {
+
         //start quarter clock, default is 8 mins if not already running
-        gameClock.start({countdown: true, startValues: {seconds: 480}});
-            $("#gameClockMins").val(gameClock.getTimeValues().minutes);
-            $("#gameClockSecs").val(gameClock.getTimeValues().seconds);
-        gameClock.addEventListener('secondsUpdated', function (e) {
-            //console.log("GAME CLOCK",gameClock.getTimeValues());
-            $("#gameClockSecs").val(gameClock.getTimeValues().seconds);
-            $("#gameClockMins").val(gameClock.getTimeValues().minutes);
-        });
-        gameClock.addEventListener('targetAchieved', function (e) {
-            alert("QUARTER END");
+        gameClock.start({precision: 'secondTenths', countdown: true, startValues: {seconds: 65}});
+            $("#gameClockMins").val(padDigits(gameClock.getTimeValues().minutes));
+            $("#gameClockSecs").val(padDigits(gameClock.getTimeValues().seconds));
+            $("#gameClockTenths").val(padDigits(gameClock.getTimeValues().secondTenths));
+        gameClock.addEventListener('secondTenthsUpdated', function (e) {
+            //console.log("GAME CLOCK",gameClock.getTimeValues().toString());
+            $("#gameClockMins").val(padDigits(gameClock.getTimeValues().minutes));
+            $("#gameClockSecs").val(padDigits(gameClock.getTimeValues().seconds));
+            $("#gameClockTenths").val(padDigits(gameClock.getTimeValues().secondTenths));
         });
 
         //starting quarter clock should always start shot clock, default 40 secs if not already running
-        startShotClock(40)
+        startShotClock(40);
     }
 
     function startShotClock(secs) {
-        shotClock.start({countdown: true, startValues: {seconds: secs}});
-        $("#shotClockSecs").val(shotClock.getTimeValues().seconds);
-        shotClock.addEventListener('secondsUpdated', function (e) {
+        shotClock.start({precision: 'secondTenths', countdown: true, startValues: {seconds: secs}});
+        $("#shotClockSecs").val(padDigits(shotClock.getTimeValues().seconds));
+        $("#shotClockTenths").val(padDigits(shotClock.getTimeValues().secondTenths));
+        shotClock.addEventListener('secondTenthsUpdated', function (e) {
             //console.log("SHOT CLOCK",shotClock.getTimeValues());
-            $("#shotClockSecs").val(shotClock.getTimeValues().seconds);
+            $("#shotClockSecs").val(padDigits(shotClock.getTimeValues().seconds));
+            $("#shotClockTenths").val(padDigits(shotClock.getTimeValues().secondTenths));
         });
     }
 
@@ -399,6 +421,26 @@
         shotClock.stop();
     }
 
+    function stopClocks() {
+        gameClock.stop();
+        shotClock.stop();
+    }
+
+    function pauseClocks() {
+        gameClock.pause();
+        shotClock.pause();
+    }
+
+    function handleStartStop() {
+        if (!$("#start").is(':checked')) {
+            startGameClock();
+            stompIt("START_CLOCK","START_CLOCK");
+        }else{
+            pauseGameClock();
+            stompIt("STOP_CLOCK","STOP_CLOCK");
+        }
+    }
+
     jQuery(document).ready(function ($) {
 
         $("#team1Score").change(function (event) { stompIt("","TEAM1_SCORE"); });
@@ -410,49 +452,48 @@
         $("#period").change(function (event) { stompIt("","PERIOD"); });
         $("#possession").change(function (event) { stompIt("","POSSESSION"); });
 
-        $("#start").change(function (event) {
-            // Prevent the form from submitting via the browser.
-            event.preventDefault();
-            if (!$("#start").is(':checked')) {
-                startGameClock();
-                stompIt("START_CLOCK","START_CLOCK");
-            }else{
-                pauseGameClock();
-                stompIt("STOP_CLOCK","STOP_CLOCK");
-            }
-        });
+        $("#start").change(handleStartStop);
 
         $("#bth-reset-qtr").click(function (event) {
             // Prevent the form from submitting via the browser.
             event.preventDefault();
             stopGameClock();
-            if ($("#start").is(':checked')) {
-                $('#start').bootstrapToggle('off')
+            $('#start').off('change');
+            if (!$("#start").is(':checked')) {
+                $('#start').bootstrapToggle('on')
             }
+            $('#start').on('change',handleStartStop);
             startGameClock();
-            stompIt("START_CLOCK","RESET_QTR");
+            pauseGameClock();
+            stompIt("STOP_CLOCK","RESET_QTR");
         });
 
         $("#bth-reset-40").click(function (event) {
             // Prevent the form from submitting via the browser.
             event.preventDefault();
             stopShotClock();
-            if ($("#start").is(':checked')) {
-                $('#start').bootstrapToggle('off')
+            $('#start').off('change');
+            if (!$("#start").is(':checked')) {
+                $('#start').bootstrapToggle('on')
             }
+            $('#start').on('change',handleStartStop);
             startShotClock(40);
-            stompIt("START_CLOCK","RESET_SHOT_40");
+            pauseGameClock();
+            stompIt("STOP_CLOCK","RESET_SHOT_40");
         });
 
         $("#bth-reset-15").click(function (event) {
             // Prevent the form from submitting via the browser.
             event.preventDefault();
             stopShotClock();
-            if ($("#start").is(':checked')) {
-                $('#start').bootstrapToggle('off')
+            $('#start').off('change');
+            if (!$("#start").is(':checked')) {
+                $('#start').bootstrapToggle('on')
             }
+            $('#start').on('change',handleStartStop);
             startShotClock(15);
-            stompIt("START_CLOCK","RESET_SHOT_15");
+            pauseGameClock();
+            stompIt("STOP_CLOCK","RESET_SHOT_15");
         });
 
         //#score-manager
@@ -477,10 +518,13 @@
         score["action"] = logAction;
         score["actionTime"] = actionTime;
         score["period"] = $("#period").val();
-        score["direction"] = "LEFT";
 
-        if (!$("#possession").is(':checked')) { score["direction"] = "LEFT";  }
-        else { score["direction"] = "RIGHT"; }
+        if (!$("#possession").is(':checked')) {
+            score["direction"] = "LEFT";
+        }
+        else {
+            score["direction"] = "RIGHT";
+        }
 
         team1["name"] = $("#team1Name").val();
         team1["score"] = $("#team1Score").val();
