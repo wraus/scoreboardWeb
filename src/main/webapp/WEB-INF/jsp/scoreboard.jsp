@@ -14,6 +14,7 @@
     <script src="<c:url value='/scripts/stomp.js'/>"></script>
     <script src="<c:url value='/scripts/jquery-2.1.4.js'/>"></script>
     <script src="<c:url value='/scripts/easytimer.min.js'/>"></script>
+    <script src="<c:url value='/scripts/wr-common.js'/>"></script>
     <script type="text/javascript">
         $(function(){
             if( /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent) ) {
@@ -40,26 +41,19 @@
             initDisplay();
         }
 
-        function padDigits(number) {
-            return ("0" + number).slice(-2);
-        }
-
         function startClocks(gameTenthsSecs, shotTenthsSecs) {
 
             //stop clocks and reset
-            //TODO: should timers be new instances?
             stopClocks();
 
             gameClock.start({precision: 'secondTenths', countdown: true, startValues: {secondTenths: gameTenthsSecs}});
             $("#gameClockMins").html(padDigits(gameClock.getTimeValues().minutes));
             $("#gameClockSecs").html(padDigits(gameClock.getTimeValues().seconds));
-            $("#gameClockTenths").html(padDigits(gameClock.getTimeValues().secondTenths));
             gameClock.addEventListener('secondTenthsUpdated', function (e) {
                 //console.log("GAME CLOCK",gameClock.getTimeValues());
                 if(gameClock.getTimeValues().minutes === 0){
                     $("#gameClockMins").html(padDigits(gameClock.getTimeValues().seconds));
                     $("#gameClockSecs").html(padDigits(gameClock.getTimeValues().secondTenths));
-                    $("#gameClockTenths").html(padDigits(gameClock.getTimeValues().secondTenths));
                 }else{
                     $("#gameClockMins").html(padDigits(gameClock.getTimeValues().minutes));
                     $("#gameClockSecs").html(padDigits(gameClock.getTimeValues().seconds));
@@ -75,16 +69,6 @@
             shotClock.addEventListener('secondTenthsUpdated', function (e) {
                 $("#shotClockSecs").html(padDigits(shotClock.getTimeValues().seconds));
             });
-        }
-
-        function stopClocks() {
-            gameClock.stop();
-            shotClock.stop();
-        }
-
-        function pauseClocks() {
-            gameClock.pause();
-            shotClock.pause();
         }
 
         function connect() {
@@ -145,6 +129,9 @@
                     $("#gameClockTenths").html(padDigits(0));
                     quarterSirenSound.play();
                     break;
+                case "HIDE_SHOT_CLOCK":
+                    $(".panel-shotclock").css("visibility", "hidden");
+                    break;
                 case "NOTIFY_UMPIRE":
                     umpireSound.play();
                     break;
@@ -159,6 +146,7 @@
 
         function initDisplay() {
             $("[id^=timeoutT]").fadeTo(0, 0.25);
+            $(".panel-shotclock").css("visibility", "visible");
         }
 
         function updateDirection(direction) {

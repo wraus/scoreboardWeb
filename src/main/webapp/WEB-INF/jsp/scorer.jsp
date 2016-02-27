@@ -18,6 +18,7 @@
     <script src="<c:url value='/scripts/bootstrap-toggle.min.js'/>"></script>
     <script src="<c:url value='/scripts/scorer-utils.js'/>"></script>
     <script src="<c:url value='/scripts/easytimer.min.js'/>"></script>
+    <script src="<c:url value='/scripts/wr-common.js'/>"></script>
 
     <c:set var="home">${fn:substring(url, 0, fn:length(url) - fn:length(uri))}${req.contextPath}/</c:set>
     <c:set var="teamColours">red,green,yellow,blue,orange,#222,#DDD</c:set>
@@ -352,11 +353,11 @@
 
     shotClock.addEventListener('targetAchieved', function (e) {
         pauseGameClock();
-        stopShotClock();
+        shotClock.stop();
         $("#shotClockTenths").val(padDigits(0));
         stompIt("SHOT_CLOCK_END","SHOT_CLOCK_END");
         startShotClock(40);
-        pauseShotClock();
+        shotClock.pause();
         $('#start').off('change');
         $('#start').bootstrapToggle('on');
         $('#start').on('change', handleStartStop);
@@ -375,10 +376,6 @@
         startGameClock();
         pauseClocks();
     });
-
-    function padDigits(number) {
-        return ("0" + number).slice(-2);
-    }
 
     function connect() {
         var socket = new SockJS('<c:url value="/stomp"/>');
@@ -402,7 +399,7 @@
     function startGameClock() {
 
         //start quarter clock, default is 8 mins if not already running
-        gameClock.start({precision: 'secondTenths', countdown: true, startValues: {seconds: 65}});
+        gameClock.start({precision: 'secondTenths', countdown: true, startValues: {seconds: 480}});
             $("#gameClockMins").val(padDigits(gameClock.getTimeValues().minutes));
             $("#gameClockSecs").val(padDigits(gameClock.getTimeValues().seconds));
             $("#gameClockTenths").val(padDigits(gameClock.getTimeValues().secondTenths));
@@ -411,6 +408,12 @@
             $("#gameClockMins").val(padDigits(gameClock.getTimeValues().minutes));
             $("#gameClockSecs").val(padDigits(gameClock.getTimeValues().seconds));
             $("#gameClockTenths").val(padDigits(gameClock.getTimeValues().secondTenths));
+            if(gameClock.getTimeValues().minutes === 0 && gameClock.getTimeValues().seconds < 40){
+                shotClock.stop();
+                startShotClock(40);
+                shotClock.pause();
+                stompIt("HIDE_SHOT_CLOCK","HIDE_SHOT_CLOCK");
+            }
         });
 
         //starting quarter clock should always start shot clock, default 40 secs if not already running
@@ -428,34 +431,6 @@
         });
     }
 
-    function pauseShotClock() {
-        shotClock.pause();
-    }
-
-    function pauseGameClock() {
-        gameClock.pause();
-        shotClock.pause();
-    }
-
-    function stopShotClock() {
-        shotClock.stop();
-    }
-
-    function stopGameClock() {
-        gameClock.stop();
-        shotClock.stop();
-    }
-
-    function stopClocks() {
-        gameClock.stop();
-        shotClock.stop();
-    }
-
-    function pauseClocks() {
-        gameClock.pause();
-        shotClock.pause();
-    }
-
     function handleStartStop() {
         if (!$("#start").is(':checked')) {
             startGameClock();
@@ -464,6 +439,14 @@
             pauseGameClock();
             stompIt("STOP_CLOCK","STOP_CLOCK");
         }
+    }
+
+    function stopGameWithoutEventFire() {
+        $('#start').off('change');
+        if (!$("#start").is(':checked')) {
+            $('#start').bootstrapToggle('on')
+        }
+        $('#start').on('change',handleStartStop);
     }
 
     jQuery(document).ready(function ($) {
@@ -476,18 +459,13 @@
         $("#coach2Timeout").change(function (event) { stompIt("","COACH2_TIMEOUT"); });
         $("#period").change(function (event) { stompIt("","PERIOD"); });
         $("#possession").change(function (event) { stompIt("","POSSESSION"); });
-
         $("#start").change(handleStartStop);
 
         $("#bth-reset-qtr").click(function (event) {
             // Prevent the form from submitting via the browser.
             event.preventDefault();
             stopGameClock();
-            $('#start').off('change');
-            if (!$("#start").is(':checked')) {
-                $('#start').bootstrapToggle('on')
-            }
-            $('#start').on('change',handleStartStop);
+            stopGameWithoutEventFire();
             startGameClock();
             pauseGameClock();
             stompIt("STOP_CLOCK","RESET_QTR");
@@ -496,12 +474,8 @@
         $("#bth-reset-40").click(function (event) {
             // Prevent the form from submitting via the browser.
             event.preventDefault();
-            stopShotClock();
-            $('#start').off('change');
-            if (!$("#start").is(':checked')) {
-                $('#start').bootstrapToggle('on')
-            }
-            $('#start').on('change',handleStartStop);
+            shotClock.stop();
+            stopGameWithoutEventFire();
             startShotClock(40);
             pauseGameClock();
             stompIt("STOP_CLOCK","RESET_SHOT_40");
@@ -510,12 +484,8 @@
         $("#bth-reset-15").click(function (event) {
             // Prevent the form from submitting via the browser.
             event.preventDefault();
-            stopShotClock();
-            $('#start').off('change');
-            if (!$("#start").is(':checked')) {
-                $('#start').bootstrapToggle('on')
-            }
-            $('#start').on('change',handleStartStop);
+            shotClock.stop();
+            stopGameWithoutEventFire();
             startShotClock(15);
             pauseGameClock();
             stompIt("STOP_CLOCK","RESET_SHOT_15");
