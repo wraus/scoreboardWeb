@@ -61,7 +61,7 @@
                                 <div class="col-sm-2" >
                                     <input type=text class="form-control input-lg" id="gameClockTenths">
                                 </div>
-                                <div class="col-sm-4" >
+                                <div class="col-sm-3" >
                                     <button type="button" id="bth-reset-qtr" class="btn btn-primary btn-lg">Reset Quarter</button>
                                 </div>
                             </div>
