@@ -507,7 +507,7 @@
         $("#bth-save").click(function (event) {
             // Prevent the form from submitting via the browser.
             event.preventDefault();
-            stompIt("","SAVE_TEAM_SETUP");
+            stompIt("SAVE_TEAM_SETUP","SAVE_TEAM_SETUP");
         });
 
         $("#team1-logo-select").change(function (event) {

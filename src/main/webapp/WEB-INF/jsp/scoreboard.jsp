@@ -117,8 +117,6 @@
             document.getElementById('period').innerHTML = message.period;
             updateDirection(message.direction);
 
-            $('div.team1').attr('style','background: '+message.team1.colour);
-            $('div.team2').attr('style','background: '+message.team2.colour);
 
             if(message.command === "START_CLOCK"){
                 //synchronize clocks from master clock
@@ -132,6 +130,12 @@
                 pauseClocks();
             }
 
+            if(message.command === "SAVE_TEAM_SETUP"){
+                $('div.team1').attr('style','background: '+message.team1.colour);
+                $('div.team2').attr('style','background: '+message.team2.colour);
+                $("#team1-logo").attr("src", "/scorer/image?team=team1&"+new Date().getTime());
+                $("#team2-logo").attr("src", "/scorer/image?team=team2&"+new Date().getTime());
+            }
 
             /*document.getElementById('gameClockMins').innerHTML = message.gameClockMins;
             document.getElementById('gameClockSecs').innerHTML = message.gameClockSecs;
@@ -187,6 +191,7 @@
 
                 <div class="row">
                     <div class="col-sm-4">
+                        <img id="team1-logo" src="/scorer/image?team=team1" />
                         <div class="teamPanel panel-primary scorePanel team1">
                             <p><span id="team1Name">${score.team1.name}</span></p>
                             <div class="panel-body">
@@ -255,7 +260,7 @@
 
                     </div>
                     <div class="col-sm-4">
-
+                        <img id="team2-logo" src="/scorer/image?team=team2" />
                         <div class="teamPanel panel-primary scorePanel team2">
                             <p><span id="team2Name">${score.team2.name}</span></p>
                             <div class="panel-body">
