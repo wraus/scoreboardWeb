@@ -117,11 +117,31 @@
             document.getElementById('period').innerHTML = message.period;
             updateDirection(message.direction);
 
-
-            if(message.command === "START_CLOCK"){
-                //synchronize clocks from master clock
-                //TODO add tenths secs
-                startClocks((+message.gameClock.mins * 60) + parseInt(message.gameClock.secs, 10), +message.shotClock.secs);
+            switch (message.command) {
+                case "START_CLOCK":
+                    //synchronize clocks from master clock
+                    //TODO add tenths secs
+                    startClocks((+message.gameClock.mins * 60) + parseInt(message.gameClock.secs, 10), +message.shotClock.secs);
+                    break;
+                case "STOP_CLOCK":
+                    //restart clocks with updated times and then pause.
+                    startClocks((+message.gameClock.mins * 60) + parseInt(message.gameClock.secs, 10), +message.shotClock.secs);
+                    pauseClocks();
+                    break;
+                case "SHOTCLOCK_EXPIRED":
+                    shotClockSound.play();
+                    break;
+                case "QUARTER_END":
+                    quarterSirenSound.play();
+                    break;
+                case "NOTIFY_UMPIRE":
+                    umpireSound.play();
+                    break;
+                case "SAVE_TEAM_SETUP":
+                    $('div.team1').attr('style','background: '+message.team1.colour);
+                    $('div.team2').attr('style','background: '+message.team2.colour);
+                    $("#team1-logo").attr("src", "/scorer/image?team=team1&"+new Date().getTime());
+                    $("#team2-logo").attr("src", "/scorer/image?team=team2&"+new Date().getTime());
             }
 
             if(message.command === "STOP_CLOCK"){
@@ -130,12 +150,6 @@
                 pauseClocks();
             }
 
-            if(message.command === "SAVE_TEAM_SETUP"){
-                $('div.team1').attr('style','background: '+message.team1.colour);
-                $('div.team2').attr('style','background: '+message.team2.colour);
-                $("#team1-logo").attr("src", "/scorer/image?team=team1&"+new Date().getTime());
-                $("#team2-logo").attr("src", "/scorer/image?team=team2&"+new Date().getTime());
-            }
 
             /*document.getElementById('gameClockMins').innerHTML = message.gameClockMins;
             document.getElementById('gameClockSecs').innerHTML = message.gameClockSecs;
@@ -249,12 +263,6 @@
                                 <div id="arrowRight"><img src="images/geren-arrow-right.png" width="140px" height="80px"/></div>
                                 <div id="arrowLeft"><img src="images/geren-arrow-left.png" width="140px" height="80px"/></div>
                             </div>
-                        </div>
-
-                        <div class="panel panel-extra">
-                            <span onclick="quarterSirenSound.play()">Quarter End</span>
-                            <span onclick="shotClockSound.play()">Shot Clock</span>
-                            <span onclick="umpireSound.play()">Umpire</span>
                         </div>
                         <br/><br/>
 
