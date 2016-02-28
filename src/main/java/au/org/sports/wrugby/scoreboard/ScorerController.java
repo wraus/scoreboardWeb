@@ -43,10 +43,17 @@ public class ScorerController {
     }
 
     @RequestMapping(value = "/scorer/image", method = RequestMethod.GET)
-    public ResponseEntity<byte[]> serveTeamLogo(@RequestParam("team") String team) throws Exception {
-        Image image = (Image) context.getAttribute(team + "-logo");
+    public ResponseEntity<byte[]> serveTeamLogo(
+            @RequestParam("key") String key,
+            @RequestParam(value = "default", required = false) String defaultURL) throws Exception {
+        Image image = (Image) context.getAttribute(key);
         if (image == null) {
-            image = new Image(IOUtils.toByteArray(context.getResourceAsStream("/images/blank.gif")), "image/gif");
+            if (defaultURL != null) {
+                String imageType = defaultURL.substring(defaultURL.indexOf(".") + 1);
+                image = new Image(IOUtils.toByteArray(context.getResourceAsStream(defaultURL)), "image/" + imageType);
+            } else {
+                image = new Image(IOUtils.toByteArray(context.getResourceAsStream("/images/blank.gif")), "image/gif");
+            }
         }
         final HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.parseMediaType(image.getContentType()));
@@ -55,13 +62,13 @@ public class ScorerController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/scorer/image")
     public void handleFileUpload(
-            @RequestParam("team") String team,
+            @RequestParam("key") String key,
             @RequestParam("logo") MultipartFile file,
                                    RedirectAttributes redirectAttributes) {
         if (!file.isEmpty()) {
             try {
                 Image image = new Image(file.getBytes(), file.getContentType());
-                context.setAttribute(team + "-logo", image);
+                context.setAttribute(key , image);
                 redirectAttributes.addFlashAttribute("message",
                         "You successfully uploaded ");
             } catch (Exception e) {

@@ -265,7 +265,23 @@
                 <div class="panel-body">
 
                     <form class="form-horizontal" id="score-manager">
-
+                        <div class="row">
+                            <div class="panel panel-success">
+                                <div class="panel-heading">Logo</div>
+                                <div class="panel-body">
+                                    <div class="col-sm-2">
+                                        <span class="btn btn-primary btn-file">
+                                            Browse<input type="file" id="main-logo-select" name="mainLogo" />
+                                        </span>
+                                        <button type="button" id="btn-main-logo-upload" class="btn btn-primary">Upload</button>
+                                        <input id="main-filename" type="text" class="form-control" readonly />
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <img id="main-logo" src="<c:url value='/scorer/image?key=main-logo&default=/images/banner.png'/>" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <div class="row">
                             <div class="col-sm-6">
                                 <div class="panel panel-success">
@@ -299,7 +315,7 @@
                                                 <input id="team1-filename" type="text" class="form-control" readonly />
                                             </div>
                                             <div class="col-sm-8">
-                                                <img id="team1-logo" src="<c:url value='/scorer/image?team=team1'/>" />
+                                                <img id="team1-logo" src="<c:url value='/scorer/image?key=team1-logo'/>" />
                                             </div>
                                         </div>
                                     </div>
@@ -337,7 +353,7 @@
                                                 <input id="team2-filename" type="text" class="form-control" readonly />
                                             </div>
                                             <div class="col-sm-8">
-                                                <img id="team2-logo" src="<c:url value='/scorer/image?team=team2'/>" />
+                                                <img id="team2-logo" src="<c:url value='/scorer/image?key=team2-logo'/>" />
                                             </div>
                                         </div>
                                     </div>
@@ -526,6 +542,16 @@
             stompIt("SAVE_TEAM_SETUP","SAVE_TEAM_SETUP");
         });
 
+        $("#main-logo-select").change(function (event) {
+            label = event.currentTarget.value.replace(/\\/g, '/').replace(/.*\//, '');
+            $("#main-filename").val(label);
+        });
+
+        $("#btn-main-logo-upload").click(function (event) {
+            event.preventDefault();
+            uploadLogo("main-logo");
+        });
+
         $("#team1-logo-select").change(function (event) {
             label = event.currentTarget.value.replace(/\\/g, '/').replace(/.*\//, '');
             $("#team1-filename").val(label);
@@ -533,7 +559,7 @@
 
         $("#btn-team1-logo-upload").click(function (event) {
             event.preventDefault();
-            uploadLogo("team1");
+            uploadLogo("team1-logo");
         });
 
         $("#team2-logo-select").change(function (event) {
@@ -543,12 +569,12 @@
 
         $("#btn-team2-logo-upload").click(function (event) {
             event.preventDefault();
-            uploadLogo("team2");
+            uploadLogo("team2-logo");
         });
     });
 
-    function uploadLogo(team) {
-        var fileSelect = $("#" + team + "-logo-select")[0];
+    function uploadLogo(key) {
+        var fileSelect = $("#" + key + "-select")[0];
         var files = fileSelect.files;
         var formData = new FormData();
 
@@ -559,7 +585,7 @@
           // Add the file to the request.
           formData.append('logo', file, file.name);
         }
-        formData.append('team', team);
+        formData.append('key', key);
         $.ajax({
             url: 'scorer/image',  //Server script to process data
             type: 'POST',
@@ -573,7 +599,7 @@
             //Ajax events
             //beforeSend: beforeSendHandler,
             success: function (result) {
-                $("#" + team + "-logo").attr("src", "/scorer/image?team=" + team + "&"+new Date().getTime());
+                $("#" + key).attr("src", "${pageContext.request.contextPath}/scorer/image?key=" + key + "&"+new Date().getTime());
             },
             //error: errorHandler,
             // Form data
