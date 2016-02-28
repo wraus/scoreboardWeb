@@ -14,6 +14,7 @@
     <script src="<c:url value='/scripts/stomp.js'/>"></script>
     <script src="<c:url value='/scripts/jquery-2.1.4.js'/>"></script>
     <script src="<c:url value='/scripts/easytimer.min.js'/>"></script>
+    <script src="<c:url value='/scripts/wr-common.js'/>"></script>
     <script type="text/javascript">
         $(function(){
             if( /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent) ) {
@@ -31,12 +32,6 @@
         var stompClient = null;
         var gameClock = new Timer();
         var shotClock = new Timer();
-        shotClock.addEventListener('targetAchieved', function (e) {
-            //TODO: play shot siren sound
-        });
-        gameClock.addEventListener('targetAchieved', function (e) {
-            //TODO: play quarter siren sound
-        });
         var quarterSirenSound = new Audio('sounds/airHorn.mp3');
         var shotClockSound = new Audio('sounds/woopWoop.mp3');
         var umpireSound = new Audio('sounds/dingDong.mp3');
@@ -46,47 +41,34 @@
             initDisplay();
         }
 
-        function startClocks(gameSecs, shotSecs) {
+        function startClocks(gameTenthsSecs, shotTenthsSecs) {
 
             //stop clocks and reset
-            //TODO: should timers be new instances?
             stopClocks();
 
-            gameClock.start({countdown: true, startValues: {seconds: gameSecs}});
-            $("#gameClockMins").html(gameClock.getTimeValues().minutes);
-            $("#gameClockSecs").html(gameClock.getTimeValues().seconds);
-            gameClock.addEventListener('secondsUpdated', function (e) {
+            gameClock.start({precision: 'secondTenths', countdown: true, startValues: {secondTenths: gameTenthsSecs}});
+            $("#gameClockMins").html(padDigits(gameClock.getTimeValues().minutes));
+            $("#gameClockSecs").html(padDigits(gameClock.getTimeValues().seconds));
+            gameClock.addEventListener('secondTenthsUpdated', function (e) {
                 //console.log("GAME CLOCK",gameClock.getTimeValues());
-                //TODO add tenths
                 if(gameClock.getTimeValues().minutes === 0){
-                    $("#gameClockMins").html(gameClock.getTimeValues().seconds);
-                    //$("#gameClockSecs").html(gameClock.getTimeValues().tenths);
+                    $("#gameClockMins").html(padDigits(gameClock.getTimeValues().seconds));
+                    $("#gameClockSecs").html(gameClock.getTimeValues().secondTenths);
                 }else{
-                    $("#gameClockMins").html(gameClock.getTimeValues().minutes);
-                    $("#gameClockSecs").html(gameClock.getTimeValues().seconds);
+                    $("#gameClockMins").html(padDigits(gameClock.getTimeValues().minutes));
+                    $("#gameClockSecs").html(padDigits(gameClock.getTimeValues().seconds));
                 }
             });
 
-            startShotClock(shotSecs)
+            startShotClock(shotTenthsSecs)
         }
 
-        function startShotClock(secs) {
-            shotClock.start({countdown: true, startValues: {seconds: secs}});
-            $("#shotClockSecs").html(shotClock.getTimeValues().seconds);
-            shotClock.addEventListener('secondsUpdated', function (e) {
-                console.log("SHOT CLOCK",shotClock.getTimeValues());
-                $("#shotClockSecs").html(shotClock.getTimeValues().seconds);
+        function startShotClock(shotTenthsSecs) {
+            shotClock.start({precision: 'secondTenths', countdown: true, startValues: {secondTenths: shotTenthsSecs}});
+            $("#shotClockSecs").html(padDigits(shotClock.getTimeValues().seconds));
+            shotClock.addEventListener('secondTenthsUpdated', function (e) {
+                $("#shotClockSecs").html(padDigits(shotClock.getTimeValues().seconds));
             });
-        }
-
-        function stopClocks() {
-            gameClock.stop();
-            shotClock.stop();
-        }
-
-        function pauseClocks() {
-            gameClock.pause();
-            shotClock.pause();
         }
 
         function connect() {
@@ -123,35 +105,37 @@
             switch (message.command) {
                 case "START_CLOCK":
                     //synchronize clocks from master clock
-                    //TODO add tenths secs
-                    startClocks((+message.gameClock.mins * 60) + parseInt(message.gameClock.secs, 10), +message.shotClock.secs);
+                    startClocks((+message.gameClock.mins * 600) + (+message.gameClock.secs * 10)
+                        + parseInt(message.gameClock.tenths, 10),
+                        (+message.shotClock.secs * 10) + parseInt(message.shotClock.tenths, 10));
                     break;
                 case "STOP_CLOCK":
                     //restart clocks with updated times and then pause.
-                    startClocks((+message.gameClock.mins * 60) + parseInt(message.gameClock.secs, 10), +message.shotClock.secs);
+                    startClocks((+message.gameClock.mins * 600) + (+message.gameClock.secs * 10)
+                        + parseInt(message.gameClock.tenths, 10),
+                        (+message.shotClock.secs * 10) + parseInt(message.shotClock.tenths, 10));
                     pauseClocks();
                     break;
-                case "SHOTCLOCK_EXPIRED":
+                case "SHOT_CLOCK_END":
+                    shotClock.stop();
+                    gameClock.pause();
+                    $("#shotClockSecs").html(padDigits(0));
                     shotClockSound.play();
                     break;
                 case "QUARTER_END":
+                    stopClocks();
+                    $("#shotClockSecs").html(padDigits(0));
+                    $("#gameClockSecs").html(padDigits(0));
+                    $("#gameClockTenths").html(padDigits(0));
                     quarterSirenSound.play();
+                    break;
+                case "HIDE_SHOT_CLOCK":
+                    $(".panel-shotclock").css("visibility", "hidden");
                     break;
                 case "NOTIFY_UMPIRE":
                     umpireSound.play();
                     break;
             }
-            /*document.getElementById('gameClockMins').innerHTML = message.gameClockMins;
-            document.getElementById('gameClockSecs').innerHTML = message.gameClockSecs;
-            document.getElementById('gameClockTenthSecs').innerHTML = message.gameClockTenthSecs;
-            document.getElementById('shotClockSecs').innerHTML = message.shotClockSecs;
-            document.getElementById('shotClockTenthSecs').innerHTML = message.shotClockTenthSecs;
-            document.getElementById('direction').innerHTML = message.direction;*/
-            /*if (message.wideNBThisOver == 0) {
-                $('#wideNBThisOver').hide();
-            } else {
-                $('#wideNBThisOver').show();
-            }*/
 
             $("[id^=timeoutT]").fadeTo(0, 0.25);
             updateTimeouts("timeoutT1P", message.team1.teamTimeouts);
@@ -162,6 +146,7 @@
 
         function initDisplay() {
             $("[id^=timeoutT]").fadeTo(0, 0.25);
+            $(".panel-shotclock").css("visibility", "visible");
         }
 
         function updateDirection(direction) {
