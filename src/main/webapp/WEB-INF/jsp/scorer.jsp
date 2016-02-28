@@ -299,7 +299,7 @@
                                                 <input id="team1-filename" type="text" class="form-control" readonly />
                                             </div>
                                             <div class="col-sm-8">
-                                                <img id="team1-logo" src="/scorer/image?team=team1" />
+                                                <img id="team1-logo" src="<c:url value='/scorer/image?team=team1'/>" />
                                             </div>
                                         </div>
                                     </div>
@@ -337,7 +337,7 @@
                                                 <input id="team2-filename" type="text" class="form-control" readonly />
                                             </div>
                                             <div class="col-sm-8">
-                                                <img id="team2-logo" src="/scorer/image?team=team2" />
+                                                <img id="team2-logo" src="<c:url value='/scorer/image?team=team2'/>" />
                                             </div>
                                         </div>
                                     </div>
