@@ -99,9 +99,6 @@
             document.getElementById('period').innerHTML = message.period;
             updateDirection(message.direction);
 
-            $('div.team1').attr('style','background: '+message.team1.colour);
-            $('div.team2').attr('style','background: '+message.team2.colour);
-
             switch (message.command) {
                 case "START_CLOCK":
                     //synchronize clocks from master clock
@@ -135,7 +132,23 @@
                 case "NOTIFY_UMPIRE":
                     umpireSound.play();
                     break;
+                case "SAVE_TEAM_SETUP":
+                    $('div.team1').attr('style','background: '+message.team1.colour);
+                    $('div.team2').attr('style','background: '+message.team2.colour);
+                    $("#team1-logo").attr("src", "/scorer/image?team=team1&"+new Date().getTime());
+                    $("#team2-logo").attr("src", "/scorer/image?team=team2&"+new Date().getTime());
             }
+            /*document.getElementById('gameClockMins').innerHTML = message.gameClockMins;
+            document.getElementById('gameClockSecs').innerHTML = message.gameClockSecs;
+            document.getElementById('gameClockTenthSecs').innerHTML = message.gameClockTenthSecs;
+            document.getElementById('shotClockSecs').innerHTML = message.shotClockSecs;
+            document.getElementById('shotClockTenthSecs').innerHTML = message.shotClockTenthSecs;
+            document.getElementById('direction').innerHTML = message.direction;*/
+            /*if (message.wideNBThisOver == 0) {
+                $('#wideNBThisOver').hide();
+            } else {
+                $('#wideNBThisOver').show();
+            }*/
 
             $("[id^=timeoutT]").fadeTo(0, 0.25);
             updateTimeouts("timeoutT1P", message.team1.teamTimeouts);
@@ -180,6 +193,7 @@
 
                 <div class="row">
                     <div class="col-sm-4">
+                        <img id="team1-logo" src="<c:url value='/scorer/image?team=team1'/>" />
                         <div class="teamPanel panel-primary scorePanel team1">
                             <p><span id="team1Name">${score.team1.name}</span></p>
                             <div class="panel-body">
@@ -242,7 +256,7 @@
 
                     </div>
                     <div class="col-sm-4">
-
+                        <img id="team2-logo" src="<c:url value='/scorer/image?team=team2'/>" />
                         <div class="teamPanel panel-primary scorePanel team2">
                             <p><span id="team2Name">${score.team2.name}</span></p>
                             <div class="panel-body">
