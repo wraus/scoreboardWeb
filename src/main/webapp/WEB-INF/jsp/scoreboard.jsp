@@ -228,6 +228,7 @@
                             <div class="panel-body game-clock">
                                 <div class="digits-alt">
                                     <span id="gameClockMins">${score.gameClock.mins}</span>:<span id="gameClockSecs">${score.gameClock.secs}</span>
+                                    <!--<span id="gameClockMins">05</span>:<span id="gameClockSecs">35</span>-->
                                 </div>
                             </div>
                         </div>
