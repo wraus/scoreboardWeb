@@ -135,8 +135,9 @@
                 case "SAVE_TEAM_SETUP":
                     $('div.team1').attr('style','background: '+message.team1.colour);
                     $('div.team2').attr('style','background: '+message.team2.colour);
-                    $("#team1-logo").attr("src", "/scorer/image?team=team1&"+new Date().getTime());
-                    $("#team2-logo").attr("src", "/scorer/image?team=team2&"+new Date().getTime());
+                    $("#main-logo").attr("src", "${pageContext.request.contextPath}/scorer/image?key=main-logo&"+new Date().getTime());
+                    $("#team1-logo").attr("src", "${pageContext.request.contextPath}/scorer/image?key=team1-logo&"+new Date().getTime());
+                    $("#team2-logo").attr("src", "${pageContext.request.contextPath}/scorer/image?key=team2-logo&"+new Date().getTime());
             }
             /*document.getElementById('gameClockMins').innerHTML = message.gameClockMins;
             document.getElementById('gameClockSecs').innerHTML = message.gameClockSecs;
@@ -189,11 +190,11 @@
         <div id="contentwrap">
             <div id="content">
 
-                <div><a href="<c:url value='/login' />"><img src="<c:url value='/images/banner.jpg' />" class="banner"/></a></div>
+                <div><a href="<c:url value='/login' />"><img id="main-logo" src="<c:url value='/scorer/image?key=main-logo&default=/images/banner.png' />" class="banner"/></a></div>
 
                 <div class="row">
                     <div class="col-sm-4">
-                        <img id="team1-logo" src="<c:url value='/scorer/image?team=team1'/>" />
+                        <img id="team1-logo" src="<c:url value='/scorer/image?key=team1-logo'/>" />
                         <div class="teamPanel panel-primary scorePanel team1">
                             <p><span id="team1Name">${score.team1.name}</span></p>
                             <div class="panel-body">
@@ -256,7 +257,7 @@
 
                     </div>
                     <div class="col-sm-4">
-                        <img id="team2-logo" src="<c:url value='/scorer/image?team=team2'/>" />
+                        <img id="team2-logo" src="<c:url value='/scorer/image?key=team2-logo'/>" />
                         <div class="teamPanel panel-primary scorePanel team2">
                             <p><span id="team2Name">${score.team2.name}</span></p>
                             <div class="panel-body">
