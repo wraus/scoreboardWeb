@@ -106,20 +106,16 @@
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <div class="row">
-                            <div class="col-sm-3 align-left" >
-                                <div class="col-sm-2" >
+                    <div class="row">
+                        <div class="col-sm-8">
+                            <div class="form-group">
+                                <div class="col-sm-3 align-left" >
                                     <button type="button" id="btn-umpire" class="btn btn-primary btn-lg">Umpire</button>
                                 </div>
+                                <div class="col-sm-7 align-cntr" >
+                                    <input type="checkbox" id="start" checked data-toggle="toggle" data-size="large" data-onstyle="success" data-offstyle="danger" data-on="<i class='fa fa-play'></i> START" data-off="<i class='fa fa-pause'></i> STOP">
+                                </div>
                             </div>
-                            <div class="col-sm-7 align-cntr" >
-                                <!-- http://www.bootstraptoggle.com/ -->
-                                <!--<button type="submit" id="btn-start-stop" class="btn btn-success btn-lg btn-long">START</button>-->
-                                <input type="checkbox" id="start" checked data-toggle="toggle" data-size="large" data-onstyle="success" data-offstyle="danger" data-on="<i class='fa fa-play'></i> START" data-off="<i class='fa fa-pause'></i> STOP">
-                                <!--<input type="checkbox" checked data-toggle="toggle" data-on="<i class=''></i> START" data-off="<i class=''></i> STOP">-->
-                            </div>
-                            <div class="col-sm-3 align-right" />
                         </div>
                     </div>
                 </div>
