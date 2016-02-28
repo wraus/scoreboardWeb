@@ -402,12 +402,12 @@
         gameClock.start({precision: 'secondTenths', countdown: true, startValues: {seconds: 480}});
             $("#gameClockMins").val(padDigits(gameClock.getTimeValues().minutes));
             $("#gameClockSecs").val(padDigits(gameClock.getTimeValues().seconds));
-            $("#gameClockTenths").val(padDigits(gameClock.getTimeValues().secondTenths));
+            $("#gameClockTenths").val(gameClock.getTimeValues().secondTenths);
         gameClock.addEventListener('secondTenthsUpdated', function (e) {
             //console.log("GAME CLOCK",gameClock.getTimeValues().toString());
             $("#gameClockMins").val(padDigits(gameClock.getTimeValues().minutes));
             $("#gameClockSecs").val(padDigits(gameClock.getTimeValues().seconds));
-            $("#gameClockTenths").val(padDigits(gameClock.getTimeValues().secondTenths));
+            $("#gameClockTenths").val(gameClock.getTimeValues().secondTenths);
             if(gameClock.getTimeValues().minutes === 0 && gameClock.getTimeValues().seconds < 40){
                 shotClock.stop();
                 startShotClock(40);
@@ -423,11 +423,11 @@
     function startShotClock(secs) {
         shotClock.start({precision: 'secondTenths', countdown: true, startValues: {seconds: secs}});
         $("#shotClockSecs").val(padDigits(shotClock.getTimeValues().seconds));
-        $("#shotClockTenths").val(padDigits(shotClock.getTimeValues().secondTenths));
+        $("#shotClockTenths").val(shotClock.getTimeValues().secondTenths);
         shotClock.addEventListener('secondTenthsUpdated', function (e) {
             //console.log("SHOT CLOCK",shotClock.getTimeValues());
             $("#shotClockSecs").val(padDigits(shotClock.getTimeValues().seconds));
-            $("#shotClockTenths").val(padDigits(shotClock.getTimeValues().secondTenths));
+            $("#shotClockTenths").val(shotClock.getTimeValues().secondTenths);
         });
     }
 

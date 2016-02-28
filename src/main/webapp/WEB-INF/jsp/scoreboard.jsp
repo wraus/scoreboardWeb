@@ -53,7 +53,7 @@
                 //console.log("GAME CLOCK",gameClock.getTimeValues());
                 if(gameClock.getTimeValues().minutes === 0){
                     $("#gameClockMins").html(padDigits(gameClock.getTimeValues().seconds));
-                    $("#gameClockSecs").html(padDigits(gameClock.getTimeValues().secondTenths));
+                    $("#gameClockSecs").html(gameClock.getTimeValues().secondTenths);
                 }else{
                     $("#gameClockMins").html(padDigits(gameClock.getTimeValues().minutes));
                     $("#gameClockSecs").html(padDigits(gameClock.getTimeValues().seconds));
