@@ -61,7 +61,7 @@
                                 <div class="col-sm-2" >
                                     <input type=text class="form-control input-lg" id="gameClockTenths">
                                 </div>
-                                <div class="col-sm-4" >
+                                <div class="col-sm-3" >
                                     <button type="button" id="bth-reset-qtr" class="btn btn-primary btn-lg">Reset Quarter</button>
                                 </div>
                             </div>
@@ -259,118 +259,135 @@
 
             </form>
         </div>
+
+
+        <!-- ************************************************************************************************** -->
+        <!-- SECOND TAB MENU PANEL -->
+        <!-- ************************************************************************************************** -->
+
         <div id="menu1" class="tab-pane fade">
-            <div class="panel panel-default">
-                <!--<div class="panel-heading">Team Configuration</div>-->
-                <div class="panel-body">
+            <form class="form-horizontal" id="score-manager">
 
-                    <form class="form-horizontal" id="score-manager">
-                        <div class="row">
-                            <div class="panel panel-success">
-                                <div class="panel-heading">Logo</div>
-                                <div class="panel-body">
-                                    <div class="col-sm-2">
-                                        <span class="btn btn-primary btn-file">
-                                            Browse<input type="file" id="main-logo-select" name="mainLogo" />
-                                        </span>
-                                        <button type="button" id="btn-main-logo-upload" class="btn btn-primary">Upload</button>
-                                        <input id="main-filename" type="text" class="form-control" readonly />
-                                    </div>
-                                    <div class="col-sm-8">
-                                        <img id="main-logo" src="<c:url value='/scorer/image?key=main-logo&default=/images/banner.png'/>" />
-                                    </div>
-                                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                    <div class="panel panel-success">
+                        <div class="panel-heading">Logo</div>
+                        <div class="panel-body">
+                            <div class="col-sm-3">
+                                <input id="main-filename" type="text" class="form-control" readonly />
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <div class="panel panel-success">
-                                    <div class="panel-heading">Team 1</div>
-                                    <div class="panel-body">
-                                        <div class="form-group form-group-lg">
-                                            <label class="col-sm-3 control-label">Name</label>
-                                            <div class="col-sm-8">
-                                                <input type=text class="form-control" id="team1Name">
-                                            </div>
-                                        </div>
-                                        <div class="form-group form-group-lg">
-                                            <label class="col-sm-3 control-label">Colour</label>
-                                            <div class="col-sm-8">
-                                                <div class="radio colour-picker">
-                                                    <ul>
-                                                        <c:forTokens items="${teamColours}" delims="," var="colour">
-                                                            <li><input type="radio" name="team1Colour" value="${colour}"><div style="background:${colour};"></div></li>
-                                                        </c:forTokens>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="form-group form-group-lg">
-                                            <label class="col-sm-3 control-label">Icon</label>
-                                            <div class="col-sm-8">
-                                                <span class="btn btn-primary btn-file">
-                                                    Browse<input type="file" id="team1-logo-select" name="team1Logo" />
-                                                </span>
-                                                <button type="button" id="btn-team1-logo-upload" class="btn btn-primary">Upload</button>
-                                                <input id="team1-filename" type="text" class="form-control" readonly />
-                                            </div>
-                                            <div class="col-sm-8">
-                                                <img id="team1-logo" src="<c:url value='/scorer/image?key=team1-logo'/>" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                            <div class="col-sm-3">
+                                <span class="btn btn-primary btn-file">
+                                    Browse<input type="file" id="main-logo-select" name="mainLogo" />
+                                </span>
+                                <button type="button" id="btn-main-logo-upload" class="btn btn-primary">Upload</button>
                             </div>
                             <div class="col-sm-6">
-                                <div class="panel panel-success">
-                                    <div class="panel-heading">Team 2</div>
-                                    <div class="panel-body">
-                                        <div class="form-group form-group-lg">
-                                            <label class="col-sm-3 control-label">Name</label>
-                                            <div class="col-sm-8">
-                                                <input type="text" class="form-control" id="team2Name">
-                                            </div>
-                                        </div>
-                                        <div class="form-group form-group-lg">
-                                            <label class="col-sm-3 control-label">Colour</label>
-                                            <div class="col-sm-8">
-                                                <div class="radio colour-picker">
-                                                    <ul>
-                                                        <c:forTokens items="${teamColours}" delims="," var="colour">
-                                                            <li><input type="radio" name="team2Colour" value="${colour}"><div style="background:${colour};"></div></li>
-                                                        </c:forTokens>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="form-group form-group-lg">
-                                            <label class="col-sm-3 control-label">Icon</label>
-                                            <div class="col-sm-8">
-                                                <span class="btn btn-primary btn-file">
-                                                    Browse<input type="file" id="team2-logo-select" name="team2Logo" />
-                                                </span>
-                                                <button type="button" id="btn-team2-logo-upload" class="btn btn-primary">Upload</button>
-                                                <input id="team2-filename" type="text" class="form-control" readonly />
-                                            </div>
-                                            <div class="col-sm-8">
-                                                <img id="team2-logo" src="<c:url value='/scorer/image?key=team2-logo'/>" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                <img id="main-logo" src="<c:url value='/scorer/image?key=main-logo&default=/images/banner.png'/>" />
                             </div>
                         </div>
-
-                        <div class="form-group">
-                            <div class="col-sm-offset-5 col-sm-10">
-                                <button type="button" id="bth-save" class="btn btn-primary btn-lg">Save</button>
-                            </div>
-                        </div>
-                    </form>
-
+                    </div>
+                    </div>
                 </div>
-            </div>
-        </div>
+
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="panel panel-success">
+                            <div class="panel-heading"><strong>Team 1</strong></div>
+                            <div class="panel-body">
+                                <div class="form-group form-group-lg">
+                                    <label class="col-sm-2 control-label">Name</label>
+                                    <div class="col-sm-9">
+                                        <input type=text class="form-control" id="team1Name">
+                                    </div>
+                                </div>
+                                <div class="form-group form-group-lg">
+                                    <label class="col-sm-2 control-label">Colour</label>
+                                    <div class="col-sm-9">
+                                        <div class="radio colour-picker">
+                                            <ul>
+                                                <c:forTokens items="${teamColours}" delims="," var="colour">
+                                                    <li><input type="radio" name="team1Colour" value="${colour}"><div style="background:${colour};"></div></li>
+                                                </c:forTokens>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group form-group-lg">
+                                    <label class="col-sm-2 control-label">Icon</label>
+                                    <div class="col-sm-6">
+                                        <input id="team1-filename" type="text" class="form-control" readonly />
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <span class="btn btn-primary btn-file">
+                                            Browse<input type="file" id="team1-logo-select" name="team1Logo" />
+                                        </span>
+                                        <button type="button" id="btn-team1-logo-upload" class="btn btn-primary">Upload</button>
+                                    </div>
+                                </div>
+                                <div class="form-group form-group-lg">
+                                    <div class="col-sm-2"></div>
+                                    <div class="col-sm-9">
+                                        <img id="team1-logo" src="<c:url value='/scorer/image?key=team1-logo'/>" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="panel panel-success">
+                            <div class="panel-heading"><STRONG>Team 2</STRONG></div>
+                            <div class="panel-body">
+                                <div class="form-group form-group-lg">
+                                    <label class="col-sm-2 control-label">Name</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="team2Name">
+                                    </div>
+                                </div>
+                                <div class="form-group form-group-lg">
+                                    <label class="col-sm-2 control-label">Colour</label>
+                                    <div class="col-sm-9">
+                                        <div class="radio colour-picker">
+                                            <ul>
+                                                <c:forTokens items="${teamColours}" delims="," var="colour">
+                                                    <li><input type="radio" name="team2Colour" value="${colour}"><div style="background:${colour};"></div></li>
+                                                </c:forTokens>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group form-group-lg">
+                                    <label class="col-sm-2 control-label">Icon</label>
+                                    <div class="col-sm-5">
+                                        <input id="team2-filename" type="text" class="form-control" readonly />
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <span class="btn btn-primary btn-file">
+                                            Browse<input type="file" id="team2-logo-select" name="team2Logo" />
+                                        </span>
+                                        <button type="button" id="btn-team2-logo-upload" class="btn btn-primary">Upload</button>
+                                    </div>
+                                </div>
+                                <div class="form-group form-group-lg">
+                                    <div class="col-sm-2"></div>
+                                    <div class="col-sm-9">
+                                        <img id="team2-logo" src="<c:url value='/scorer/image?key=team2-logo'/>" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-offset-5 col-sm-10">
+                        <button type="button" id="bth-save" class="btn btn-primary btn-lg">Update Scoreboard</button>
+                    </div>
+                </div>
+
+
+            </form>
+        </div><!-- end TAB PANE -->
     </div>
 
 </div>

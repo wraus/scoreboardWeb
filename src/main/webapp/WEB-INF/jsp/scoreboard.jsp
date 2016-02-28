@@ -204,27 +204,24 @@
 
                         <div class="teamPanel scorePanel timeout">
                             Timeouts
-                            <!--<div class="panel-body">-->
-                                <div class="row">
-                                    <div class="col-sm-7">
-                                        <img id="timeoutT1P1" src="images/t.jpg" width="30px" height="30px"/>
-                                        <img id="timeoutT1P2" src="images/t.jpg" width="30px" height="30px"/>
-                                        <img id="timeoutT1P3" src="images/t.jpg" width="30px" height="30px"/>
-                                        <img id="timeoutT1P4" src="images/t.jpg" width="30px" height="30px"/>
-                                    </div>
-                                    <div class="col-sm-5">
-                                        <img id="timeoutT1C1" src="images/t-coach.jpg" width="30px" height="30px"/>
-                                        <img id="timeoutT1C2" src="images/t-coach.jpg" width="30px" height="30px"/>
-                                    </div>
+                            <div class="row">
+                                <div class="col-sm-7">
+                                    <img id="timeoutT1P1" src="images/t.jpg" width="30px" height="30px"/>
+                                    <img id="timeoutT1P2" src="images/t.jpg" width="30px" height="30px"/>
+                                    <img id="timeoutT1P3" src="images/t.jpg" width="30px" height="30px"/>
+                                    <img id="timeoutT1P4" src="images/t.jpg" width="30px" height="30px"/>
                                 </div>
-                            <!--</div>-->
+                                <div class="col-sm-5">
+                                    <img id="timeoutT1C1" src="images/t-coach.jpg" width="30px" height="30px"/>
+                                    <img id="timeoutT1C2" src="images/t-coach.jpg" width="30px" height="30px"/>
+                                </div>
+                            </div>
                         </div>
 
                     </div>
                     <div class="col-sm-4">
                         <br/><br/>
                         <div class="panel">
-                            <!--<div class="panel-heading">Game</div>-->
                             <div class="panel-body game-clock">
                                 <div class="digits-alt">
                                     <span id="gameClockMins">${score.gameClock.mins}</span>:<span id="gameClockSecs">${score.gameClock.secs}</span>
@@ -233,7 +230,6 @@
                         </div>
 
                         <div class="panel panel-shotclock">
-                            <!--<div class="panel-heading">Shot clock</div>-->
                             <div class="panel-body shot-clock">
                                 <div class="digits-alt">
                                     <span id="shotClockSecs">${score.shotClock.secs}</span>
@@ -267,7 +263,6 @@
 
                         <div class="teamPanel panel-success scorePanel timeout">
                             Timeouts
-                            <!--<div class="panel-body">-->
                             <div class="row">
                                 <div class="col-sm-7">
                                     <img id="timeoutT2P1" src="images/t.jpg" width="30px" height="30px"/>
@@ -280,7 +275,6 @@
                                     <img id="timeoutT2C2" src="images/t-coach.jpg" width="30px" height="30px"/>
                                 </div>
                             </div>
-                            <!--</div>-->
                         </div>
                     </div>
                 </div>

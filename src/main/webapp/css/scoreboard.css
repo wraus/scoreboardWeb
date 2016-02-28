@@ -58,8 +58,19 @@ div.team {
 
 div.digits-alt {
     font-family: '7segment';
-    font-size: 124px;
     color: yellow;
+}
+@media (min-width: 692px) {
+  div.digits-alt { font-size: 48px; }
+}
+@media (min-width: 922px) {
+  div.digits-alt { font-size: 78px; }
+}
+@media (min-width: 1182px) {
+  div.digits-alt { font-size: 96px; }
+}
+@media (min-width: 1450px) {
+  div.digits-alt { font-size: 124px; }
 }
 
 img.banner {
@@ -126,6 +137,19 @@ div.panel .shot-clock div {
     font-size: 84px !important;
     color: #CA0 !important;
 }
+@media (min-width: 692px) {
+  div.panel .shot-clock div { font-size: 30px !important; }
+}
+@media (min-width: 922px) {
+  div.panel .shot-clock div { font-size: 44px !important; }
+}
+@media (min-width: 1182px) {
+  div.panel .shot-clock div { font-size: 64px !important; }
+}
+@media (min-width: 1450px) {
+  div.panel .shot-clock div { font-size: 84px !important; }
+}
+
 div.panel-shotclock {
     background: #080;
     color: #010 !important;
