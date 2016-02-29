@@ -604,7 +604,6 @@
     }
 
     jQuery(document).ready(function ($) {
-
         $("#team1Score").change(function (event) { stompIt("","TEAM1_SCORE"); });
         $("#team2Score").change(function (event) { stompIt("","TEAM2_SCORE"); });
         $("#team1Timeout").change(function (event) { stompIt("","TEAM1_TIMEOUT"); });
@@ -663,8 +662,10 @@
         $("#btn-applySettings").click(function (event) {
             // Prevent the form from submitting via the browser.
             event.preventDefault();
-            stompIt("SAVE_TEAM_SETUP","SAVE_TEAM_SETUP");
-            // TODO implement this completely   
+            //stompIt("SAVE_TEAM_SETUP","SAVE_TEAM_SETUP");
+
+            stompIt("HIDE_SHOT_CLOCK","HIDE_SHOT_CLOCK");
+            // TODO implement this completely
         });
 
         $("#main-logo-select").change(function (event) {
@@ -697,6 +698,7 @@
             uploadLogo("team2-logo");
         });
     });
+
 
     function uploadLogo(key) {
         var fileSelect = $("#" + key + "-select")[0];
