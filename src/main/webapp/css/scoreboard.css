@@ -120,18 +120,21 @@ div.message {
 div.panel {
     border:0px !important;
     background:#000;
+    margin-top:10px;
 }
 
 /* ---------- CLOCK PANEL ---------------- */
 div.panel .game-clock {
-    background:#030;
+    background:#002900;
     color:#0F0;
     text-align:center;
+    margin-bottom:35px !important;
 }
 div.panel .shot-clock {
     background:#010;
     color:#0F0;
     text-align:center;
+    margin-bottom:35px !important;
 }
 div.panel .shot-clock div {
     font-size: 84px !important;
@@ -156,7 +159,7 @@ div.panel-shotclock {
 }
 div.panel-extra, div.panel-extra div {
     /*background: #363;*/
-    background:#030;
+    background:#002900;
     color: #AFA !important;
     font-size: 24px;
 }
