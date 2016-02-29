@@ -54,55 +54,65 @@
                 <div class="panel-body">
 
                     <div class="row">
-                        <div class="col-sm-8">
+                        <div class="col-sm-11">
                             <div class="form-group form-group-lg" >
                                 <label class="col-sm-3 control-label" >Game clock:</label>
                                 <div class="col-sm-2" >
-                                    <input type=text class="form-control input-lg" id="gameClockMins">
+                                    <input type=text class="form-control input-number input-lg" name="gameClockMins[]" id="gameClockMins" min="0" max="24">
+                                    <button type="button" class="btn btn-danger btn-number btn-xs" disabled="disabled" data-type="minus" data-field="gameClockMins[]">
+                                        <span class="glyphicon glyphicon-minus"></span>
+                                    </button>
+                                    <button type="button" class="btn btn-success btn-number btn-xs" data-type="plus" data-field="gameClockMins[]">
+                                        <span class="glyphicon glyphicon-plus"></span>
+                                    </button>
                                 </div>
                                 <div class="col-sm-2" >
-                                    <input type=text class="form-control input-lg" id="gameClockSecs">
+                                    <input type=text class="form-control input-number input-lg" id="gameClockSecs" name="gameClockSecs[]" min="0" max="59">
+                                    <button type="button" class="btn btn-danger btn-number btn-xs" disabled="disabled" data-type="minus" data-field="gameClockSecs[]">
+                                        <span class="glyphicon glyphicon-minus"></span>
+                                    </button>
+                                    <button type="button" class="btn btn-success btn-number btn-xs" data-type="plus" data-field="gameClockSecs[]">
+                                        <span class="glyphicon glyphicon-plus"></span>
+                                    </button>
                                 </div>
                                 <div class="col-sm-2" >
-                                    <input type=text class="form-control input-lg" id="gameClockTenths">
+                                    <input type=text class="form-control input-number input-lg" id="gameClockTenths" name="gameClockTenths[]" min="0" max="59">
+                                    <button type="button" class="btn btn-danger btn-number btn-xs" disabled="disabled" data-type="minus" data-field="gameClockTenths[]">
+                                        <span class="glyphicon glyphicon-minus"></span>
+                                    </button>
+                                    <button type="button" class="btn btn-success btn-number btn-xs" data-type="plus" data-field="gameClockTenths[]">
+                                        <span class="glyphicon glyphicon-plus"></span>
+                                    </button>
                                 </div>
                                 <div class="col-sm-3" >
                                     <button type="button" id="bth-reset-qtr" class="btn btn-primary btn-lg">Reset Quarter</button>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-4">
-                            <div class="form-group">
-                                <label class="col-sm-4 control-label">Period:</label>
-                                <div class="col-sm-7">
-                                    <div class="input-group">
-                                        <span class="input-group-btn">
-                                            <button type="button" class="btn btn-danger btn-number" disabled="disabled" data-type="minus" data-field="period[]">
-                                            <span class="glyphicon glyphicon-minus"></span>
-                                            </button>
-                                        </span>
-                                        <input type=text class="form-control input-number" name="period[]" id="period" value="1" min="1" max="4">
-                                        <span class="input-group-btn">
-                                            <button type="button" class="btn btn-success btn-number" data-type="plus" data-field="period[]">
-                                            <span class="glyphicon glyphicon-plus"></span>
-                                            </button>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                     <div class="row">
-                        <div class="col-sm-8">
+                        <div class="col-sm-11">
                             <div class="form-group form-group-lg" >
-                                <label class="col-sm-3 control-label">Shot clock:</label>
-                                <div class="col-sm-2" >
-                                    <input type=text class="form-control input-lg" id="shotClockSecs">
+                                <label class="col-sm-3 control-label"  >Shot clock:</label>
+                                <div class="col-sm-2"  >
+                                    <input type=text class="form-control input-number input-lg" id="shotClockSecs" name="shotClockSecs[]" min="0" max="59">
+                                    <button type="button" class="btn btn-danger btn-number btn-xs" disabled="disabled" data-type="minus" data-field="shotClockSecs[]">
+                                        <span class="glyphicon glyphicon-minus"></span>
+                                    </button>
+                                    <button type="button" class="btn btn-success btn-number btn-xs" data-type="plus" data-field="shotClockSecs[]">
+                                        <span class="glyphicon glyphicon-plus"></span>
+                                    </button>
                                 </div>
-                                <div class="col-sm-2" >
-                                    <input type=text class="form-control input-lg" id="shotClockTenths">
+                                <div class="col-sm-2"  >
+                                    <input type=text class="form-control input-number input-lg" id="shotClockTenths" name="shotClockTenths[]" min="0" max="59">
+                                    <button type="button" class="btn btn-danger btn-number btn-xs" disabled="disabled" data-type="minus" data-field="shotClockTenths[]">
+                                        <span class="glyphicon glyphicon-minus"></span>
+                                    </button>
+                                    <button type="button" class="btn btn-success btn-number btn-xs" data-type="plus" data-field="shotClockTenths[]">
+                                        <span class="glyphicon glyphicon-plus"></span>
+                                    </button>
                                 </div>
-                                <div class="col-sm-2" >
+                                <div class="col-sm-2"  >
                                     <button type="button" id="bth-reset-40" class="btn btn-primary btn-lg">Reset 40</button>
                                 </div>
                                 <div class="col-sm-2" >
@@ -110,22 +120,26 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-4">
-                                <label class="col-sm-5 control-label">Possession:</label>
-                                <div class="col-sm-5">
-                                    <input type="checkbox" id="possession" checked data-toggle="toggle" data-onstyle="info" data-offstyle="warning" data-on="<i class='fa fa-play'></i> ---&gt" data-off="<i class='fa fa-pause'></i> &lt---">
-                                </div>
-                        </div>
+                        <!--<div class="col-sm-4">-->
+                                <!--<label class="col-sm-5 control-label">Possession:</label>-->
+                                <!--<div class="col-sm-5">-->
+                                    <!--<input type="checkbox" id="possession" checked data-toggle="toggle" data-onstyle="info" data-offstyle="warning" data-on="<i class='fa fa-play'></i> ---&gt" data-off="<i class='fa fa-pause'></i> &lt---">-->
+                                <!--</div>-->
+                        <!--</div>-->
                     </div>
 
                     <div class="row">
-                        <div class="col-sm-8">
-                            <div class="form-group">
-                                <div class="col-sm-3 align-left" >
-                                    <button type="button" id="btn-umpire" class="btn btn-primary btn-lg">Umpire</button>
+                        <div class="col-sm-11">
+                            <div class="form-group form-group-lg" >
+                                <label class="col-sm-3 control-label">Possession:</label>
+                                <div class="col-sm-4">
+                                    <input type="checkbox" id="possession" checked data-toggle="toggle" data-onstyle="info" data-offstyle="warning" data-on="<i class='fa fa-play'></i> ---&gt" data-off="<i class='fa fa-pause'></i> &lt---">
                                 </div>
-                                <div class="col-sm-7 align-cntr" >
+                                <div class="col-sm-2" >
                                     <input type="checkbox" id="start" checked data-toggle="toggle" data-size="large" data-onstyle="success" data-offstyle="danger" data-on="<i class='fa fa-play'></i> START" data-off="<i class='fa fa-pause'></i> STOP">
+                                </div>
+                                <div class="col-sm-2">
+                                    <button type="button" id="btn-umpire" class="btn btn-warning btn-lg">Umpire</button>
                                 </div>
                             </div>
                         </div>
@@ -143,7 +157,7 @@
                 <div class="col-sm-6">
 
                     <div class="panel panel-success">
-                        <div class="panel-heading">Team 1</div>
+                        <div class="panel-heading">Team 1<strong><span id="team1NameLabel"></span></strong></div>
                         <div class="panel-body">
                             <div class="form-group form-group-lg">
                                 <label class="col-sm-4 control-label">Score</label>
@@ -204,7 +218,7 @@
                 </div>
                 <div class="col-sm-6">
                     <div class="panel panel-success">
-                        <div class="panel-heading">Team 2</div>
+                        <div class="panel-heading">Team 2<strong><span id="team2NameLabel"></span></strong></div>
                         <div class="panel-body">
                             <div class="form-group form-group-lg">
                                 <label class="col-sm-4 control-label">Score</label>
@@ -398,6 +412,7 @@
 
             </form>
         </div><!-- end TAB PANE for "Team Setup"-->
+
         <div id="menu2" class="tab-pane fade">
             <form class="form-horizontal" id="configuration-manager">
 
@@ -407,6 +422,26 @@
                         <div class="panel panel-success">
                             <div class="panel-heading">Game setup</div>
                             <div class="panel-body">
+
+                                <div class="form-group form-group-lg">
+                                    <label class="col-sm-4 control-label">Period:</label>
+                                    <div class="col-sm-3">
+                                        <div class="input-group">
+                                            <span class="input-group-btn">
+                                                <button type="button" class="btn btn-danger btn-number btn-lg" disabled="disabled" data-type="minus" data-field="period[]">
+                                                    <span class="glyphicon glyphicon-minus"></span>
+                                                </button>
+                                            </span>
+                                            <input type=text class="form-control input-number" name="period[]" id="period" value="1" min="1" max="4">
+                                            <span class="input-group-btn">
+                                                <button type="button" class="btn btn-success btn-number btn-lg" data-type="plus" data-field="period[]">
+                                                    <span class="glyphicon glyphicon-plus"></span>
+                                                </button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <div class="form-group form-group-lg">
                                     <label class="col-sm-4 control-label">Seconds in a quarter</label>
                                     <div class="col-sm-2">
@@ -442,6 +477,13 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="form-group">
+                    <div class="col-sm-offset-4 col-sm-10">
+                        <button type="button" id="btn-applySettings" class="btn btn-primary btn-lg">Apply Settings</button>
+                    </div>
+                </div>
+
 
             </form>
         </div>
@@ -651,7 +693,16 @@
         $("#bth-save").click(function (event) {
             // Prevent the form from submitting via the browser.
             event.preventDefault();
+            $("#team1NameLabel").text(" - " + $("#team1Name").val());
+            $("#team2NameLabel").text(" - " + $("#team2Name").val());
             stompIt("SAVE_TEAM_SETUP","SAVE_TEAM_SETUP");
+        });
+
+        $("#btn-applySettings").click(function (event) {
+            // Prevent the form from submitting via the browser.
+            event.preventDefault();
+            stompIt("SAVE_TEAM_SETUP","SAVE_TEAM_SETUP");
+            // TODO implement this completely   
         });
 
         $("#main-logo-select").change(function (event) {
