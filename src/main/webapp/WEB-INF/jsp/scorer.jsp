@@ -58,8 +58,8 @@
                             <div class="form-group form-group-lg" >
                                 <label class="col-sm-3 control-label" >Game clock:</label>
                                 <div class="col-sm-2" >
-                                    <input type=text class="form-control input-number input-lg" name="gameClockMins[]" id="gameClockMins" min="0" max="24">
-                                    <button type="button" class="btn btn-danger btn-number btn-xs" disabled="disabled" data-type="minus" data-field="gameClockMins[]">
+                                    <input type=text class="form-control input-number input-lg" name="gameClockMins[]" id="gameClockMins" min="0" max="59">
+                                    <button type="button" class="btn btn-danger btn-number btn-xs" data-type="minus" data-field="gameClockMins[]">
                                         <span class="glyphicon glyphicon-minus"></span>
                                     </button>
                                     <button type="button" class="btn btn-success btn-number btn-xs" data-type="plus" data-field="gameClockMins[]">
@@ -68,7 +68,7 @@
                                 </div>
                                 <div class="col-sm-2" >
                                     <input type=text class="form-control input-number input-lg" id="gameClockSecs" name="gameClockSecs[]" min="0" max="59">
-                                    <button type="button" class="btn btn-danger btn-number btn-xs" disabled="disabled" data-type="minus" data-field="gameClockSecs[]">
+                                    <button type="button" class="btn btn-danger btn-number btn-xs" data-type="minus" data-field="gameClockSecs[]">
                                         <span class="glyphicon glyphicon-minus"></span>
                                     </button>
                                     <button type="button" class="btn btn-success btn-number btn-xs" data-type="plus" data-field="gameClockSecs[]">
@@ -76,8 +76,8 @@
                                     </button>
                                 </div>
                                 <div class="col-sm-2" >
-                                    <input type=text class="form-control input-number input-lg" id="gameClockTenths" name="gameClockTenths[]" min="0" max="59">
-                                    <button type="button" class="btn btn-danger btn-number btn-xs" disabled="disabled" data-type="minus" data-field="gameClockTenths[]">
+                                    <input type=text class="form-control input-number input-lg" id="gameClockTenths" name="gameClockTenths[]" min="0" max="9">
+                                    <button type="button" class="btn btn-danger btn-number btn-xs" data-type="minus" data-field="gameClockTenths[]">
                                         <span class="glyphicon glyphicon-minus"></span>
                                     </button>
                                     <button type="button" class="btn btn-success btn-number btn-xs" data-type="plus" data-field="gameClockTenths[]">
@@ -96,7 +96,7 @@
                                 <label class="col-sm-3 control-label"  >Shot clock:</label>
                                 <div class="col-sm-2"  >
                                     <input type=text class="form-control input-number input-lg" id="shotClockSecs" name="shotClockSecs[]" min="0" max="59">
-                                    <button type="button" class="btn btn-danger btn-number btn-xs" disabled="disabled" data-type="minus" data-field="shotClockSecs[]">
+                                    <button type="button" class="btn btn-danger btn-number btn-xs" data-type="minus" data-field="shotClockSecs[]">
                                         <span class="glyphicon glyphicon-minus"></span>
                                     </button>
                                     <button type="button" class="btn btn-success btn-number btn-xs" data-type="plus" data-field="shotClockSecs[]">
@@ -104,8 +104,8 @@
                                     </button>
                                 </div>
                                 <div class="col-sm-2"  >
-                                    <input type=text class="form-control input-number input-lg" id="shotClockTenths" name="shotClockTenths[]" min="0" max="59">
-                                    <button type="button" class="btn btn-danger btn-number btn-xs" disabled="disabled" data-type="minus" data-field="shotClockTenths[]">
+                                    <input type=text class="form-control input-number input-lg" id="shotClockTenths" name="shotClockTenths[]" min="0" max="9">
+                                    <button type="button" class="btn btn-danger btn-number btn-xs" data-type="minus" data-field="shotClockTenths[]">
                                         <span class="glyphicon glyphicon-minus"></span>
                                     </button>
                                     <button type="button" class="btn btn-success btn-number btn-xs" data-type="plus" data-field="shotClockTenths[]">
