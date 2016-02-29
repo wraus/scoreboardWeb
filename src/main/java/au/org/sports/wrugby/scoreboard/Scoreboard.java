@@ -4,18 +4,42 @@ import java.util.Date;
 
 public class Scoreboard {
 
+    private String command;
+    private String action;
+    private Date actionTime;
     private Team team1;
     private Team team2;
     private Clock gameClock;
     private Clock shotClock;
     private Integer period = 1;
     private String direction;
-    private String command;
-    private String action;
-    private Date actionTime;
 
     public Scoreboard() {
 
+    }
+
+    public String getCommand() {
+        return command;
+    }
+
+    public void setCommand(String command) {
+        this.command = command;
+    }
+
+    public String getAction() {
+        return action;
+    }
+
+    public void setAction(String action) {
+        this.action = action;
+    }
+
+    public Date getActionTime() {
+        return actionTime;
+    }
+
+    public void setActionTime(Date actionTime) {
+        this.actionTime = actionTime;
     }
 
     public Team getTeam1() {
@@ -64,29 +88,5 @@ public class Scoreboard {
 
     public void setDirection(String direction) {
         this.direction = direction;
-    }
-
-    public String getCommand() {
-        return command;
-    }
-
-    public void setCommand(String command) {
-        this.command = command;
-    }
-
-    public Date getActionTime() {
-        return actionTime;
-    }
-
-    public void setActionTime(Date actionTime) {
-        this.actionTime = actionTime;
-    }
-
-    public void setAction(String action) {
-        this.action = action;
-    }
-
-    public String getAction() {
-        return action;
     }
 }
