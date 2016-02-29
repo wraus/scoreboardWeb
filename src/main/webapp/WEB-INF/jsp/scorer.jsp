@@ -510,7 +510,7 @@
         shotClock.stop();
         $("#shotClockTenths").val(padDigits(0));
         stompIt("SHOT_CLOCK_END","SHOT_CLOCK_END");
-        startShotClock(40);
+        startShotClock(400);
         shotClock.pause();
         $('#start').off('change');
         $('#start').bootstrapToggle('on');
@@ -550,10 +550,11 @@
         console.log("Disconnected");
     }
 
-    function startGameClock() {
+    function startGameClock(gameTenthsSecs) {
 
         //start quarter clock, default is 8 mins if not already running
-        gameClock.start({precision: 'secondTenths', countdown: true, startValues: {seconds: 480}});
+        var gameClockStartTenths = gameTenthsSecs || 4800;
+        gameClock.start({precision: 'secondTenths', countdown: true, startValues: {secondTenths: gameClockStartTenths}});
             $("#gameClockMins").val(padDigits(gameClock.getTimeValues().minutes));
             $("#gameClockSecs").val(padDigits(gameClock.getTimeValues().seconds));
             $("#gameClockTenths").val(gameClock.getTimeValues().secondTenths);
@@ -564,18 +565,19 @@
             $("#gameClockTenths").val(gameClock.getTimeValues().secondTenths);
             if(gameClock.getTimeValues().minutes === 0 && gameClock.getTimeValues().seconds < 40){
                 shotClock.stop();
-                startShotClock(40);
+                startShotClock(400);
                 shotClock.pause();
                 stompIt("HIDE_SHOT_CLOCK","HIDE_SHOT_CLOCK");
             }
         });
 
         //starting quarter clock should always start shot clock, default 40 secs if not already running
-        startShotClock(40);
+        startShotClock(400);
     }
 
-    function startShotClock(secs) {
-        shotClock.start({precision: 'secondTenths', countdown: true, startValues: {seconds: secs}});
+    function startShotClock(shotClockTenths) {
+        var shotClockStartTenths = shotClockTenths || 400;
+        shotClock.start({precision: 'secondTenths', countdown: true, startValues: {secondTenths: shotClockStartTenths}});
         $("#shotClockSecs").val(padDigits(shotClock.getTimeValues().seconds));
         $("#shotClockTenths").val(shotClock.getTimeValues().secondTenths);
         shotClock.addEventListener('secondTenthsUpdated', function (e) {
@@ -587,7 +589,9 @@
 
     function handleStartStop() {
         if (!$("#start").is(':checked')) {
-            startGameClock();
+            //startGameClock();
+            gameClock.start();
+            shotClock.start();
             stompIt("START_CLOCK","START_CLOCK");
         }else{
             pauseGameClock();
@@ -605,13 +609,141 @@
 
     jQuery(document).ready(function ($) {
 
+        //change clock times
+        $("#gameClockMins").click(function (event) {
+            event.preventDefault();
+            gameClock.stop();
+            shotClock.pause();
+            stopGameWithoutEventFire();
+            stompIt("STOP_CLOCK","CHANGING_GAME_MINS");
+
+        });
+
+        $("#gameClockMins").on("change", function (event) {
+            event.preventDefault();
+            if(gameClock.isRunning()){
+                gameClock.stop();
+                shotClock.pause();
+                stopGameWithoutEventFire();
+                stompIt("STOP_CLOCK","CHANGING_GAME_MINS");
+            }else{
+                gameClock.stop();
+            }
+            var secTenths = ((+$("#gameClockMins").val() * 600) + (+$("#gameClockSecs").val() * 10)
+            + parseInt($("#gameClockTenths").val(), 10));
+            startGameClock(secTenths);
+            pauseClocks();
+            stompIt("STOP_CLOCK","GAME_MINS_CHANGED");
+        });
+
+
+        $("#gameClockSecs").click(function (event) {
+            event.preventDefault();
+            gameClock.stop();
+            shotClock.pause();
+            stopGameWithoutEventFire();
+            stompIt("STOP_CLOCK","CHANGING_GAME_SECS");
+        });
+
+        $("#gameClockSecs").change(function (event) {
+            event.preventDefault();
+            if(gameClock.isRunning()){
+                gameClock.stop();
+                shotClock.pause();
+                stopGameWithoutEventFire();
+                stompIt("STOP_CLOCK","CHANGING_GAME_SECS");
+            }else{
+                gameClock.stop();
+            }
+            var secTenths = ((+$("#gameClockMins").val() * 600) + (+$("#gameClockSecs").val() * 10)
+            + parseInt($("#gameClockTenths").val(), 10));
+            startGameClock(secTenths);
+            pauseClocks();
+            stompIt("STOP_CLOCK","GAME_SECS_CHANGED");
+        });
+
+        $("#gameClockTenths").click(function (event) {
+            event.preventDefault();
+            gameClock.stop();
+            shotClock.pause();
+            stopGameWithoutEventFire();
+            stompIt("STOP_CLOCK","CHANGING_GAME_TENTHS");
+
+        });
+
+        $("#gameClockTenths").change(function (event) {
+            event.preventDefault();
+            if(gameClock.isRunning()){
+                gameClock.stop();
+                shotClock.pause();
+                stopGameWithoutEventFire();
+                stompIt("STOP_CLOCK","CHANGING_GAME_TENTHS");
+            }else{
+                gameClock.stop();
+            }
+            var secTenths = ((+$("#gameClockMins").val() * 600) + (+$("#gameClockSecs").val() * 10)
+            + parseInt($("#gameClockTenths").val(), 10));
+            startGameClock(secTenths);
+            pauseClocks();
+            stompIt("STOP_CLOCK","GAME_TENTHS_CHANGED");
+        });
+
+        $("#shotClockSecs").click(function (event) {
+            event.preventDefault();
+            gameClock.pause();
+            shotClock.stop();
+            stopGameWithoutEventFire();
+            stompIt("STOP_CLOCK","CHANGING_SHOT_SECS");
+        });
+
+        $("#shotClockSecs").change(function (event) {
+            event.preventDefault();
+            if(gameClock.isRunning()){
+                gameClock.pause();
+                shotClock.stop();
+                stopGameWithoutEventFire();
+                stompIt("STOP_CLOCK","CHANGING_SHOT_SECS");
+            }else{
+                shotClock.stop();
+            }
+            var secTenths = ((+$("#shotClockSecs").val() * 10) + parseInt($("#shotClockTenths").val(), 10));
+            startShotClock(secTenths);
+            pauseClocks();
+            stompIt("STOP_CLOCK","SHOT_SECS_CHANGED");
+        });
+
+        $("#shotClockTenths").click(function (event) {
+            event.preventDefault();
+            gameClock.pause();
+            shotClock.stop();
+            stopGameWithoutEventFire();
+            stompIt("STOP_CLOCK","CHANGING_SHOT_TENTHS");
+
+        });
+
+        $("#shotClockTenths").change(function (event) {
+            event.preventDefault();
+            if(gameClock.isRunning()){
+                gameClock.pause();
+                shotClock.stop();
+                stopGameWithoutEventFire();
+                stompIt("STOP_CLOCK","CHANGING_SHOT_TENTHS");
+            }else{
+                shotClock.stop();
+            }
+            var secTenths = ((+$("#shotClockSecs").val() * 10) + parseInt($("#shotClockTenths").val(), 10));
+            startShotClock(secTenths);
+            pauseClocks();
+            stompIt("STOP_CLOCK","SHOT_TENTHS_CHANGED");
+        });
+
         //handle scores
         $("#team1Score").change(function (event) {
             event.preventDefault();
             $("#bth-reset-40").trigger("click");
             stompIt("SCORE","TEAM1_SCORE");
-
         });
+
         $("#team2Score").change(function (event) {
             event.preventDefault();
             $("#bth-reset-40").trigger("click");
@@ -668,7 +800,7 @@
             event.preventDefault();
             shotClock.stop();
             stopGameWithoutEventFire();
-            startShotClock(40);
+            startShotClock(400);
             pauseGameClock();
             stompIt("STOP_CLOCK","RESET_SHOT_40");
         });
@@ -678,7 +810,7 @@
             event.preventDefault();
             shotClock.stop();
             stopGameWithoutEventFire();
-            startShotClock(15);
+            startShotClock(150);
             pauseGameClock();
             stompIt("STOP_CLOCK","RESET_SHOT_15");
         });
