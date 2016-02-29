@@ -511,7 +511,7 @@
     function startGameClock() {
 
         //start quarter clock, default is 8 mins if not already running
-        gameClock.start({precision: 'secondTenths', countdown: true, startValues: {seconds: 70}});
+        gameClock.start({precision: 'secondTenths', countdown: true, startValues: {seconds: 480}});
             $("#gameClockMins").val(padDigits(gameClock.getTimeValues().minutes));
             $("#gameClockSecs").val(padDigits(gameClock.getTimeValues().seconds));
             $("#gameClockTenths").val(gameClock.getTimeValues().secondTenths);
