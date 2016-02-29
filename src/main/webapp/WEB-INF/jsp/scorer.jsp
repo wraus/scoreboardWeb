@@ -563,12 +563,50 @@
 
     jQuery(document).ready(function ($) {
 
-        $("#team1Score").change(function (event) { stompIt("","TEAM1_SCORE"); });
-        $("#team2Score").change(function (event) { stompIt("","TEAM2_SCORE"); });
-        $("#team1Timeout").change(function (event) { stompIt("","TEAM1_TIMEOUT"); });
-        $("#team2Timeout").change(function (event) { stompIt("","TEAM2_TIMEOUT"); });
-        $("#coach1Timeout").change(function (event) { stompIt("","COACH1_TIMEOUT"); });
-        $("#coach2Timeout").change(function (event) { stompIt("","COACH2_TIMEOUT"); });
+        //handle scores
+        $("#team1Score").change(function (event) {
+            event.preventDefault();
+            $("#bth-reset-40").trigger("click");
+            stompIt("SCORE","TEAM1_SCORE");
+
+        });
+        $("#team2Score").change(function (event) {
+            event.preventDefault();
+            $("#bth-reset-40").trigger("click");
+            stompIt("SCORE","TEAM2_SCORE");
+        });
+
+        //handle timeouts
+        $("#team1Timeout").change(function (event) {
+            event.preventDefault();
+            pauseClocks();
+            stopGameWithoutEventFire();
+            stompIt("TIMEOUT","TEAM1_TIMEOUT");
+        });
+
+        $("#team2Timeout").change(function (event) {
+            event.preventDefault();
+            pauseClocks();
+            stopGameWithoutEventFire();
+            stompIt("TIMEOUT","TEAM2_TIMEOUT");
+        });
+
+        $("#coach1Timeout").change(function (event) {
+            event.preventDefault();
+            pauseClocks();
+            stopGameWithoutEventFire();
+            stompIt("TIMEOUT","COACH1_TIMEOUT");
+        });
+
+        $("#coach2Timeout").change(function (event) {
+            event.preventDefault();
+            pauseClocks();
+            stopGameWithoutEventFire();
+            stompIt("TIMEOUT","COACH2_TIMEOUT");
+        });
+
+        $("#period").change(function (event) { stompIt("","PERIOD"); });
+
         $("#period").change(function (event) { stompIt("","PERIOD"); });
         $("#possession").change(function (event) { stompIt("","POSSESSION"); });
         $("#start").change(handleStartStop);

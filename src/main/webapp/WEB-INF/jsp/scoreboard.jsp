@@ -47,8 +47,13 @@
             stopClocks();
 
             gameClock.start({precision: 'secondTenths', countdown: true, startValues: {secondTenths: gameTenthsSecs}});
-            $("#gameClockMins").html(padDigits(gameClock.getTimeValues().minutes));
-            $("#gameClockSecs").html(padDigits(gameClock.getTimeValues().seconds));
+            if(gameClock.getTimeValues().minutes === 0){
+                $("#gameClockMins").html(padDigits(gameClock.getTimeValues().seconds));
+                $("#gameClockSecs").html(gameClock.getTimeValues().secondTenths);
+            }else{
+                $("#gameClockMins").html(padDigits(gameClock.getTimeValues().minutes));
+                $("#gameClockSecs").html(padDigits(gameClock.getTimeValues().seconds));
+            }
             gameClock.addEventListener('secondTenthsUpdated', function (e) {
                 //console.log("GAME CLOCK",gameClock.getTimeValues());
                 if(gameClock.getTimeValues().minutes === 0){
@@ -107,6 +112,8 @@
                         (+message.shotClock.secs * 10) + parseInt(message.shotClock.tenths, 10));
                     break;
                 case "STOP_CLOCK":
+                case "SCORE":
+                case "TIMEOUT":
                     //restart clocks with updated times and then pause.
                     startClocks((+message.gameClock.mins * 600) + (+message.gameClock.secs * 10)
                         + parseInt(message.gameClock.tenths, 10),
@@ -138,18 +145,9 @@
                     $("#main-logo").attr("src", "${pageContext.request.contextPath}/scorer/image?key=main-logo&"+new Date().getTime());
                     $("#team1-logo").attr("src", "${pageContext.request.contextPath}/scorer/image?key=team1-logo&"+new Date().getTime());
                     $("#team2-logo").attr("src", "${pageContext.request.contextPath}/scorer/image?key=team2-logo&"+new Date().getTime());
+                    break;
             }
-            /*document.getElementById('gameClockMins').innerHTML = message.gameClockMins;
-            document.getElementById('gameClockSecs').innerHTML = message.gameClockSecs;
-            document.getElementById('gameClockTenthSecs').innerHTML = message.gameClockTenthSecs;
-            document.getElementById('shotClockSecs').innerHTML = message.shotClockSecs;
-            document.getElementById('shotClockTenthSecs').innerHTML = message.shotClockTenthSecs;
-            document.getElementById('direction').innerHTML = message.direction;*/
-            /*if (message.wideNBThisOver == 0) {
-                $('#wideNBThisOver').hide();
-            } else {
-                $('#wideNBThisOver').show();
-            }*/
+
 
             $("[id^=timeoutT]").fadeTo(0, 0.25);
             updateTimeouts("timeoutT1P", message.team1.teamTimeouts);
