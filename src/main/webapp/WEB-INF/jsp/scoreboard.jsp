@@ -204,20 +204,21 @@
                             Timeouts
                             <div class="row">
                                 <div class="col-sm-7">
-                                    <img id="timeoutT1P1" src="images/t.jpg" width="30px" height="30px"/>
-                                    <img id="timeoutT1P2" src="images/t.jpg" width="30px" height="30px"/>
-                                    <img id="timeoutT1P3" src="images/t.jpg" width="30px" height="30px"/>
-                                    <img id="timeoutT1P4" src="images/t.jpg" width="30px" height="30px"/>
+                                    <img id="timeoutT1P1" src="images/t_bw.png" width="30px" height="30px"/>
+                                    <img id="timeoutT1P2" src="images/t_bw.png" width="30px" height="30px"/>
+                                    <img id="timeoutT1P3" src="images/t_bw.png" width="30px" height="30px"/>
+                                    <img id="timeoutT1P4" src="images/t_bw.png" width="30px" height="30px"/>
                                 </div>
                                 <div class="col-sm-5">
-                                    <img id="timeoutT1C1" src="images/t-coach.jpg" width="30px" height="30px"/>
-                                    <img id="timeoutT1C2" src="images/t-coach.jpg" width="30px" height="30px"/>
+                                    <img id="timeoutT1C1" src="images/c_bw.png" width="30px" height="30px"/>
+                                    <img id="timeoutT1C2" src="images/c_bw.png" width="30px" height="30px"/>
                                 </div>
                             </div>
                         </div>
 
                     </div>
                     <div class="col-sm-4">
+
                         <br/><br/>
                         <div class="panel">
                             <div class="panel-body game-clock">
@@ -263,14 +264,14 @@
                             Timeouts
                             <div class="row">
                                 <div class="col-sm-7">
-                                    <img id="timeoutT2P1" src="images/t.jpg" width="30px" height="30px"/>
-                                    <img id="timeoutT2P2" src="images/t.jpg" width="30px" height="30px"/>
-                                    <img id="timeoutT2P3" src="images/t.jpg" width="30px" height="30px"/>
-                                    <img id="timeoutT2P4" src="images/t.jpg" width="30px" height="30px"/>
+                                    <img id="timeoutT2P1" src="images/t_bw.png" width="30px" height="30px"/>
+                                    <img id="timeoutT2P2" src="images/t_bw.png" width="30px" height="30px"/>
+                                    <img id="timeoutT2P3" src="images/t_bw.png" width="30px" height="30px"/>
+                                    <img id="timeoutT2P4" src="images/t_bw.png" width="30px" height="30px"/>
                                 </div>
                                 <div class="col-sm-5">
-                                    <img id="timeoutT2C1" src="images/t-coach.jpg" width="30px" height="30px"/>
-                                    <img id="timeoutT2C2" src="images/t-coach.jpg" width="30px" height="30px"/>
+                                    <img id="timeoutT2C1" src="images/c_bw.png" width="30px" height="30px"/>
+                                    <img id="timeoutT2C2" src="images/c_bw.png" width="30px" height="30px"/>
                                 </div>
                             </div>
                         </div>
