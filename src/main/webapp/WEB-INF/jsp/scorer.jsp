@@ -627,135 +627,106 @@
         $('#start').on('change',handleStartStop);
     }
 
+    var clickClockTimes = function(event) {
+        event.preventDefault();
+        gameClock.pause();
+        shotClock.pause();
+        stopGameWithoutEventFire();
+        stompIt("STOP_CLOCK",event.data.actionMessage);
+    };
+
+    var changeGameTimes = function(event) {
+        event.preventDefault();
+        if(gameClock.isRunning()){
+            gameClock.stop();
+            shotClock.pause();
+            stopGameWithoutEventFire();
+            stompIt("STOP_CLOCK","Changing " + event.data.actionMessage);
+        }else{
+            gameClock.stop();
+        }
+        var secTenths = ((+$("#gameClockMins").val() * 600) + (+$("#gameClockSecs").val() * 10)
+        + parseInt($("#gameClockTenths").val(), 10));
+        startGameClock(secTenths);
+        pauseClocks();
+        stompIt("STOP_CLOCK","Changed" + event.data.actionMessage);
+    };
+
+    var changeShotTimes = function(event) {
+        event.preventDefault();
+        if(gameClock.isRunning()){
+            gameClock.pause();
+            shotClock.stop();
+            stopGameWithoutEventFire();
+            stompIt("STOP_CLOCK","Changing " + event.data.actionMessage);
+        }else{
+            shotClock.stop();
+        }
+        var secTenths = ((+$("#shotClockSecs").val() * 10) + parseInt($("#shotClockTenths").val(), 10));
+        startShotClock(secTenths);
+        pauseClocks();
+        stompIt("STOP_CLOCK","Changed" + event.data.actionMessage);
+    };
+
+    var handleTimeouts = function(event) {
+        event.preventDefault();
+        pauseClocks();
+        stopGameWithoutEventFire();
+        stompIt("TIMEOUT",event.data.actionMessage);
+    };
+
+    var resetShotClock = function(event) {
+        event.preventDefault();
+        shotClock.stop();
+        stopGameWithoutEventFire();
+        startShotClock(event.data.secTenths);
+        pauseGameClock();
+        stompIt("STOP_CLOCK",event.data.actionMessage);
+    };
+
     jQuery(document).ready(function ($) {
 
-        //change clock times
-        $("#gameClockMins").click(function (event) {
-            event.preventDefault();
-            gameClock.pause();
-            shotClock.pause();
-            stopGameWithoutEventFire();
-            stompIt("STOP_CLOCK","Changing quarter clock minutes");
+        //GAME (QUARTER) CLOCK events
+        //MINUTES
+        $("#gameClockMins").on('click', {
+            actionMessage: "Changing quarter clock minutes"
+        },clickClockTimes);
+        $("#gameClockMins").on('change', {
+            actionMessage: "quarter clock minutes"
+        },changeGameTimes);
 
-        });
+        //SECONDS
+        $("#gameClockSecs").on('click', {
+            actionMessage: "Changing quarter clock seconds"
+        },clickClockTimes);
+        $("#gameClockSecs").on('change', {
+            actionMessage: "quarter clock seconds"
+        },changeGameTimes);
 
-        $("#gameClockMins").on("change", function (event) {
-            event.preventDefault();
-            if(gameClock.isRunning()){
-                gameClock.stop();
-                shotClock.pause();
-                stopGameWithoutEventFire();
-                stompIt("STOP_CLOCK","Changing quarter clock minutes");
-            }else{
-                gameClock.stop();
-            }
-            var secTenths = ((+$("#gameClockMins").val() * 600) + (+$("#gameClockSecs").val() * 10)
-            + parseInt($("#gameClockTenths").val(), 10));
-            startGameClock(secTenths);
-            pauseClocks();
-            stompIt("STOP_CLOCK","Changed quarter clock minutes");
-        });
+        //TENTHS
+        $("#gameClockTenths").on('click', {
+            actionMessage: "Changing quarter clock tenth of seconds"
+        },clickClockTimes);
+        $("#gameClockTenths").on('change', {
+            actionMessage: "quarter clock tenth of seconds"
+        },changeGameTimes);
 
+        //SHOT CLOCK events
+        //SECONDS
+        $("#shotClockSecs").on('click', {
+            actionMessage: "Changing shot clock seconds"
+        },clickClockTimes);
+        $("#shotClockSecs").on('change', {
+            actionMessage: "shot clock seconds"
+        },changeShotTimes);
 
-        $("#gameClockSecs").click(function (event) {
-            event.preventDefault();
-            gameClock.pause();
-            shotClock.pause();
-            stopGameWithoutEventFire();
-            stompIt("STOP_CLOCK","Changing quarter clock seconds");
-        });
-
-        $("#gameClockSecs").change(function (event) {
-            event.preventDefault();
-            if(gameClock.isRunning()){
-                gameClock.stop();
-                shotClock.pause();
-                stopGameWithoutEventFire();
-                stompIt("STOP_CLOCK","Changing quarter clock seconds");
-            }else{
-                gameClock.stop();
-            }
-            var secTenths = ((+$("#gameClockMins").val() * 600) + (+$("#gameClockSecs").val() * 10)
-            + parseInt($("#gameClockTenths").val(), 10));
-            startGameClock(secTenths);
-            pauseClocks();
-            stompIt("STOP_CLOCK","Changed quarter clock seconds");
-        });
-
-        $("#gameClockTenths").click(function (event) {
-            event.preventDefault();
-            gameClock.pause();
-            shotClock.pause();
-            stopGameWithoutEventFire();
-            stompIt("STOP_CLOCK","Changing quarter clock tenth of seconds");
-
-        });
-
-        $("#gameClockTenths").change(function (event) {
-            event.preventDefault();
-            if(gameClock.isRunning()){
-                gameClock.stop();
-                shotClock.pause();
-                stopGameWithoutEventFire();
-                stompIt("STOP_CLOCK","Changing quarter clock tenth of seconds");
-            }else{
-                gameClock.stop();
-            }
-            var secTenths = ((+$("#gameClockMins").val() * 600) + (+$("#gameClockSecs").val() * 10)
-            + parseInt($("#gameClockTenths").val(), 10));
-            startGameClock(secTenths);
-            pauseClocks();
-            stompIt("STOP_CLOCK","Changed quarter clock tenth of seconds");
-        });
-
-        $("#shotClockSecs").click(function (event) {
-            event.preventDefault();
-            gameClock.pause();
-            shotClock.pause();
-            stopGameWithoutEventFire();
-            stompIt("STOP_CLOCK","Changing shot clock seconds");
-        });
-
-        $("#shotClockSecs").change(function (event) {
-            event.preventDefault();
-            if(gameClock.isRunning()){
-                gameClock.pause();
-                shotClock.stop();
-                stopGameWithoutEventFire();
-                stompIt("STOP_CLOCK","Changing shot clock seconds");
-            }else{
-                shotClock.stop();
-            }
-            var secTenths = ((+$("#shotClockSecs").val() * 10) + parseInt($("#shotClockTenths").val(), 10));
-            startShotClock(secTenths);
-            pauseClocks();
-            stompIt("STOP_CLOCK","Changed shot clock seconds");
-        });
-
-        $("#shotClockTenths").click(function (event) {
-            event.preventDefault();
-            gameClock.pause();
-            shotClock.pause();
-            stopGameWithoutEventFire();
-            stompIt("STOP_CLOCK","Changing shot clock tenth of seconds");
-
-        });
-
-        $("#shotClockTenths").change(function (event) {
-            event.preventDefault();
-            if(gameClock.isRunning()){
-                gameClock.pause();
-                shotClock.stop();
-                stopGameWithoutEventFire();
-                stompIt("STOP_CLOCK","Changing shot clock tenth of seconds");
-            }else{
-                shotClock.stop();
-            }
-            var secTenths = ((+$("#shotClockSecs").val() * 10) + parseInt($("#shotClockTenths").val(), 10));
-            startShotClock(secTenths);
-            pauseClocks();
-            stompIt("STOP_CLOCK","Changed shot clock tenth of seconds");
-        });
+        //TENTHS
+        $("#shotClockTenths").on('click', {
+            actionMessage: "Changing shot clock tenth of seconds"
+        },clickClockTimes);
+        $("#shotClockTenths").on('change', {
+            actionMessage: "shot clock tenth of seconds"
+        },changeShotTimes);
 
         //handle scores
         $("#team1Score").change(function (event) {
@@ -771,36 +742,23 @@
         });
 
         //handle timeouts
-        $("#team1Timeout").change(function (event) {
-            event.preventDefault();
-            pauseClocks();
-            stopGameWithoutEventFire();
-            stompIt("TIMEOUT","Add team 1 player timeout");
-        });
+        $("#team1Timeout").on('change', {
+            actionMessage: "Add team 1 player timeout"
+        },handleTimeouts);
 
-        $("#team2Timeout").change(function (event) {
-            event.preventDefault();
-            pauseClocks();
-            stopGameWithoutEventFire();
-            stompIt("TIMEOUT","Add team 2 player timeout");
-        });
+        $("#team2Timeout").on('change', {
+            actionMessage: "Add team 2 player timeout"
+        },handleTimeouts);
 
-        $("#coach1Timeout").change(function (event) {
-            event.preventDefault();
-            pauseClocks();
-            stopGameWithoutEventFire();
-            stompIt("TIMEOUT","Add team 1 coach timeout");
-        });
+        $("#coach1Timeout").on('change', {
+            actionMessage: "Add team 1 coach timeout"
+        },handleTimeouts);
 
-        $("#coach2Timeout").change(function (event) {
-            event.preventDefault();
-            pauseClocks();
-            stopGameWithoutEventFire();
-            stompIt("TIMEOUT","Add team 2 coach timeout");
-        });
+        $("#coach2Timeout").on('change', {
+            actionMessage: "Add team 2 coach timeout"
+        },handleTimeouts);
 
         $("#period").change(function (event) { stompIt("","Changed quarter period"); });
-
         $("#possession").change(function (event) { stompIt("","Changed team possession indicator"); });
         $("#start").change(handleStartStop);
 
@@ -814,26 +772,16 @@
             stompIt("STOP_CLOCK","'Reset Quarter' button clicked");
         });
 
-        $("#bth-reset-40").click(function (event) {
-            // Prevent the form from submitting via the browser.
-            event.preventDefault();
-            shotClock.stop();
-            stopGameWithoutEventFire();
-            startShotClock(getDefaultTotalShotClockSecTenths());
-            pauseGameClock();
-            stompIt("STOP_CLOCK","'Reset 40' button clicked");
-        });
+        $("#bth-reset-40").on('click', {
+            secTenths: getDefaultTotalShotClockSecTenths(),
+            actionMessage: "'Reset 40' button clicked"
+        },resetShotClock);
 
-        $("#bth-reset-15").click(function (event) {
-            // Prevent the form from submitting via the browser.
-            event.preventDefault();
-            shotClock.stop();
-            stopGameWithoutEventFire();
-            startShotClock(150);
-            pauseGameClock();
-            stompIt("STOP_CLOCK","'Reset 15' button clicked");
-        });
-
+        $("#bth-reset-15").on('click', {
+            secTenths: 150,
+            actionMessage: "'Reset 15' button clicked"
+        },resetShotClock);
+        
         $("#btn-umpire").click(function (event) {
             // Prevent the form from submitting via the browser.
             event.preventDefault();
