@@ -113,6 +113,12 @@
 
         }
 
+        function syncClocks(message){
+            startClocks((+message.gameClock.mins * 600) + (+message.gameClock.secs * 10)
+                    + parseInt(message.gameClock.tenths, 10),
+                    (+message.shotClock.secs * 10) + parseInt(message.shotClock.tenths, 10));
+        }
+
         function showScore(message) {
             document.getElementById('team1Score').innerHTML = message.team1.score;
             document.getElementById('team2Score').innerHTML = message.team2.score;
@@ -124,17 +130,13 @@
             switch (message.command) {
                 case "START_CLOCK":
                     //synchronize clocks from master clock
-                    startClocks((+message.gameClock.mins * 600) + (+message.gameClock.secs * 10)
-                        + parseInt(message.gameClock.tenths, 10),
-                        (+message.shotClock.secs * 10) + parseInt(message.shotClock.tenths, 10));
+                    syncClocks(message);
                     break;
                 case "STOP_CLOCK":
                 case "SCORE":
                 case "TIMEOUT":
                     //restart clocks with updated times and then pause.
-                    startClocks((+message.gameClock.mins * 600) + (+message.gameClock.secs * 10)
-                        + parseInt(message.gameClock.tenths, 10),
-                        (+message.shotClock.secs * 10) + parseInt(message.shotClock.tenths, 10));
+                    syncClocks(message);
                     pauseClocks();
                     break;
                 case "SHOT_CLOCK_END":
