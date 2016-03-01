@@ -133,7 +133,7 @@
                             <div class="form-group form-group-lg" >
                                 <label class="col-sm-3 control-label">Possession:</label>
                                 <div class="col-sm-4">
-                                    <input type="checkbox" id="possession" checked data-toggle="toggle" data-onstyle="info" data-offstyle="warning" data-on="<i class='fa fa-play'></i> ---&gt" data-off="<i class='fa fa-pause'></i> &lt---">
+                                    <input type="checkbox" id="possession" checked data-toggle="toggle" data-onstyle="info" data-offstyle="warning" data-on="<img src='images/green-arrow-right.png' width='50'/>" data-off="<img src='images/green-arrow-left.png' width='50'/>">
                                 </div>
                                 <div class="col-sm-2" >
                                     <input type="checkbox" id="start" checked data-toggle="toggle" data-size="large" data-onstyle="success" data-offstyle="danger" data-on="<i class='fa fa-play'></i> START" data-off="<i class='fa fa-pause'></i> STOP">
