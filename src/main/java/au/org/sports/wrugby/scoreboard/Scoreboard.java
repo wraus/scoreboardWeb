@@ -13,6 +13,9 @@ public class Scoreboard {
     private Clock shotClock;
     private Integer period = 1;
     private String direction;
+    private Integer teamTimeoutLimit = 4;
+    private Integer coachTimeoutLimit = 4;
+    private boolean displayShotClock = true;
 
     public Scoreboard() {
 
@@ -88,5 +91,29 @@ public class Scoreboard {
 
     public void setDirection(String direction) {
         this.direction = direction;
+    }
+
+    public Integer getTeamTimeoutLimit() {
+        return teamTimeoutLimit;
+    }
+
+    public void setTeamTimeoutLimit(Integer teamTimeoutLimit) {
+        this.teamTimeoutLimit = teamTimeoutLimit;
+    }
+
+    public Integer getCoachTimeoutLimit() {
+        return coachTimeoutLimit;
+    }
+
+    public void setCoachTimeoutLimit(Integer coachTimeoutLimit) {
+        this.coachTimeoutLimit = coachTimeoutLimit;
+    }
+
+    public boolean isDisplayShotClock() {
+        return displayShotClock;
+    }
+
+    public void setDisplayShotClock(boolean displayShotClock) {
+        this.displayShotClock = displayShotClock;
     }
 }

@@ -146,7 +146,7 @@
                     quarterSirenSound.play();
                     break;
                 case "HIDE_SHOT_CLOCK":
-                    $(".panel-shotclock").css("visibility", "hidden");
+                    toggleShotClock(false);
                     break;
                 case "NOTIFY_UMPIRE":
                     umpireSound.play();
@@ -157,11 +157,11 @@
                     $("#main-logo").attr("src", "${pageContext.request.contextPath}/scorer/image?key=main-logo&&default=/images/banner.png&"+new Date().getTime());
                     $("#team1-logo").attr("src", "${pageContext.request.contextPath}/scorer/image?key=team1-logo&"+new Date().getTime());
                     $("#team2-logo").attr("src", "${pageContext.request.contextPath}/scorer/image?key=team2-logo&"+new Date().getTime());
+                    toggleShotClock(message.displayShotClock);
                     break;
             }
 
-
-            $("[id^=timeoutT]").fadeTo(0, 0.25);
+            renderTimeouts(message.teamTimeoutLimit, message.coachTimeoutLimit)
             updateTimeouts("timeoutT1P", message.team1.teamTimeouts);
             updateTimeouts("timeoutT2P", message.team2.teamTimeouts);
             updateTimeouts("timeoutT1C", message.team1.coachTimeouts);
@@ -178,6 +178,22 @@
             }
         }
 
+        function renderTimeouts(teamLimit, coachLimit) {
+            //alert(teamLimit + " - " + coachLimit);
+            for (teamIndex=1; teamIndex<=2; teamIndex++) {
+                var teamHtml = "";
+                var coachHtml = "";
+                for (i=1; i<=teamLimit; i++) {
+                    teamHtml += "<img id=\"timeoutT" + teamIndex + "P" + i + "\" src=\"images/t_bw.png\" width=\"30px\" height=\"30px\"/>";
+                }
+                for (i=1; i<=coachLimit; i++) {
+                    coachHtml += "<img id=\"timeoutT" + teamIndex + "C" + i + "\" src=\"images/c_bw.png\" width=\"30px\" height=\"30px\"/>";
+                }
+                $("#team" + teamIndex + "Timeouts").html(teamHtml);
+                $("#coach" + teamIndex + "Timeouts").html(coachHtml);
+            }
+            $("[id^=timeoutT]").fadeTo(0, 0.25);
+        }
         function updateTimeouts(timeoutGroup, number) {
             if (number != null) {
                 for (i=0; i<number; i++) {
@@ -185,6 +201,12 @@
                     $("#"+timeoutGroup+num).fadeTo(0, 1);
                 }
             }
+        }
+
+        function toggleShotClock(displayShotClock) {
+            if (displayShotClock == "true") {
+                $(".panel-shotclock").css("visibility", "");
+            } else { $(".panel-shotclock").css("visibility", "hidden"); }
         }
 
     </script>
@@ -210,16 +232,8 @@
                         <div class="teamPanel scorePanel timeout">
                             Timeouts
                             <div class="row">
-                                <div class="col-sm-7">
-                                    <img id="timeoutT1P1" src="images/t_bw.png" width="30px" height="30px"/>
-                                    <img id="timeoutT1P2" src="images/t_bw.png" width="30px" height="30px"/>
-                                    <img id="timeoutT1P3" src="images/t_bw.png" width="30px" height="30px"/>
-                                    <img id="timeoutT1P4" src="images/t_bw.png" width="30px" height="30px"/>
-                                </div>
-                                <div class="col-sm-5">
-                                    <img id="timeoutT1C1" src="images/c_bw.png" width="30px" height="30px"/>
-                                    <img id="timeoutT1C2" src="images/c_bw.png" width="30px" height="30px"/>
-                                </div>
+                                <div class="col-sm-7" id="team1Timeouts"></div>
+                                <div class="col-sm-5" id="coach1Timeouts"></div>
                             </div>
                         </div>
 
@@ -270,16 +284,8 @@
                         <div class="teamPanel panel-success scorePanel timeout">
                             Timeouts
                             <div class="row">
-                                <div class="col-sm-7">
-                                    <img id="timeoutT2P1" src="images/t_bw.png" width="30px" height="30px"/>
-                                    <img id="timeoutT2P2" src="images/t_bw.png" width="30px" height="30px"/>
-                                    <img id="timeoutT2P3" src="images/t_bw.png" width="30px" height="30px"/>
-                                    <img id="timeoutT2P4" src="images/t_bw.png" width="30px" height="30px"/>
-                                </div>
-                                <div class="col-sm-5">
-                                    <img id="timeoutT2C1" src="images/c_bw.png" width="30px" height="30px"/>
-                                    <img id="timeoutT2C2" src="images/c_bw.png" width="30px" height="30px"/>
-                                </div>
+                                <div class="col-sm-7" id="team2Timeouts"></div>
+                                <div class="col-sm-5" id="coach2Timeouts"></div>
                             </div>
                         </div>
                     </div>
