@@ -38,7 +38,7 @@
 
         function init() {
             connect();
-            initDisplay();
+            setDefaultValues();
         }
 
         function startClocks(gameClockTenthsSecs, shotClockTenthsSecs) {
@@ -100,21 +100,17 @@
             console.log("Disconnected");
         }
 
-        function initDisplay() {
+        function setDefaultValues() {
             $("[id^=timeoutT]").fadeTo(0, 0.25);
             toggleShotClock("true");
             updateDirection();
             startClocks();
             pauseClocks();
-            setDefaultValues();
-
-        }
-
-        function setDefaultValues() {
             document.getElementById('team1Score').innerHTML = '0';
             document.getElementById('team2Score').innerHTML = '0';
             document.getElementById('team1Name').innerHTML = 'Home';
             document.getElementById('team2Name').innerHTML = 'Away';
+
         }
 
         function showScore(message) {
