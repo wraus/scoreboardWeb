@@ -451,11 +451,11 @@
                                 <div class="form-group form-group-lg">
                                     <label class="col-sm-4 control-label">Shot clock seconds</label>
                                     <div class="col-sm-2">
-                                        <input type="text" class="form-control" id="shotClockSeconts">
+                                        <input type="text" class="form-control" id="shotClockSeconds">
                                     </div>
                                 </div>
                                 <div class="form-group form-group-lg">
-                                    <label class="col-sm-4 control-label">Display Shot Clock</label>
+                                    <label class="col-sm-4 control-label">Display shot clock</label>
                                     <div class="col-sm-2">
                                         <input type="checkbox" class="form-control" value="true" id="displayShotClock" checked>
                                     </div>
@@ -510,7 +510,7 @@
         shotClock.stop();
         $("#shotClockTenths").val(padDigits(0));
         stompIt("SHOT_CLOCK_END","Shot clock timed out");
-        startShotClock(400);
+        startShotClock(getDefaultTotalShotClockSecTenths());
         shotClock.pause();
         $('#start').off('change');
         $('#start').bootstrapToggle('on');
@@ -539,6 +539,8 @@
     function initClocks() {
         startGameClock();
         pauseGameClock();
+        $("#secondsInQuarter").val(480);
+        $("#shotClockSeconds").val(40);
     }
 
     function connect() {
@@ -560,10 +562,18 @@
         console.log("Disconnected");
     }
 
+    function getDefaultTotalGameClockSecTenths(){
+        return (+$("#secondsInQuarter").val() || 480) * 10;
+    }
+
+    function getDefaultTotalShotClockSecTenths(){
+        return (+$("#shotClockSeconds").val() || 40) * 10;
+    }
+
     function startGameClock(gameTenthsSecs) {
 
         //start quarter clock, default is 8 mins if not already running
-        var gameClockStartTenths = gameTenthsSecs || 4800;
+        var gameClockStartTenths = gameTenthsSecs || getDefaultTotalGameClockSecTenths();
         gameClock.start({precision: 'secondTenths', countdown: true, startValues: {secondTenths: gameClockStartTenths}});
             $("#gameClockMins").val(padDigits(gameClock.getTimeValues().minutes));
             $("#gameClockSecs").val(padDigits(gameClock.getTimeValues().seconds));
@@ -575,18 +585,18 @@
             $("#gameClockTenths").val(gameClock.getTimeValues().secondTenths);
             if(gameClock.getTimeValues().minutes === 0 && gameClock.getTimeValues().seconds < 40){
                 shotClock.stop();
-                startShotClock(400);
+                startShotClock(getDefaultTotalShotClockSecTenths());
                 shotClock.pause();
                 stompIt("HIDE_SHOT_CLOCK","Hiding shot clock as quarter clock less than 40secs");
             }
         });
 
         //starting quarter clock should always start shot clock, default 40 secs if not already running
-        startShotClock(400);
+        startShotClock(getDefaultTotalShotClockSecTenths());
     }
 
     function startShotClock(shotClockTenths) {
-        var shotClockStartTenths = shotClockTenths || 400;
+        var shotClockStartTenths = shotClockTenths || getDefaultTotalShotClockSecTenths;
         shotClock.start({precision: 'secondTenths', countdown: true, startValues: {secondTenths: shotClockStartTenths}});
         $("#shotClockSecs").val(padDigits(shotClock.getTimeValues().seconds));
         $("#shotClockTenths").val(shotClock.getTimeValues().secondTenths);
@@ -809,7 +819,7 @@
             event.preventDefault();
             shotClock.stop();
             stopGameWithoutEventFire();
-            startShotClock(400);
+            startShotClock(getDefaultTotalShotClockSecTenths());
             pauseGameClock();
             stompIt("STOP_CLOCK","'Reset 40' button clicked");
         });
