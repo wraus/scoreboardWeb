@@ -106,8 +106,15 @@
             updateDirection();
             startClocks();
             pauseClocks();
-            document.getElementById('team1Score').innerHTML = "0";
-            document.getElementById('team2Score').innerHTML = "0";
+            setDefaultValues();
+
+        }
+
+        function setDefaultValues() {
+            document.getElementById('team1Score').innerHTML = '0';
+            document.getElementById('team2Score').innerHTML = '0';
+            document.getElementById('team1Name').innerHTML = 'Home';
+            document.getElementById('team2Name').innerHTML = 'Away';
         }
 
         function showScore(message) {
