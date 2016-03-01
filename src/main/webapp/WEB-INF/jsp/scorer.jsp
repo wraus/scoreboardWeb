@@ -59,28 +59,28 @@
                                 <label class="col-sm-3 control-label" >Game clock:</label>
                                 <div class="col-sm-2" >
                                     <input type=text class="form-control input-number input-lg" name="gameClockMins[]" id="gameClockMins" min="0" max="59">
-                                    <button type="button" class="btn btn-danger btn-number btn-xs" data-type="minus" data-field="gameClockMins[]">
+                                    <button id="gameClockMinsMinus" type="button" class="btn btn-danger btn-number btn-xs" data-type="minus" data-field="gameClockMins[]">
                                         <span class="glyphicon glyphicon-minus"></span>
                                     </button>
-                                    <button type="button" class="btn btn-success btn-number btn-xs" data-type="plus" data-field="gameClockMins[]">
+                                    <button id="gameClockMinsPlus" type="button" class="btn btn-success btn-number btn-xs" data-type="plus" data-field="gameClockMins[]">
                                         <span class="glyphicon glyphicon-plus"></span>
                                     </button>
                                 </div>
                                 <div class="col-sm-2" >
                                     <input type=text class="form-control input-number input-lg" id="gameClockSecs" name="gameClockSecs[]" min="0" max="59">
-                                    <button type="button" class="btn btn-danger btn-number btn-xs" data-type="minus" data-field="gameClockSecs[]">
+                                    <button id="gameClockSecsMinus" type="button" class="btn btn-danger btn-number btn-xs" data-type="minus" data-field="gameClockSecs[]">
                                         <span class="glyphicon glyphicon-minus"></span>
                                     </button>
-                                    <button type="button" class="btn btn-success btn-number btn-xs" data-type="plus" data-field="gameClockSecs[]">
+                                    <button id="gameClockSecsPlus" type="button" class="btn btn-success btn-number btn-xs" data-type="plus" data-field="gameClockSecs[]">
                                         <span class="glyphicon glyphicon-plus"></span>
                                     </button>
                                 </div>
                                 <div class="col-sm-2" >
                                     <input type=text class="form-control input-number input-lg" id="gameClockTenths" name="gameClockTenths[]" min="0" max="9">
-                                    <button type="button" class="btn btn-danger btn-number btn-xs" data-type="minus" data-field="gameClockTenths[]">
+                                    <button id="gameClockTenthsMinus" type="button" class="btn btn-danger btn-number btn-xs" data-type="minus" data-field="gameClockTenths[]">
                                         <span class="glyphicon glyphicon-minus"></span>
                                     </button>
-                                    <button type="button" class="btn btn-success btn-number btn-xs" data-type="plus" data-field="gameClockTenths[]">
+                                    <button id="gameClockTenthsPlus" type="button" class="btn btn-success btn-number btn-xs" data-type="plus" data-field="gameClockTenths[]">
                                         <span class="glyphicon glyphicon-plus"></span>
                                     </button>
                                 </div>
@@ -96,19 +96,19 @@
                                 <label class="col-sm-3 control-label"  >Shot clock:</label>
                                 <div class="col-sm-2"  >
                                     <input type=text class="form-control input-number input-lg" id="shotClockSecs" name="shotClockSecs[]" min="0" max="59">
-                                    <button type="button" class="btn btn-danger btn-number btn-xs" data-type="minus" data-field="shotClockSecs[]">
+                                    <button id="shotClockSecsMinus" type="button" class="btn btn-danger btn-number btn-xs" data-type="minus" data-field="shotClockSecs[]">
                                         <span class="glyphicon glyphicon-minus"></span>
                                     </button>
-                                    <button type="button" class="btn btn-success btn-number btn-xs" data-type="plus" data-field="shotClockSecs[]">
+                                    <button id="shotClockSecsPlus" type="button" class="btn btn-success btn-number btn-xs" data-type="plus" data-field="shotClockSecs[]">
                                         <span class="glyphicon glyphicon-plus"></span>
                                     </button>
                                 </div>
                                 <div class="col-sm-2"  >
                                     <input type=text class="form-control input-number input-lg" id="shotClockTenths" name="shotClockTenths[]" min="0" max="9">
-                                    <button type="button" class="btn btn-danger btn-number btn-xs" data-type="minus" data-field="shotClockTenths[]">
+                                    <button id="shotClockTenthsMinus" type="button" class="btn btn-danger btn-number btn-xs" data-type="minus" data-field="shotClockTenths[]">
                                         <span class="glyphicon glyphicon-minus"></span>
                                     </button>
-                                    <button type="button" class="btn btn-success btn-number btn-xs" data-type="plus" data-field="shotClockTenths[]">
+                                    <button id="shotClockTenthsPlus" type="button" class="btn btn-success btn-number btn-xs" data-type="plus" data-field="shotClockTenths[]">
                                         <span class="glyphicon glyphicon-plus"></span>
                                     </button>
                                 </div>
@@ -832,8 +832,17 @@
             uploadLogo("team2-logo");
         });
 
+        bindRepeatClick($("#gameClockMinsMinus"));
+        bindRepeatClick($("#gameClockMinsPlus"));
+        bindRepeatClick($("#gameClockSecsMinus"));
+        bindRepeatClick($("#gameClockSecsPlus"));
+        bindRepeatClick($("#gameClockTenthsMinus"));
+        bindRepeatClick($("#gameClockTenthsPlus"));
+        bindRepeatClick($("#shotClockSecsMinus"));
+        bindRepeatClick($("#shotClockSecsPlus"));
+        bindRepeatClick($("#shotClockTenthsMinus"));
+        bindRepeatClick($("#shotClockTenthsPlus"));
     });
-
 
     function uploadLogo(key) {
         var fileSelect = $("#" + key + "-select")[0];
@@ -928,9 +937,36 @@
         console.log("SUCCESS: ", score);
 
         stompClient.send("/topic/score", {}, JSON.stringify(score));
-
     }
 
+    function bindRepeatClick(element) {
+        element.bind({
+            mousedown: function() {
+                repeatClick($(this));
+            },
+            mouseup: function() {
+                stopRepeatClick($(this));
+            },
+            mouseout: function() {
+                stopRepeatClick($(this));
+            }
+        });
+    }
+
+    var interval;
+
+    function repeatClick(element) {
+        clearInterval(interval);
+        interval = setInterval(clickElement, 150, element);
+    }
+
+    function stopRepeatClick(element) {
+        clearInterval(interval);
+    }
+
+    function clickElement(element) {
+        element.click();
+    }
 </script>
 
 </body>
