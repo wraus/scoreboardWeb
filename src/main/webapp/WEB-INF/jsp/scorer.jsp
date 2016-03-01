@@ -622,7 +622,7 @@
         //change clock times
         $("#gameClockMins").click(function (event) {
             event.preventDefault();
-            gameClock.stop();
+            gameClock.pause();
             shotClock.pause();
             stopGameWithoutEventFire();
             stompIt("STOP_CLOCK","CHANGING_GAME_MINS");
@@ -649,7 +649,7 @@
 
         $("#gameClockSecs").click(function (event) {
             event.preventDefault();
-            gameClock.stop();
+            gameClock.pause();
             shotClock.pause();
             stopGameWithoutEventFire();
             stompIt("STOP_CLOCK","CHANGING_GAME_SECS");
@@ -674,7 +674,7 @@
 
         $("#gameClockTenths").click(function (event) {
             event.preventDefault();
-            gameClock.stop();
+            gameClock.pause();
             shotClock.pause();
             stopGameWithoutEventFire();
             stompIt("STOP_CLOCK","CHANGING_GAME_TENTHS");
@@ -701,7 +701,7 @@
         $("#shotClockSecs").click(function (event) {
             event.preventDefault();
             gameClock.pause();
-            shotClock.stop();
+            shotClock.pause();
             stopGameWithoutEventFire();
             stompIt("STOP_CLOCK","CHANGING_SHOT_SECS");
         });
@@ -725,7 +725,7 @@
         $("#shotClockTenths").click(function (event) {
             event.preventDefault();
             gameClock.pause();
-            shotClock.stop();
+            shotClock.pause();
             stopGameWithoutEventFire();
             stompIt("STOP_CLOCK","CHANGING_SHOT_TENTHS");
 
