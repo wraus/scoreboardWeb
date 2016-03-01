@@ -41,10 +41,12 @@
             initDisplay();
         }
 
-        function startClocks(gameTenthsSecs, shotTenthsSecs) {
+        function startClocks(gameClockTenthsSecs, shotClockTenthsSecs) {
 
             //stop clocks and reset
             stopClocks();
+
+            var gameTenthsSecs = gameClockTenthsSecs || 0;
 
             gameClock.start({precision: 'secondTenths', countdown: true, startValues: {secondTenths: gameTenthsSecs}});
             if(gameClock.getTimeValues().minutes === 0){
@@ -65,11 +67,13 @@
                 }
             });
 
-            startShotClock(shotTenthsSecs)
+            startShotClock(shotClockTenthsSecs);
         }
 
-        function startShotClock(shotTenthsSecs) {
-            shotClock.start({precision: 'secondTenths', countdown: true, startValues: {secondTenths: shotTenthsSecs}});
+        function startShotClock(shotClockTenths ) {
+
+            var shotClockStartTenths = shotClockTenths || 0;
+            shotClock.start({precision: 'secondTenths', countdown: true, startValues: {secondTenths: shotClockStartTenths}});
             $("#shotClockSecs").html(padDigits(shotClock.getTimeValues().seconds));
             shotClock.addEventListener('secondTenthsUpdated', function (e) {
                 $("#shotClockSecs").html(padDigits(shotClock.getTimeValues().seconds));
@@ -94,6 +98,14 @@
             }
             setConnected(false);
             console.log("Disconnected");
+        }
+
+        function initDisplay() {
+            $("[id^=timeoutT]").fadeTo(0, 0.25);
+            $(".panel-shotclock").css("visibility", "visible");
+            updateDirection();
+            startClocks();
+            pauseClocks();
         }
 
         function showScore(message) {
@@ -154,11 +166,6 @@
             updateTimeouts("timeoutT2P", message.team2.teamTimeouts);
             updateTimeouts("timeoutT1C", message.team1.coachTimeouts);
             updateTimeouts("timeoutT2C", message.team2.coachTimeouts);
-        }
-
-        function initDisplay() {
-            $("[id^=timeoutT]").fadeTo(0, 0.25);
-            $(".panel-shotclock").css("visibility", "visible");
         }
 
         function updateDirection(direction) {
