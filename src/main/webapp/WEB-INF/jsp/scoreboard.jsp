@@ -106,6 +106,8 @@
             updateDirection();
             startClocks();
             pauseClocks();
+            document.getElementById('team1Score').innerHTML = "0";
+            document.getElementById('team2Score').innerHTML = "0";
         }
 
         function showScore(message) {
@@ -161,7 +163,7 @@
                     break;
             }
 
-            renderTimeouts(message.teamTimeoutLimit, message.coachTimeoutLimit)
+            renderTimeouts(message.teamTimeoutLimit, message.coachTimeoutLimit);
             updateTimeouts("timeoutT1P", message.team1.teamTimeouts);
             updateTimeouts("timeoutT2P", message.team2.teamTimeouts);
             updateTimeouts("timeoutT1C", message.team1.coachTimeouts);

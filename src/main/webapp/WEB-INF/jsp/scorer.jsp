@@ -509,7 +509,7 @@
         pauseGameClock();
         shotClock.stop();
         $("#shotClockTenths").val(padDigits(0));
-        stompIt("SHOT_CLOCK_END","SHOT_CLOCK_END");
+        stompIt("SHOT_CLOCK_END","Shot clock timed out");
         startShotClock(400);
         shotClock.pause();
         $('#start').off('change');
@@ -526,7 +526,7 @@
         $('#start').on('change', handleStartStop);
         $('#possession').bootstrapToggle('toggle');
         $('#period').val(+$("#period").val() + 1);
-        stompIt("QUARTER_END","QUARTER_END");
+        stompIt("QUARTER_END","Quarter clock timed out");
         startGameClock();
         pauseClocks();
     });
@@ -577,7 +577,7 @@
                 shotClock.stop();
                 startShotClock(400);
                 shotClock.pause();
-                stompIt("HIDE_SHOT_CLOCK","HIDE_SHOT_CLOCK");
+                stompIt("HIDE_SHOT_CLOCK","Hiding shot clock as quarter clock less than 40secs");
             }
         });
 
@@ -602,10 +602,10 @@
             //startGameClock();
             gameClock.start();
             shotClock.start();
-            stompIt("START_CLOCK","START_CLOCK");
+            stompIt("START_CLOCK","'Start' button clicked");
         }else{
             pauseGameClock();
-            stompIt("STOP_CLOCK","STOP_CLOCK");
+            stompIt("STOP_CLOCK","'Stop' button clicked");
         }
     }
 
@@ -625,7 +625,7 @@
             gameClock.pause();
             shotClock.pause();
             stopGameWithoutEventFire();
-            stompIt("STOP_CLOCK","CHANGING_GAME_MINS");
+            stompIt("STOP_CLOCK","Changing quarter clock minutes");
 
         });
 
@@ -635,7 +635,7 @@
                 gameClock.stop();
                 shotClock.pause();
                 stopGameWithoutEventFire();
-                stompIt("STOP_CLOCK","CHANGING_GAME_MINS");
+                stompIt("STOP_CLOCK","Changing quarter clock minutes");
             }else{
                 gameClock.stop();
             }
@@ -643,7 +643,7 @@
             + parseInt($("#gameClockTenths").val(), 10));
             startGameClock(secTenths);
             pauseClocks();
-            stompIt("STOP_CLOCK","GAME_MINS_CHANGED");
+            stompIt("STOP_CLOCK","Changed quarter clock minutes");
         });
 
 
@@ -652,7 +652,7 @@
             gameClock.pause();
             shotClock.pause();
             stopGameWithoutEventFire();
-            stompIt("STOP_CLOCK","CHANGING_GAME_SECS");
+            stompIt("STOP_CLOCK","Changing quarter clock seconds");
         });
 
         $("#gameClockSecs").change(function (event) {
@@ -661,7 +661,7 @@
                 gameClock.stop();
                 shotClock.pause();
                 stopGameWithoutEventFire();
-                stompIt("STOP_CLOCK","CHANGING_GAME_SECS");
+                stompIt("STOP_CLOCK","Changing quarter clock seconds");
             }else{
                 gameClock.stop();
             }
@@ -669,7 +669,7 @@
             + parseInt($("#gameClockTenths").val(), 10));
             startGameClock(secTenths);
             pauseClocks();
-            stompIt("STOP_CLOCK","GAME_SECS_CHANGED");
+            stompIt("STOP_CLOCK","Changed quarter clock seconds");
         });
 
         $("#gameClockTenths").click(function (event) {
@@ -677,7 +677,7 @@
             gameClock.pause();
             shotClock.pause();
             stopGameWithoutEventFire();
-            stompIt("STOP_CLOCK","CHANGING_GAME_TENTHS");
+            stompIt("STOP_CLOCK","Changing quarter clock tenth of seconds");
 
         });
 
@@ -687,7 +687,7 @@
                 gameClock.stop();
                 shotClock.pause();
                 stopGameWithoutEventFire();
-                stompIt("STOP_CLOCK","CHANGING_GAME_TENTHS");
+                stompIt("STOP_CLOCK","Changing quarter clock tenth of seconds");
             }else{
                 gameClock.stop();
             }
@@ -695,7 +695,7 @@
             + parseInt($("#gameClockTenths").val(), 10));
             startGameClock(secTenths);
             pauseClocks();
-            stompIt("STOP_CLOCK","GAME_TENTHS_CHANGED");
+            stompIt("STOP_CLOCK","Changed quarter clock tenth of seconds");
         });
 
         $("#shotClockSecs").click(function (event) {
@@ -703,7 +703,7 @@
             gameClock.pause();
             shotClock.pause();
             stopGameWithoutEventFire();
-            stompIt("STOP_CLOCK","CHANGING_SHOT_SECS");
+            stompIt("STOP_CLOCK","Changing shot clock seconds");
         });
 
         $("#shotClockSecs").change(function (event) {
@@ -712,14 +712,14 @@
                 gameClock.pause();
                 shotClock.stop();
                 stopGameWithoutEventFire();
-                stompIt("STOP_CLOCK","CHANGING_SHOT_SECS");
+                stompIt("STOP_CLOCK","Changing shot clock seconds");
             }else{
                 shotClock.stop();
             }
             var secTenths = ((+$("#shotClockSecs").val() * 10) + parseInt($("#shotClockTenths").val(), 10));
             startShotClock(secTenths);
             pauseClocks();
-            stompIt("STOP_CLOCK","SHOT_SECS_CHANGED");
+            stompIt("STOP_CLOCK","Changed shot clock seconds");
         });
 
         $("#shotClockTenths").click(function (event) {
@@ -727,7 +727,7 @@
             gameClock.pause();
             shotClock.pause();
             stopGameWithoutEventFire();
-            stompIt("STOP_CLOCK","CHANGING_SHOT_TENTHS");
+            stompIt("STOP_CLOCK","Changing shot clock tenth of seconds");
 
         });
 
@@ -737,27 +737,27 @@
                 gameClock.pause();
                 shotClock.stop();
                 stopGameWithoutEventFire();
-                stompIt("STOP_CLOCK","CHANGING_SHOT_TENTHS");
+                stompIt("STOP_CLOCK","Changing shot clock tenth of seconds");
             }else{
                 shotClock.stop();
             }
             var secTenths = ((+$("#shotClockSecs").val() * 10) + parseInt($("#shotClockTenths").val(), 10));
             startShotClock(secTenths);
             pauseClocks();
-            stompIt("STOP_CLOCK","SHOT_TENTHS_CHANGED");
+            stompIt("STOP_CLOCK","Changed shot clock tenth of seconds");
         });
 
         //handle scores
         $("#team1Score").change(function (event) {
             event.preventDefault();
             $("#bth-reset-40").trigger("click");
-            stompIt("SCORE","TEAM1_SCORE");
+            stompIt("SCORE","Team 1 scored");
         });
 
         $("#team2Score").change(function (event) {
             event.preventDefault();
             $("#bth-reset-40").trigger("click");
-            stompIt("SCORE","TEAM2_SCORE");
+            stompIt("SCORE","Team 2 scored");
         });
 
         //handle timeouts
@@ -765,34 +765,33 @@
             event.preventDefault();
             pauseClocks();
             stopGameWithoutEventFire();
-            stompIt("TIMEOUT","TEAM1_TIMEOUT");
+            stompIt("TIMEOUT","Add team 1 player timeout");
         });
 
         $("#team2Timeout").change(function (event) {
             event.preventDefault();
             pauseClocks();
             stopGameWithoutEventFire();
-            stompIt("TIMEOUT","TEAM2_TIMEOUT");
+            stompIt("TIMEOUT","Add team 2 player timeout");
         });
 
         $("#coach1Timeout").change(function (event) {
             event.preventDefault();
             pauseClocks();
             stopGameWithoutEventFire();
-            stompIt("TIMEOUT","COACH1_TIMEOUT");
+            stompIt("TIMEOUT","Add team 1 coach timeout");
         });
 
         $("#coach2Timeout").change(function (event) {
             event.preventDefault();
             pauseClocks();
             stopGameWithoutEventFire();
-            stompIt("TIMEOUT","COACH2_TIMEOUT");
+            stompIt("TIMEOUT","Add team 2 coach timeout");
         });
 
-        $("#period").change(function (event) { stompIt("","PERIOD"); });
+        $("#period").change(function (event) { stompIt("","Changed quarter period"); });
 
-        $("#period").change(function (event) { stompIt("","PERIOD"); });
-        $("#possession").change(function (event) { stompIt("","POSSESSION"); });
+        $("#possession").change(function (event) { stompIt("","Changed team possession indicator"); });
         $("#start").change(handleStartStop);
 
         $("#bth-reset-qtr").click(function (event) {
@@ -802,7 +801,7 @@
             stopGameWithoutEventFire();
             startGameClock();
             pauseGameClock();
-            stompIt("STOP_CLOCK","RESET_QTR");
+            stompIt("STOP_CLOCK","'Reset Quarter' button clicked");
         });
 
         $("#bth-reset-40").click(function (event) {
@@ -812,7 +811,7 @@
             stopGameWithoutEventFire();
             startShotClock(400);
             pauseGameClock();
-            stompIt("STOP_CLOCK","RESET_SHOT_40");
+            stompIt("STOP_CLOCK","'Reset 40' button clicked");
         });
 
         $("#bth-reset-15").click(function (event) {
@@ -822,13 +821,13 @@
             stopGameWithoutEventFire();
             startShotClock(150);
             pauseGameClock();
-            stompIt("STOP_CLOCK","RESET_SHOT_15");
+            stompIt("STOP_CLOCK","'Reset 15' button clicked");
         });
 
         $("#btn-umpire").click(function (event) {
             // Prevent the form from submitting via the browser.
             event.preventDefault();
-            stompIt("NOTIFY_UMPIRE","NOTIFY_UMPIRE");
+            stompIt("NOTIFY_UMPIRE","'Umpire' button clicked");
         });
 
         //#score-manager
@@ -837,13 +836,13 @@
             event.preventDefault();
             $("#team1NameLabel").text(" - " + $("#team1Name").val());
             $("#team2NameLabel").text(" - " + $("#team2Name").val());
-            stompIt("SAVE_TEAM_SETUP","SAVE_TEAM_SETUP");
+            stompIt("SAVE_TEAM_SETUP","Updating Team Setup");
         });
 
         $("#btn-applySettings").click(function (event) {
             // Prevent the form from submitting via the browser.
             event.preventDefault();
-            stompIt("SAVE_TEAM_SETUP","SAVE_TEAM_SETUP");
+            stompIt("SAVE_TEAM_SETUP","Updating Configuration");
         });
 
         $("#main-logo-select").change(function (event) {
