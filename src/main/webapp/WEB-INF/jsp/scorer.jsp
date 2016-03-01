@@ -23,7 +23,7 @@
     <c:set var="home">${fn:substring(url, 0, fn:length(url) - fn:length(uri))}${req.contextPath}/</c:set>
     <c:set var="teamColours">red,green,yellow,blue,orange,#222,#DDD</c:set>
 </head>
-<body onload="connect()">
+<body onload="init()">
 
 <nav class="navbar navbar-inverse">
     <div class="container">
@@ -457,19 +457,19 @@
                                 <div class="form-group form-group-lg">
                                     <label class="col-sm-4 control-label">Display Shot Clock</label>
                                     <div class="col-sm-2">
-                                        <input type="checkbox" class="form-control" id="displayShotClock">
+                                        <input type="checkbox" class="form-control" value="true" id="displayShotClock" checked>
                                     </div>
                                 </div>
                                 <div class="form-group form-group-lg">
                                     <label class="col-sm-4 control-label">Number of team timeouts</label>
                                     <div class="col-sm-2">
-                                        <input type="text" class="form-control" id="numberOfTeamTimeouts">
+                                        <input type="text" class="form-control" id="numberOfTeamTimeouts" value="4">
                                     </div>
                                 </div>
                                 <div class="form-group form-group-lg">
                                     <label class="col-sm-4 control-label">Number of coach timeouts</label>
                                     <div class="col-sm-2">
-                                        <input type="text" class="form-control" id="numberOfCoachTimeouts">
+                                        <input type="text" class="form-control" id="numberOfCoachTimeouts" value="2">
                                     </div>
                                 </div>
                             </div>
@@ -530,6 +530,16 @@
         startGameClock();
         pauseClocks();
     });
+
+    function init() {
+        connect();
+        initClocks();
+    }
+
+    function initClocks() {
+        startGameClock();
+        pauseGameClock();
+    }
 
     function connect() {
         var socket = new SockJS('<c:url value="/stomp"/>');
@@ -834,7 +844,6 @@
             // Prevent the form from submitting via the browser.
             event.preventDefault();
             stompIt("SAVE_TEAM_SETUP","SAVE_TEAM_SETUP");
-            // TODO implement this completely   
         });
 
         $("#main-logo-select").change(function (event) {
@@ -866,7 +875,9 @@
             event.preventDefault();
             uploadLogo("team2-logo");
         });
+
     });
+
 
     function uploadLogo(key) {
         var fileSelect = $("#" + key + "-select")[0];
@@ -919,6 +930,13 @@
         score["action"] = logAction;
         score["actionTime"] = actionTime;
         score["period"] = $("#period").val();
+        score["displayShotClock"] = $('input[id=displayShotClock]:checked', '#configuration-manager').val();
+        score["teamTimeoutLimit"] = $("#numberOfTeamTimeouts").val();
+        score["coachTimeoutLimit"] = $("#numberOfCoachTimeouts").val();
+        $("#team1Timeout" ).attr("max", $("#numberOfTeamTimeouts").val());
+        $("#team2Timeout" ).attr("max", $("#numberOfTeamTimeouts").val());
+        $("#coach1Timeout" ).attr("max", $("#numberOfCoachTimeouts").val());
+        $("#coach2Timeout" ).attr("max", $("#numberOfCoachTimeouts").val());
 
         if (!$("#possession").is(':checked')) {
             score["direction"] = "LEFT";
