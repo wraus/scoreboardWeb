@@ -609,7 +609,6 @@
 
     function handleStartStop() {
         if (!$("#start").is(':checked')) {
-            //startGameClock();
             gameClock.start();
             shotClock.start();
             stompIt("START_CLOCK","'Start' button clicked");
@@ -781,7 +780,7 @@
             secTenths: 150,
             actionMessage: "'Reset 15' button clicked"
         },resetShotClock);
-        
+
         $("#btn-umpire").click(function (event) {
             // Prevent the form from submitting via the browser.
             event.preventDefault();
