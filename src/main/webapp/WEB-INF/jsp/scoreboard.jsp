@@ -102,7 +102,7 @@
 
         function initDisplay() {
             $("[id^=timeoutT]").fadeTo(0, 0.25);
-            $(".panel-shotclock").css("visibility", "visible");
+            toggleShotClock("true");
             updateDirection();
             startClocks();
             pauseClocks();
@@ -146,7 +146,7 @@
                     quarterSirenSound.play();
                     break;
                 case "HIDE_SHOT_CLOCK":
-                    toggleShotClock(false);
+                    toggleShotClock("false");
                     break;
                 case "NOTIFY_UMPIRE":
                     umpireSound.play();
@@ -204,8 +204,8 @@
         }
 
         function toggleShotClock(displayShotClock) {
-            if (displayShotClock == "true") {
-                $(".panel-shotclock").css("visibility", "");
+            if (displayShotClock === "true") {
+                $(".panel-shotclock").css("visibility", "visible");
             } else { $(".panel-shotclock").css("visibility", "hidden"); }
         }
 
