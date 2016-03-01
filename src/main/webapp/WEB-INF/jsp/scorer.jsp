@@ -23,7 +23,7 @@
     <c:set var="home">${fn:substring(url, 0, fn:length(url) - fn:length(uri))}${req.contextPath}/</c:set>
     <c:set var="teamColours">red,green,yellow,blue,orange,#222,#DDD</c:set>
 </head>
-<body onload="connect()">
+<body onload="init()">
 
 <nav class="navbar navbar-inverse">
     <div class="container">
@@ -531,6 +531,16 @@
         pauseClocks();
     });
 
+    function init() {
+        connect();
+        initClocks();
+    }
+
+    function initClocks() {
+        startGameClock();
+        pauseGameClock();
+    }
+
     function connect() {
         var socket = new SockJS('<c:url value="/stomp"/>');
         stompClient = Stomp.over(socket);
@@ -866,6 +876,7 @@
             event.preventDefault();
             uploadLogo("team2-logo");
         });
+
     });
 
     function uploadLogo(key) {
