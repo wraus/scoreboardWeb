@@ -4,18 +4,45 @@ import java.util.Date;
 
 public class Scoreboard {
 
+    private String command;
+    private String action;
+    private Date actionTime;
     private Team team1;
     private Team team2;
     private Clock gameClock;
     private Clock shotClock;
     private Integer period = 1;
     private String direction;
-    private String command;
-    private String action;
-    private Date actionTime;
+    private Integer teamTimeoutLimit = 4;
+    private Integer coachTimeoutLimit = 4;
+    private boolean displayShotClock = true;
 
     public Scoreboard() {
 
+    }
+
+    public String getCommand() {
+        return command;
+    }
+
+    public void setCommand(String command) {
+        this.command = command;
+    }
+
+    public String getAction() {
+        return action;
+    }
+
+    public void setAction(String action) {
+        this.action = action;
+    }
+
+    public Date getActionTime() {
+        return actionTime;
+    }
+
+    public void setActionTime(Date actionTime) {
+        this.actionTime = actionTime;
     }
 
     public Team getTeam1() {
@@ -66,27 +93,27 @@ public class Scoreboard {
         this.direction = direction;
     }
 
-    public String getCommand() {
-        return command;
+    public Integer getTeamTimeoutLimit() {
+        return teamTimeoutLimit;
     }
 
-    public void setCommand(String command) {
-        this.command = command;
+    public void setTeamTimeoutLimit(Integer teamTimeoutLimit) {
+        this.teamTimeoutLimit = teamTimeoutLimit;
     }
 
-    public Date getActionTime() {
-        return actionTime;
+    public Integer getCoachTimeoutLimit() {
+        return coachTimeoutLimit;
     }
 
-    public void setActionTime(Date actionTime) {
-        this.actionTime = actionTime;
+    public void setCoachTimeoutLimit(Integer coachTimeoutLimit) {
+        this.coachTimeoutLimit = coachTimeoutLimit;
     }
 
-    public void setAction(String action) {
-        this.action = action;
+    public boolean isDisplayShotClock() {
+        return displayShotClock;
     }
 
-    public String getAction() {
-        return action;
+    public void setDisplayShotClock(boolean displayShotClock) {
+        this.displayShotClock = displayShotClock;
     }
 }

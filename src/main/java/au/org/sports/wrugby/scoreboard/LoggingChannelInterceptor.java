@@ -16,12 +16,16 @@ import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
 
 import static org.springframework.messaging.simp.SimpMessageType.*;
 
 @Component("loggingChannelInterceptor")
 public class LoggingChannelInterceptor extends ChannelInterceptorAdapter implements InitializingBean {
     private static final Logger LOGGER = LoggerFactory.getLogger(LoggingChannelInterceptor.class);
+    public static final DateFormat ISO_8601_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ", Locale.getDefault());
 
     @Value("${au.org.sports.wrugby.scoreboard.logFile}")
     public String fileName;
@@ -43,6 +47,7 @@ public class LoggingChannelInterceptor extends ChannelInterceptorAdapter impleme
                 Scoreboard score = jsonMapper.readValue(scoreJSON, Scoreboard.class);
                 XmlMapper xmlMapper = new XmlMapper();
                 xmlMapper.configure(SerializationConfig.Feature.WRITE_DATES_AS_TIMESTAMPS, false);
+                xmlMapper.setDateFormat(ISO_8601_DATE_FORMAT);
                 FileUtils.writeStringToFile(file, xmlMapper.writeValueAsString(score) + "\n", true);
             } catch (IOException e) {
                 // As this is an interceptor, we don't want the exception to propogate
