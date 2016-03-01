@@ -494,7 +494,7 @@
 <div class="container">
     <footer>
         <p>
-            Sponsored by <a href="http://http://auspost.com.au/">Australia Post</a>
+            Sponsored by <a href="http://auspost.com.au/">Australia Post</a>
         </p>
     </footer>
 </div>
