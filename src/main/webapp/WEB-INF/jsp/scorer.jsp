@@ -322,7 +322,7 @@
                                 <div class="form-group form-group-lg">
                                     <label class="col-sm-2 control-label">Name</label>
                                     <div class="col-sm-9">
-                                        <input type=text class="form-control" id="team1Name">
+                                        <input type=text class="form-control" id="team1Name" value="Home">
                                     </div>
                                 </div>
                                 <div class="form-group form-group-lg">
@@ -365,7 +365,7 @@
                                 <div class="form-group form-group-lg">
                                     <label class="col-sm-2 control-label">Name</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="team2Name">
+                                        <input type="text" class="form-control" id="team2Name" value="Away">
                                     </div>
                                 </div>
                                 <div class="form-group form-group-lg">
