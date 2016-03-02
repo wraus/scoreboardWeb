@@ -12,7 +12,7 @@ body {
     font-family: Verdana, Arial, Helvetica, sans-serif;
     /*font-size: 13px;*/
     color: white;
-    background: #000000;
+    background: #333;
 }
 
 div.rows div.row {
@@ -47,7 +47,7 @@ div.heading {
 div.score {
     font-family: '7segment';
     font-size: 64px;
-    color: yellow;
+    /*color: yellow;*/
 }
 
 div.team {
@@ -59,6 +59,7 @@ div.team {
 div.digits-alt {
     font-family: '7segment';
     color: yellow;
+    font-size: 124px;
 }
 @media (min-width: 692px) {
   div.digits-alt { font-size: 48px; }
@@ -107,35 +108,52 @@ div.message {
     margin: 0 auto;
 }
 
-#content {
-    background: #000000;
-    border-radius: 10px;
-    border: 1px solid #000000;
+#content {   
     margin: 5px;
     text-align:center;
 }
 
+#footer {
+  
+}
 
 /* ---------- OVERRIDING PANEL STYLE ---------------- */
 div.panel {
     border:0px !important;
-    background:#000;
+    background:inherit;
     margin-top:10px;
+}
+
+/* ---------- BANNER PANEL --------------- */
+div.banner-row {
+    margin-top: 10px;
+    margin-bottom: 5px;
 }
 
 /* ---------- CLOCK PANEL ---------------- */
 div.panel .game-clock {
-    background:#002900;
+    /*background:#002900;*/
+    border: 4px dotted #666;
     color:#0F0;
     text-align:center;
-    margin-bottom:35px !important;
+    padding: 35px 0;
+    margin-bottom:20px !important;
+    border-radius: 10px;
 }
+
+.panel-shotclock-period {
+    margin-bottom: 5px !important;
+    text-align: center;
+    padding: 0px 0px;
+}
+
 div.panel .shot-clock {
-    background:#010;
+    /*background:#010;*/
     color:#0F0;
     text-align:center;
-    margin-bottom:35px !important;
+    border: 4px dotted #666;
 }
+
 div.panel .shot-clock div {
     font-size: 84px !important;
     color: #CA0 !important;
@@ -153,32 +171,73 @@ div.panel .shot-clock div {
   div.panel .shot-clock div { font-size: 84px !important; }
 }
 
-div.panel-shotclock {
-    background: #080;
-    color: #010 !important;
+div.panel-extra {
+    padding-left: 0px;
+    padding-right: 0px;
 }
-div.panel-extra, div.panel-extra div {
+div.panel-extra .panel-heading {
+    padding:  0px;
+    color:#AAA !important;
+}
+div.panel-extra .panel-body {
     /*background: #363;*/
-    background:#002900;
     color: #AFA !important;
-    font-size: 24px;
+    font-size: 20px;
+    border-radius: 10px;
+    margin-top: 5px;
+}
+
+div.panel-shotclock {
+    padding-right: 0px;
+    color:#AAA !important;
+}
+div.panel-shotclock .panel-heading {
+    padding:  0px;
+}
+div.panel-shotclock .panel-body {
+    /*background: #363;*/
+    color: #AFA !important;
+    font-size: 20px;
+    border-radius: 10px;
+    margin-top: 5px;
+}
+
+div.panel-firstpanel {
+    margin-top: 15px;
+    margin-bottom: 0px;
+}
+
+div.shot-clock-no-height {
+    height: 0px;
+    margin-top: -25px;
+}
+
+div.arrow-panel {
+    margin: 0px;
+    padding: 5px;
+}
+
+div.arrow-panel .panel-body{
+    margin: 0px;
+    padding: 0px;
 }
 /* ---------- TEAM PANEL ---------------- */
 div.scorePanel {
     width:70%;
+    font-family: "Arial";
 }
 div.teamPanel {
-    border-radius: 16px !important;
+    border-radius: 10px !important;
     padding: 0 10px 10px 10px;
     margin:auto;
 }
 div.teamPanel p {
-    padding: 15px 0 15px 0;
-    font-size: 36px;
+    padding: 10px 0 10px 0;
+    font-size: 30px;
     font-weight: bold;
 }
 div.teamPanel div {
-    border-radius: 16px !important;
+    border-radius: 2px !important;
 }
 div.teamPanel .panel-body {
     background: black;
@@ -187,20 +246,57 @@ div.teamPanel .panel-body {
 div.team1 {
     border-color: red;
     background: red;
-    margin-top:40px;
+    margin-top: 15px;
 }
 div.team2 {
-    border-color: red;
-    background: red;
-    margin-top:40px;
+    border-color: green;
+    background: green;
+    margin-top: 15px;
 }
+div.timeoutPanel {
+    border-radius: 10px !important;
+    margin:auto;
+}
+
 div.timeout {
-    /*border-color: #555;
-    background: #555;*/
     color:#AAA !important;
-    border-color: #000;
-    background: #000;
-    margin-top:20px;
-    margin-bottom:50px;
+    margin:auto;
+    margin-top:25px;
 }
-div.timeout .row { border-color: #000; background: #000; padding-left:10px; padding-top:20px;}
+div.timeout .panel-heading {
+    padding: 5px;
+}
+div.timeout .panel-body {
+    padding: 0;
+    background-color: inherit;
+    border: 4px dotted;
+    border-color: #666;
+    border-radius: 10px !important;
+}
+div.timeout .panel-body .row {  margin:5px; padding-left:5px; padding-top:10px;}
+
+div.timeout .team-timeouts {
+    padding: 5px;
+    text-align: left;
+}
+div.timeout .coach-timeouts {
+    padding: 5px;
+    text-align: right;
+}
+/*--------- OVERRIDING FOOT NAVBAR STYLE -----------*/
+.navbar-default {
+  background-color: inherit;
+  border-color: transparent;
+}
+
+.footer .footer-image-right {
+    text-align: right;
+    font-size: 12px;
+    color: #999;
+}
+
+.footer .footer-image-left {
+    text-align: left;
+    font-size: 12px;
+    color: #999;
+}
