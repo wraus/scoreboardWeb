@@ -163,11 +163,11 @@
                 case "SAVE_TEAM_SETUP":
                     $('body').attr('style','background: '+message.backgroundColour);
                     $('div.teamPanel .panel-body').attr('style','background: '+message.backgroundColour);
+                    $('div.team1').attr('style','background: '+message.team1.colour);
                     $('div.team2').attr('style','background: '+message.team2.colour);
                     $("#main-logo").attr("src", "${pageContext.request.contextPath}/scorer/image?key=main-logo&&default=/images/banner.png&"+new Date().getTime());
                     $("#team1-logo").attr("src", "${pageContext.request.contextPath}/scorer/image?key=team1-logo&"+new Date().getTime());
                     $("#team2-logo").attr("src", "${pageContext.request.contextPath}/scorer/image?key=team2-logo&"+new Date().getTime());
-                    $('div.team1').attr('style','background: '+message.team1.colour);
                     toggleShotClock(message.displayShotClock);
                     break;
             }
