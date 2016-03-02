@@ -160,6 +160,9 @@
                 case "NOTIFY_UMPIRE":
                     umpireSound.play();
                     break;
+                case "UPDATE_GAME_MESSAGE":
+                    updateGameMessage(message.scrollerMessage);
+                    break;    
                 case "SAVE_TEAM_SETUP":
                     $('body').attr('style','background: '+message.backgroundColour);
                     $('div.teamPanel .panel-body').attr('style','background: '+message.backgroundColour);
@@ -189,6 +192,14 @@
             }
         }
 
+        function updateGameMessage(gameMessage) {
+            if (gameMessage) {
+                $('#footer-scroller').show();
+                $("#scroller-text").html(gameMessage);
+            } else {
+                $('#footer-scroller').hide();        
+            }
+        }
         function renderTimeouts(teamLimit, coachLimit) {
             //alert(teamLimit + " - " + coachLimit);
             for (teamIndex=1; teamIndex<=2; teamIndex++) {
@@ -345,15 +356,22 @@
             </div>
         </div>
     </div>
+
+
     <nav class="navbar navbar-default navbar-fixed-bottom footer">
         <div class="container">
             <div class="row">
-                <div class="col-sm-6 footer-image-left">
+                <div class="col-sm-2 footer-image-left">
                     <img src="/images/logo-old.svg" style="width:48px;height:60px;">
-                    Australian Paraplegic Council
                 </div>
-                <div class="col-sm-6 footer-image-right">
-                    Proudly sponsored by <img src="/images/auspost-logo.png">
+                
+                <div class="col-sm-8">
+                <div class="footer-scroller-panel" id="footer-scroller">
+                    <marquee behavior="scroll" direction="left" id="scroller-text">Welcome to the Game!</marquee>
+                </div>
+                </div>
+                <div class="col-sm-2 footer-image-right">
+                    <img src="/images/auspost-logo.png">
                 </div>
             </div>
         </div>

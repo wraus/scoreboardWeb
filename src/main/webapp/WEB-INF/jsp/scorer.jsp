@@ -144,6 +144,21 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="row">
+                        <div class="col-sm-11">
+                            <div class="form-group form-group-lg" >
+                                <label class="col-sm-3 control-label">Game Message:</label>
+                                <div class="col-sm-6"  >
+                                    <input type=text class="form-control input-lg" id="gameMessage">
+                                </div>
+                                <div class="col-sm-3"  >
+                                    <button type="button" id="btn-game-message" class="btn btn-primary btn-lg">Set Message</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
 
@@ -801,6 +816,12 @@
             stompIt("NOTIFY_UMPIRE","'Umpire' button clicked");
         });
 
+        $("#btn-game-message").click(function (event) {
+            // Prevent the form from submitting via the browser.
+            event.preventDefault();
+            stompIt("UPDATE_GAME_MESSAGE","'Set Game Message' button clicked");
+        });
+
         //#score-manager
         $("#bth-save").click(function (event) {
             // Prevent the form from submitting via the browser.
@@ -948,7 +969,8 @@
         score["gameClock"] = gameClock;
         score["shotClock"] = shotClock;
         score["backgroundColour"] = $('input[name=backgroundColour]:checked', '#configuration-manager').val();
-
+        score["scrollerMessage"] = $("#gameMessage").val();
+        
         console.log("SUCCESS: ", score);
 
         stompClient.send("/topic/score", {}, JSON.stringify(score));

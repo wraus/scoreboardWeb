@@ -17,6 +17,7 @@ public class Scoreboard {
     private Integer coachTimeoutLimit = 4;
     private boolean displayShotClock = true;
     private String backgroundColour; 
+    private String scrollerMessage;
 
     public Scoreboard() {
 
@@ -124,5 +125,13 @@ public class Scoreboard {
 
     public void setBackgroundColour(String backgroundColour) {
         this.backgroundColour = backgroundColour;
+    }
+
+    public String getScrollerMessage() {
+        return scrollerMessage;
+    }
+
+    public void setScrollerMessage(String scrollerMessage) {
+        this.scrollerMessage = scrollerMessage;
     }
 }
