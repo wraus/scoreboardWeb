@@ -106,11 +106,13 @@
             updateDirection();
             startClocks();
             pauseClocks();
+
             document.getElementById('team1Score').innerHTML = '0';
             document.getElementById('team2Score').innerHTML = '0';
             document.getElementById('team1Name').innerHTML = 'Home';
             document.getElementById('team2Name').innerHTML = 'Away';
 
+            renderTimeouts(4,2);
         }
 
         function syncClocks(message){
@@ -191,15 +193,15 @@
                 var teamHtml = "";
                 var coachHtml = "";
                 for (i=1; i<=teamLimit; i++) {
-                    teamHtml += "<img id=\"timeoutT" + teamIndex + "P" + i + "\" src=\"images/t_bw.png\" width=\"30px\" height=\"30px\"/>";
+                    teamHtml += "<img id=\"timeoutT" + teamIndex + "P" + i + "\" src=\"images/team.png\" width=\"30px\" height=\"30px\"/>"+"&nbsp;";
                 }
                 for (i=1; i<=coachLimit; i++) {
-                    coachHtml += "<img id=\"timeoutT" + teamIndex + "C" + i + "\" src=\"images/c_bw.png\" width=\"30px\" height=\"30px\"/>";
+                    coachHtml += "<img id=\"timeoutT" + teamIndex + "C" + i + "\" src=\"images/coach.png\" width=\"30px\" height=\"30px\"/>"+"&nbsp;";
                 }
                 $("#team" + teamIndex + "Timeouts").html(teamHtml);
                 $("#coach" + teamIndex + "Timeouts").html(coachHtml);
             }
-            $("[id^=timeoutT]").fadeTo(0, 0.25);
+            $("[id^=timeoutT]").fadeTo(0, 0.1);
         }
         function updateTimeouts(timeoutGroup, number) {
             if (number != null) {
@@ -213,7 +215,14 @@
         function toggleShotClock(displayShotClock) {
             if (displayShotClock === "true") {
                 $(".panel-shotclock").css("visibility", "visible");
-            } else { $(".panel-shotclock").css("visibility", "hidden"); }
+                $(".panel-shotclock").removeClass("shot-clock-no-height");
+                $("#period-panel").addClass("col-sm-6");
+                $("#period-panel").removeClass("col-sm-12");
+            } else { $(".panel-shotclock").css("visibility", "hidden"); 
+                $(".panel-shotclock").addClass("shot-clock-no-height");
+                $("#period-panel").removeClass("col-sm-6");
+                $("#period-panel").addClass("col-sm-12");
+            }
         }
 
     </script>
@@ -223,12 +232,19 @@
     <div id="wrapper">
         <div id="contentwrap">
             <div id="content">
-
-                <div><a href="<c:url value='/login' />"><img id="main-logo" src="<c:url value='/scorer/image?key=main-logo&default=/images/banner.png' />" class="banner"/></a></div>
-
-                <div class="row">
+                <div class="row banner-row">
                     <div class="col-sm-4">
                         <img id="team1-logo" src="<c:url value='/scorer/image?key=team1-logo'/>" />
+                    </div>
+                    <div class="col-sm-4"> 
+                        <img id="main-logo" src="<c:url value='/scorer/image?key=main-logo&default=/images/banner.png' />" class="banner"/>
+                    </div>
+                    <div class="col-sm-4">
+                        <img id="team2-logo" src="<c:url value='/scorer/image?key=team2-logo'/>" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4">
                         <div class="teamPanel panel-primary scorePanel team1">
                             <p><span id="team1Name">${score.team1.name}</span></p>
                             <div class="panel-body">
@@ -236,51 +252,69 @@
                             </div>
                         </div>
 
-                        <div class="teamPanel scorePanel timeout">
-                            Timeouts
-                            <div class="row">
-                                <div class="col-sm-7" id="team1Timeouts"></div>
-                                <div class="col-sm-5" id="coach1Timeouts"></div>
+                        <div class="timeoutPanel scorePanel timeout">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Timeouts</h3>
+                            </div>
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-sm-7 team-timeouts" id="team1Timeouts"></div>
+                                    <div class="col-sm-5 coach-timeouts" id="coach1Timeouts"></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-7">Team</div>
+                                    <div class="col-sm-5">Coach</div>
+                                </div>
                             </div>
                         </div>
-
                     </div>
                     <div class="col-sm-4">
 
-                        <br/><br/>
-                        <div class="panel">
+                        <div class="panel panel-firstpanel">
                             <div class="panel-body game-clock">
+
                                 <div class="digits-alt">
                                     <span id="gameClockMins">${score.gameClock.mins}</span>:<span id="gameClockSecs">${score.gameClock.secs}</span>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="panel panel-shotclock">
-                            <div class="panel-body shot-clock">
-                                <div class="digits-alt">
-                                    <span id="shotClockSecs">${score.shotClock.secs}</span>
+                        <div class="col-sm-12 panel-shotclock-period">
+
+                            <div id="period-panel" class="panel panel-extra">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">Quarter</h3>
+                                </div>
+                                <div class="panel-body shot-clock">
+                                    <div class="digits-alt">
+                                        <span id="period">${score.period}</span>
+                                    </div>
                                 </div>
                             </div>
+
+                            <div class="col-sm-6 panel panel-shotclock">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">Shot Clock</h3>
+                                </div>
+                                <div class="panel-body shot-clock">
+                                    <div class="digits-alt">
+                                        <span id="shotClockSecs">${score.shotClock.secs}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
                         </div>
 
-                        <div class="panel panel-extra">
+                        <div class="col-sm-12 arrow-panel">
                             <div class="panel-body">
-                                Period: <span id="period">${score.period}</span>
+                                <div id="arrowRight"><img src="images/green-arrow-right.png"/></div>
+                                <div id="arrowLeft"><img src="images/green-arrow-left.png"/></div>
                             </div>
                         </div>
-
-                        <div class="panel">
-                            <div class="panel-body">
-                                <div id="arrowRight"><img src="images/geren-arrow-right.png" width="140px" height="80px"/></div>
-                                <div id="arrowLeft"><img src="images/geren-arrow-left.png" width="140px" height="80px"/></div>
-                            </div>
-                        </div>
-                        <br/><br/>
 
                     </div>
                     <div class="col-sm-4">
-                        <img id="team2-logo" src="<c:url value='/scorer/image?key=team2-logo'/>" />
+                        
                         <div class="teamPanel panel-primary scorePanel team2">
                             <p><span id="team2Name">${score.team2.name}</span></p>
                             <div class="panel-body">
@@ -288,11 +322,19 @@
                             </div>
                         </div>
 
-                        <div class="teamPanel panel-success scorePanel timeout">
-                            Timeouts
-                            <div class="row">
-                                <div class="col-sm-7" id="team2Timeouts"></div>
-                                <div class="col-sm-5" id="coach2Timeouts"></div>
+                        <div class="timeoutPanel scorePanel timeout">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Timeouts</h3>
+                            </div>
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-sm-7 team-timeouts" id="team2Timeouts"></div>
+                                    <div class="col-sm-5 coach-timeouts" id="coach2Timeouts"></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-7">Team</div>
+                                    <div class="col-sm-5">Coach</div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -301,5 +343,18 @@
             </div>
         </div>
     </div>
+    <nav class="navbar navbar-default navbar-fixed-bottom footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6 footer-image-left">
+                    <img src="/images/logo-old.svg" style="width:48px;height:60px;">
+                    Australian Paraplegic Council
+                </div>
+                <div class="col-sm-6 footer-image-right">
+                    Proudly sponsored by <img src="/images/auspost-logo.png">
+                </div>
+            </div>
+        </div>
+    </nav>
 </body>
 </html>
