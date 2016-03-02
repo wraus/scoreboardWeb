@@ -21,7 +21,7 @@
     <script src="<c:url value='/scripts/wr-common.js'/>"></script>
 
     <c:set var="home">${fn:substring(url, 0, fn:length(url) - fn:length(uri))}${req.contextPath}/</c:set>
-    <c:set var="teamColours">red,green,yellow,blue,orange,#222,#DDD</c:set>
+    <c:set var="teamColours">red,green,yellow,blue,orange,#222,#333,#DDD,white</c:set>
 </head>
 <body onload="init()">
 
@@ -472,6 +472,20 @@
                                         <input type="text" class="form-control" id="numberOfCoachTimeouts" value="2">
                                     </div>
                                 </div>
+
+                                <div class="form-group form-group-lg">
+                                    <label class="col-sm-4 control-label">Background Colour</label>
+                                    <div class="col-sm-8">
+                                        <div class="radio colour-picker">
+                                            <ul>
+                                                <c:forTokens items="${teamColours}" delims="," var="colour">
+                                                    <li><input type="radio" name="backgroundColour" value="${colour}"><div style="background:${colour};"></div></li>
+                                                </c:forTokens>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+
                             </div>
 
                         </div>
@@ -933,6 +947,7 @@
         score["team2"] = team2;
         score["gameClock"] = gameClock;
         score["shotClock"] = shotClock;
+        score["backgroundColour"] = $('input[name=backgroundColour]:checked', '#configuration-manager').val();
 
         console.log("SUCCESS: ", score);
 

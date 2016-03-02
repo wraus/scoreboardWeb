@@ -16,6 +16,7 @@ public class Scoreboard {
     private Integer teamTimeoutLimit = 4;
     private Integer coachTimeoutLimit = 4;
     private boolean displayShotClock = true;
+    private String backgroundColour; 
 
     public Scoreboard() {
 
@@ -115,5 +116,13 @@ public class Scoreboard {
 
     public void setDisplayShotClock(boolean displayShotClock) {
         this.displayShotClock = displayShotClock;
+    }
+
+    public String getBackgroundColour() {
+        return backgroundColour;
+    }
+
+    public void setBackgroundColour(String backgroundColour) {
+        this.backgroundColour = backgroundColour;
     }
 }
