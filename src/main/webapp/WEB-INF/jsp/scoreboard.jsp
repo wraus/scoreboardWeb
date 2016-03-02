@@ -102,7 +102,7 @@
 
         function setDefaultValues() {
             $("[id^=timeoutT]").fadeTo(0, 0.25);
-            toggleShotClock("true");
+            toggleShotClock(true);
             updateDirection();
             startClocks();
             pauseClocks();
@@ -153,9 +153,10 @@
                     $("#gameClockSecs").html(padDigits(0));
                     $("#gameClockTenths").html(padDigits(0));
                     quarterSirenSound.play();
+                    toggleShotClock(message.displayShotClock);
                     break;
                 case "HIDE_SHOT_CLOCK":
-                    toggleShotClock("false");
+                    toggleShotClock(message.displayShotClock);
                     break;
                 case "NOTIFY_UMPIRE":
                     umpireSound.play();
@@ -227,7 +228,7 @@
         }
 
         function toggleShotClock(displayShotClock) {
-            if (displayShotClock === "true") {
+            if (displayShotClock) {
                 $(".panel-shotclock").css("visibility", "visible");
                 $(".panel-shotclock").removeClass("shot-clock-no-height");
                 $("#period-panel").addClass("col-sm-6");
