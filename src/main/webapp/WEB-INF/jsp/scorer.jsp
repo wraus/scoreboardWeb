@@ -424,7 +424,7 @@
                             <div class="panel-body">
 
                                 <div class="form-group form-group-lg">
-                                    <label class="col-sm-4 control-label">Period:</label>
+                                    <label class="col-sm-4 control-label">Quarter</label>
                                     <div class="col-sm-3">
                                         <div class="input-group">
                                             <span class="input-group-btn">
