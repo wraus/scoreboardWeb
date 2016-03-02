@@ -25,158 +25,23 @@
 </head>
 <body onload="init()">
 
-<nav class="navbar navbar-inverse">
-    <div class="container">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="#">Wheelchair Rugby Controller</a>
-        </div>
-    </div>
-</nav>
-
-<div class="container" >
-
-    <ul class="nav nav-pills">
-        <li class="active"><a data-toggle="pill" href="#home">Game</a></li>
-        <li><a data-toggle="pill" href="#menu1">Team Setup</a></li>
-        <li><a data-toggle="pill" href="#menu2">Configuration</a></li>
-    </ul>
+<div class="container scorer-container">
     <div class="tab-content">
         <div id="home" class="tab-pane fade in active">
 
             <form class="form-horizontal" id="game-manager">
-
-
-            <!-- ************************************************************************************************** -->
-            <!-- GAME CONTROLS -->
-            <!-- ************************************************************************************************** -->
-
-            <div class="panel panel-primary">
-                <div class="panel-body">
-
-                    <div class="row">
-                        <div class="col-sm-11">
-                            <div class="form-group form-group-lg" >
-                                <label class="col-sm-3 control-label" >Game clock:</label>
-                                <div class="col-sm-2" >
-                                    <input type=text class="form-control input-number input-lg" name="gameClockMins[]" id="gameClockMins" min="0" max="59">
-                                    <button id="gameClockMinsMinus" type="button" class="btn btn-danger btn-number btn-xs" data-type="minus" data-field="gameClockMins[]">
-                                        <span class="glyphicon glyphicon-minus"></span>
-                                    </button>
-                                    <button id="gameClockMinsPlus" type="button" class="btn btn-success btn-number btn-xs" data-type="plus" data-field="gameClockMins[]">
-                                        <span class="glyphicon glyphicon-plus"></span>
-                                    </button>
-                                </div>
-                                <div class="col-sm-2" >
-                                    <input type=text class="form-control input-number input-lg" id="gameClockSecs" name="gameClockSecs[]" min="0" max="59">
-                                    <button id="gameClockSecsMinus" type="button" class="btn btn-danger btn-number btn-xs" data-type="minus" data-field="gameClockSecs[]">
-                                        <span class="glyphicon glyphicon-minus"></span>
-                                    </button>
-                                    <button id="gameClockSecsPlus" type="button" class="btn btn-success btn-number btn-xs" data-type="plus" data-field="gameClockSecs[]">
-                                        <span class="glyphicon glyphicon-plus"></span>
-                                    </button>
-                                </div>
-                                <div class="col-sm-2" >
-                                    <input type=text class="form-control input-number input-lg" id="gameClockTenths" name="gameClockTenths[]" min="0" max="9">
-                                    <button id="gameClockTenthsMinus" type="button" class="btn btn-danger btn-number btn-xs" data-type="minus" data-field="gameClockTenths[]">
-                                        <span class="glyphicon glyphicon-minus"></span>
-                                    </button>
-                                    <button id="gameClockTenthsPlus" type="button" class="btn btn-success btn-number btn-xs" data-type="plus" data-field="gameClockTenths[]">
-                                        <span class="glyphicon glyphicon-plus"></span>
-                                    </button>
-                                </div>
-                                <div class="col-sm-3" >
-                                    <button type="button" id="bth-reset-qtr" class="btn btn-primary btn-lg">Reset Quarter</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-11">
-                            <div class="form-group form-group-lg" >
-                                <label class="col-sm-3 control-label"  >Shot clock:</label>
-                                <div class="col-sm-2"  >
-                                    <input type=text class="form-control input-number input-lg" id="shotClockSecs" name="shotClockSecs[]" min="0" max="59">
-                                    <button id="shotClockSecsMinus" type="button" class="btn btn-danger btn-number btn-xs" data-type="minus" data-field="shotClockSecs[]">
-                                        <span class="glyphicon glyphicon-minus"></span>
-                                    </button>
-                                    <button id="shotClockSecsPlus" type="button" class="btn btn-success btn-number btn-xs" data-type="plus" data-field="shotClockSecs[]">
-                                        <span class="glyphicon glyphicon-plus"></span>
-                                    </button>
-                                </div>
-                                <div class="col-sm-2"  >
-                                    <input type=text class="form-control input-number input-lg" id="shotClockTenths" name="shotClockTenths[]" min="0" max="9">
-                                    <button id="shotClockTenthsMinus" type="button" class="btn btn-danger btn-number btn-xs" data-type="minus" data-field="shotClockTenths[]">
-                                        <span class="glyphicon glyphicon-minus"></span>
-                                    </button>
-                                    <button id="shotClockTenthsPlus" type="button" class="btn btn-success btn-number btn-xs" data-type="plus" data-field="shotClockTenths[]">
-                                        <span class="glyphicon glyphicon-plus"></span>
-                                    </button>
-                                </div>
-                                <div class="col-sm-2"  >
-                                    <button type="button" id="bth-reset-40" class="btn btn-primary btn-lg">Reset 40</button>
-                                </div>
-                                <div class="col-sm-2" >
-                                    <button type="button" id="bth-reset-15" class="btn btn-primary btn-lg">Reset 15</button>
-                                </div>
-                            </div>
-                        </div>
-                        <!--<div class="col-sm-4">-->
-                                <!--<label class="col-sm-5 control-label">Possession:</label>-->
-                                <!--<div class="col-sm-5">-->
-                                    <!--<input type="checkbox" id="possession" checked data-toggle="toggle" data-onstyle="info" data-offstyle="warning" data-on="<i class='fa fa-play'></i> ---&gt" data-off="<i class='fa fa-pause'></i> &lt---">-->
-                                <!--</div>-->
-                        <!--</div>-->
-                    </div>
-
-                    <div class="row">
-                        <div class="col-sm-11">
-                            <div class="form-group form-group-lg" >
-                                <label class="col-sm-3 control-label">Possession:</label>
-                                <div class="col-sm-4">
-                                    <input type="checkbox" id="possession" checked data-toggle="toggle" data-onstyle="info" data-offstyle="warning" data-on="<i class='fa fa-play'></i> ---&gt" data-off="<i class='fa fa-pause'></i> &lt---">
-                                </div>
-                                <div class="col-sm-2" >
-                                    <input type="checkbox" id="start" checked data-toggle="toggle" data-size="large" data-onstyle="success" data-offstyle="danger" data-on="<i class='fa fa-play'></i> START" data-off="<i class='fa fa-pause'></i> STOP">
-                                </div>
-                                <div class="col-sm-2">
-                                    <button type="button" id="btn-umpire" class="btn btn-warning btn-lg">Umpire</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-sm-11">
-                            <div class="form-group form-group-lg" >
-                                <label class="col-sm-3 control-label">Game Message:</label>
-                                <div class="col-sm-6"  >
-                                    <input type=text class="form-control input-lg" id="gameMessage">
-                                </div>
-                                <div class="col-sm-3"  >
-                                    <button type="button" id="btn-game-message" class="btn btn-primary btn-lg">Set Message</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-
-
-
             <!-- ************************************************************************************************** -->
             <!-- TEAM SCORE and TIMEOUTS -->
             <!-- ************************************************************************************************** -->
 
             <div class="row">
-                <div class="col-sm-6">
-
+                <div class="col-sm-5">
                     <div class="panel panel-success">
                         <div class="panel-heading">Team 1<strong><span id="team1NameLabel"></span></strong></div>
                         <div class="panel-body">
                             <div class="form-group form-group-lg">
-                                <label class="col-sm-4 control-label">Score</label>
-                                <div class="col-sm-6">
+                                <label class="col-sm-3 control-label">Score</label>
+                                <div class="col-sm-9">
                                     <div class="input-group">
                                         <span class="input-group-btn">
                                             <button type="button" class="btn btn-danger btn-number btn-lg" disabled="disabled" data-type="minus" data-field="team1Score[]">
@@ -193,8 +58,8 @@
                                 </div>
                             </div>
                             <div class="form-group form-group-lg">
-                                <label class="col-sm-4 control-label">Team Timeouts</label>
-                                <div class="col-sm-6">
+                                <label class="col-sm-3 control-label">Team Timeouts</label>
+                                <div class="col-sm-9">
                                     <div class="input-group">
                                         <span class="input-group-btn">
                                             <button type="button" class="btn btn-danger btn-number btn-lg" disabled="disabled" data-type="minus" data-field="team1Timeout[]">
@@ -211,8 +76,8 @@
                                 </div>
                             </div>
                             <div class="form-group form-group-lg">
-                                <label class="col-sm-4 control-label">Coach Timeouts</label>
-                                <div class="col-sm-6">
+                                <label class="col-sm-3 control-label">Coach Timeouts</label>
+                                <div class="col-sm-9">
                                     <div class="input-group">
                                         <span class="input-group-btn">
                                             <button type="button" class="btn btn-danger btn-number btn-lg" disabled="disabled" data-type="minus" data-field="coach1Timeout[]">
@@ -231,13 +96,45 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-6">
+
+                <div class="col-sm-2">
+                    <div class="panel panel-success">
+                        <div class="panel-heading">Controls</div>
+                        <div class="panel-body">
+                            <div class="form-group form-group-lg">
+                                <div class="col-sm-12">
+                                    <div class="input-group">
+                                        <input type="checkbox" id="start" checked data-toggle="toggle" data-size="large" data-onstyle="success" data-offstyle="danger" data-on="<i class='fa fa-play'></i> START" data-off="<i class='fa fa-pause'></i> STOP">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group form-group-lg">                        
+                                <div class="col-sm-12">
+                                    <div class="input-group">
+                                        <input type="checkbox" id="possession" checked data-toggle="toggle" data-onstyle="info" data-offstyle="warning" data-on="<i class='fa fa-play'></i> ---&gt" data-off="<i class='fa fa-pause'></i> &lt---">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group form-group-lg">                        
+                                <div class="col-sm-12">
+                                    <div class="input-group">
+                                        <button type="button" id="btn-umpire" class="btn btn-warning btn-lg">Umpire</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-5">
                     <div class="panel panel-success">
                         <div class="panel-heading">Team 2<strong><span id="team2NameLabel"></span></strong></div>
                         <div class="panel-body">
                             <div class="form-group form-group-lg">
-                                <label class="col-sm-4 control-label">Score</label>
-                                <div class="col-sm-6">
+                                <label class="col-sm-3 control-label">Score</label>
+                                <div class="col-sm-9">
 
                                     <div class="input-group">
                                         <span class="input-group-btn">
@@ -256,8 +153,8 @@
                                 </div>
                             </div>
                             <div class="form-group form-group-lg">
-                                <label class="col-sm-4 control-label">Team Timeouts</label>
-                                <div class="col-sm-6">
+                                <label class="col-sm-3 control-label">Team Timeouts</label>
+                                <div class="col-sm-9">
                                     <div class="input-group">
                                         <span class="input-group-btn">
                                             <button type="button" class="btn btn-danger btn-number btn-lg" disabled="disabled" data-type="minus" data-field="team2Timeout[]">
@@ -274,8 +171,8 @@
                                 </div>
                             </div>
                             <div class="form-group form-group-lg">
-                                <label class="col-sm-4 control-label">Coach Timeouts</label>
-                                <div class="col-sm-6">
+                                <label class="col-sm-3 control-label">Coach Timeouts</label>
+                                <div class="col-sm-9">
                                     <div class="input-group">
                                         <span class="input-group-btn">
                                             <button type="button" class="btn btn-danger btn-number btn-lg" disabled="disabled" data-type="minus" data-field="coach2Timeout[]">
@@ -294,6 +191,174 @@
                         </div>
                     </div>
                 </div>
+            </div>
+
+            <!-- ************************************************************************************************** -->
+            <!-- GAME CONTROLS -->
+            <!-- ************************************************************************************************** -->
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="panel panel-success">
+                        <div class="panel-heading">Clock Controls</div>
+                        <div class="panel-body">   
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="form-group form-group-lg" >
+                                        <label class="col-sm-1 control-label" >Game clock</label>
+
+                                        <div class="col-sm-3">
+                                            <div class="input-group">
+                                                <span class="input-group-btn">
+                                                    <button id="gameClockMinsMinus" type="button" class="btn btn-danger btn-number btn-lg" data-type="minus" data-field="gameClockMins[]">
+                                                    <span class="glyphicon glyphicon-minus"></span>
+                                                    </button>
+                                                </span>
+
+                                                <input type=text class="form-control input-number input-lg" name="gameClockMins[]" id="gameClockMins" min="0" max="59">
+
+                                                <span class="input-group-btn">
+                                                     <button id="gameClockMinsPlus" type="button" class="btn btn-success btn-number btn-lg" data-type="plus" data-field="gameClockMins[]">
+                                                    <span class="glyphicon glyphicon-plus"></span>
+                                                    </button>
+                                               </span>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-3">
+                                            <div class="input-group">
+                                                <span class="input-group-btn">
+                                                    <button id="gameClockSecsMinus" type="button" class="btn btn-danger btn-number btn-lg" data-type="minus" data-field="gameClockSecs[]">
+                                                    <span class="glyphicon glyphicon-minus"></span>
+                                                    </button>
+                                                </span>
+
+                                                <input type=text class="form-control input-number input-lg" id="gameClockSecs" name="gameClockSecs[]" min="0" max="59">
+                                                
+                                                <span class="input-group-btn">
+                                                    <button id="gameClockSecsPlus" type="button" class="btn btn-success btn-number btn-lg" data-type="plus" data-field="gameClockSecs[]">
+                                                    <span class="glyphicon glyphicon-plus"></span>
+                                                    </button>
+                                                </span>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-3">
+                                            <div class="input-group">
+                                                <span class="input-group-btn">
+                                                    <button id="gameClockTenthsMinus" type="button" class="btn btn-danger btn-number btn-lg" data-type="minus" data-field="gameClockTenths[]">
+                                                    <span class="glyphicon glyphicon-minus"></span>
+                                                     </button>
+                                                </span>
+
+                                                <input type=text class="form-control input-number input-lg" id="gameClockTenths" name="gameClockTenths[]" min="0" max="9">
+
+                                                <span class="input-group-btn">
+                                                    <button id="gameClockTenthsPlus" type="button" class="btn btn-success btn-number btn-lg" data-type="plus" data-field="gameClockTenths[]">
+                                                    <span class="glyphicon glyphicon-plus"></span>
+                                                    </button>
+                                                </span>
+                                            </div>
+
+                                        </div>
+                                        <div class="col-sm-1">
+                                            <button type="button" id="bth-reset-qtr" class="btn btn-primary btn-lg">Reset Quarter</button>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="form-group form-group-lg" >
+                                        <label class="col-sm-1 control-label">Shot clock</label>
+
+                                        <div class="col-sm-3">
+                                            <div class="input-group">
+                                                <span class="input-group-btn">
+                                                    <button id="shotClockSecsMinus" type="button" class="btn btn-danger btn-number btn-lg" data-type="minus" data-field="shotClockSecs[]">
+                                                    <span class="glyphicon glyphicon-minus"></span>
+                                                    </button>
+                                                </span>
+
+                                                <input type=text class="form-control input-number input-lg" id="shotClockSecs" name="shotClockSecs[]" min="0" max="59">
+
+                                                <span class="input-group-btn">
+                                                    <button id="shotClockSecsPlus" type="button" class="btn btn-success btn-number btn-lg" data-type="plus" data-field="shotClockSecs[]">
+                                                    <span class="glyphicon glyphicon-plus"></span>
+                                                    </button>
+                                                </span>
+                                            </div>
+                                        </div>
+                                            
+                                        <div class="col-sm-3">
+                                            <div class="input-group">
+                                                <span class="input-group-btn">
+                                                    <button id="shotClockTenthsMinus" type="button" class="btn btn-danger btn-number btn-lg" data-type="minus" data-field="shotClockTenths[]">
+                                                    <span class="glyphicon glyphicon-minus"></span>
+                                                    </button>
+                                                </span>
+
+                                                <input type=text class="form-control input-number input-lg" id="shotClockTenths" name="shotClockTenths[]" min="0" max="9">
+
+                                                <span class="input-group-btn">
+                                                    <button id="shotClockTenthsPlus" type="button" class="btn btn-success btn-number btn-lg" data-type="plus" data-field="shotClockTenths[]">
+                                                    <span class="glyphicon glyphicon-plus"></span>
+                                                    </button>
+                                                </span>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-3">
+                                            <button type="button" id="bth-reset-40" class="btn btn-primary btn-lg">Reset 40</button>
+                                        </div>
+                                        <div class="col-sm-2" >
+                                            <button type="button" id="bth-reset-15" class="btn btn-primary btn-lg">Reset 15</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="form-group form-group-lg" >
+                                        <label class="col-sm-1 control-label">Quarter</label>
+                                        <div class="col-sm-3">
+                                            <div class="input-group">
+                                                <span class="input-group-btn">
+                                                    <button type="button" class="btn btn-danger btn-number btn-lg" disabled="disabled" data-type="minus" data-field="period[]">
+                                                        <span class="glyphicon glyphicon-minus"></span>
+                                                    </button>
+                                                </span>
+                                                <input type=text class="form-control input-number" name="period[]" id="period" value="1" min="1" max="4">
+                                                <span class="input-group-btn">
+                                                    <button type="button" class="btn btn-success btn-number btn-lg" data-type="plus" data-field="period[]">
+                                                        <span class="glyphicon glyphicon-plus"></span>
+                                                    </button>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="form-group form-group-lg" >
+                                        <label class="col-sm-1 control-label">Message</label>
+                                        <div class="col-sm-6">
+                                            <input type=text class="form-control input-lg" id="gameMessage">
+                                        </div>
+                                        <div class="col-sm-3"  >
+                                            <button type="button" id="btn-game-message" class="btn btn-primary btn-lg">Set Message</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>  
+  
+                        </div>
+                    </div>
+                </div>
+
             </div>
 
             </form>
@@ -439,25 +504,6 @@
                             <div class="panel-body">
 
                                 <div class="form-group form-group-lg">
-                                    <label class="col-sm-4 control-label">Quarter</label>
-                                    <div class="col-sm-3">
-                                        <div class="input-group">
-                                            <span class="input-group-btn">
-                                                <button type="button" class="btn btn-danger btn-number btn-lg" disabled="disabled" data-type="minus" data-field="period[]">
-                                                    <span class="glyphicon glyphicon-minus"></span>
-                                                </button>
-                                            </span>
-                                            <input type=text class="form-control input-number" name="period[]" id="period" value="1" min="1" max="4">
-                                            <span class="input-group-btn">
-                                                <button type="button" class="btn btn-success btn-number btn-lg" data-type="plus" data-field="period[]">
-                                                    <span class="glyphicon glyphicon-plus"></span>
-                                                </button>
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="form-group form-group-lg">
                                     <label class="col-sm-4 control-label">Seconds in a quarter</label>
                                     <div class="col-sm-2">
                                         <input type="text" class="form-control" id="secondsInQuarter">
@@ -512,21 +558,22 @@
                         <button type="button" id="btn-applySettings" class="btn btn-primary btn-lg">Apply Settings</button>
                     </div>
                 </div>
-
-
             </form>
         </div>
     </div>
 
 </div>
 
-<div class="container">
-    <footer>
-        <p>
-            Sponsored by <a href="http://auspost.com.au/">Australia Post</a>
-        </p>
-    </footer>
-</div>
+
+<nav class="navbar navbar-inverse navbar-fixed-bottom footer">
+    <div class="container">
+        <ul class="nav nav-pills">
+            <li class="active"><a data-toggle="pill" href="#home">Game Controls</a></li>
+            <li><a data-toggle="pill" href="#menu1">Scoreboard Setup</a></li>
+            <li><a data-toggle="pill" href="#menu2">Game Settings</a></li>
+        </ul>
+    </div>
+</nav>    
 
 <script type="text/javascript">
 
