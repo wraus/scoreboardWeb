@@ -38,7 +38,7 @@
 
         function init() {
             connect();
-            initDisplay();
+            setDefaultValues();
         }
 
         function startClocks(gameClockTenthsSecs, shotClockTenthsSecs) {
@@ -100,21 +100,25 @@
             console.log("Disconnected");
         }
 
-        function initDisplay() {
+        function setDefaultValues() {
             $("[id^=timeoutT]").fadeTo(0, 0.25);
             toggleShotClock("true");
             updateDirection();
             startClocks();
             pauseClocks();
-            setDefaultValues();
-            renderTimeouts(4,2);
-        }
 
-        function setDefaultValues() {
             document.getElementById('team1Score').innerHTML = '0';
             document.getElementById('team2Score').innerHTML = '0';
             document.getElementById('team1Name').innerHTML = 'Home';
             document.getElementById('team2Name').innerHTML = 'Away';
+
+            renderTimeouts(4,2);
+        }
+
+        function syncClocks(message){
+            startClocks((+message.gameClock.mins * 600) + (+message.gameClock.secs * 10)
+                    + parseInt(message.gameClock.tenths, 10),
+                    (+message.shotClock.secs * 10) + parseInt(message.shotClock.tenths, 10));
         }
 
         function showScore(message) {
@@ -128,17 +132,13 @@
             switch (message.command) {
                 case "START_CLOCK":
                     //synchronize clocks from master clock
-                    startClocks((+message.gameClock.mins * 600) + (+message.gameClock.secs * 10)
-                        + parseInt(message.gameClock.tenths, 10),
-                        (+message.shotClock.secs * 10) + parseInt(message.shotClock.tenths, 10));
+                    syncClocks(message);
                     break;
                 case "STOP_CLOCK":
                 case "SCORE":
                 case "TIMEOUT":
                     //restart clocks with updated times and then pause.
-                    startClocks((+message.gameClock.mins * 600) + (+message.gameClock.secs * 10)
-                        + parseInt(message.gameClock.tenths, 10),
-                        (+message.shotClock.secs * 10) + parseInt(message.shotClock.tenths, 10));
+                    syncClocks(message);
                     pauseClocks();
                     break;
                 case "SHOT_CLOCK_END":
@@ -170,7 +170,7 @@
                     break;
             }
 
-            renderTimeouts(message.teamTimeoutLimit, message.coachTimeoutLimit)
+            renderTimeouts(message.teamTimeoutLimit, message.coachTimeoutLimit);
             updateTimeouts("timeoutT1P", message.team1.teamTimeouts);
             updateTimeouts("timeoutT2P", message.team2.teamTimeouts);
             updateTimeouts("timeoutT1C", message.team1.coachTimeouts);
@@ -311,7 +311,6 @@
                                 <div id="arrowLeft"><img src="images/green-arrow-left.png"/></div>
                             </div>
                         </div>
-                        <br/><br/>
 
                     </div>
                     <div class="col-sm-4">
