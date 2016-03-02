@@ -1026,7 +1026,11 @@
     }
 
     function clickElement(element) {
-        element.click();
+        if (element.is(':disabled')) {
+            stopRepeatClick(element);
+        } else {
+            element.click();
+        }
     }
 </script>
 
