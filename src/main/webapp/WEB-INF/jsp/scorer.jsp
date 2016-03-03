@@ -724,7 +724,7 @@
             $("#shotClockSecs").val(padDigits(shotClock.getTimeValues().seconds));
             $("#shotClockTenths").val(shotClock.getTimeValues().secondTenths);
             shotClock.addEventListener('secondTenthsUpdated', function (e) {
-                console.log("SHOT CLOCK", shotClock.getTimeValues());
+                //console.log("SHOT CLOCK", shotClock.getTimeValues());
                 $("#shotClockSecs").val(padDigits(shotClock.getTimeValues().seconds));
                 $("#shotClockTenths").val(shotClock.getTimeValues().secondTenths);
             });
