@@ -645,17 +645,30 @@
     }
 
     function getDefaultTotalGameClockSecTenths(){
-        return (+$("#secondsInQuarter").val() || 480) * 10;
+        var quarterDefaultSecs = $("#secondsInQuarter").val();
+        if(+quarterDefaultSecs === 0){
+            return 0;
+        }
+        return (+quarterDefaultSecs || 480) * 10;
     }
 
     function getDefaultTotalShotClockSecTenths(){
-        return (+$("#shotClockSeconds").val() || 40) * 10;
+        var shotDefaultSecs = $("#shotClockSeconds").val();
+        if(+shotDefaultSecs === 0){
+            return 0;
+        }
+        return (+shotDefaultSecs || 480) * 10;
     }
 
     function startGameClock(gameTenthsSecs, shotClockTenthsSec) {
 
         //start quarter clock, default is 8 mins if not already running
-        var gameClockStartTenths = gameTenthsSecs || getDefaultTotalGameClockSecTenths();
+        var gameClockStartTenths;
+        if(gameTenthsSecs === 0){
+            gameClockStartTenths = 0;
+        }else{
+            gameClockStartTenths = gameTenthsSecs || getDefaultTotalGameClockSecTenths();
+        }
 
         gameClock.start({
             precision: 'secondTenths',
@@ -695,7 +708,13 @@
 
     function startShotClock(shotClockTenths) {
         if (!hideShotClock) {
-            var shotClockStartTenths = shotClockTenths || getDefaultTotalShotClockSecTenths;
+
+            var shotClockStartTenths;
+            if(shotClockTenths === 0){
+                shotClockStartTenths = 0;
+            }else{
+                shotClockStartTenths = shotClockTenths || getDefaultTotalShotClockSecTenths;
+            }
             shotClock.start({
                 precision: 'secondTenths',
                 countdown: true,
@@ -756,7 +775,7 @@
         var shotTenths = ((+$("#shotClockSecs").val() * 10) + parseInt($("#shotClockTenths").val(), 10));
         startGameClock(secTenths, shotTenths);
         pauseClocks();
-        stompIt("STOP_CLOCK", "Changed" + event.data.actionMessage);
+        stompIt("STOP_CLOCK", "Changed " + event.data.actionMessage);
     };
 
     var changeShotTimes = function (event) {
@@ -772,7 +791,7 @@
         var secTenths = ((+$("#shotClockSecs").val() * 10) + parseInt($("#shotClockTenths").val(), 10));
         startShotClock(secTenths);
         pauseClocks();
-        stompIt("STOP_CLOCK", "Changed" + event.data.actionMessage);
+        stompIt("STOP_CLOCK", "Changed " + event.data.actionMessage);
     };
 
     var handleTimeouts = function (event) {
