@@ -619,7 +619,7 @@
     }
 
     function initClocks() {
-        startGameClock();
+        startGameClock(4800, 400);
         pauseClocks();
         $("#secondsInQuarter").val(480);
         $("#shotClockSeconds").val(40);
@@ -707,6 +707,7 @@
     }
 
     function startShotClock(shotClockTenths) {
+
         if (!hideShotClock) {
 
             var shotClockStartTenths;
