@@ -145,7 +145,9 @@
                     shotClock.stop();
                     gameClock.pause();
                     $("#shotClockSecs").html(padDigits(0));
-                    shotClockSound.play();
+                    if(message.displayShotClock){
+                        shotClockSound.play();
+                    }    
                     break;
                 case "QUARTER_END":
                     stopClocks();
