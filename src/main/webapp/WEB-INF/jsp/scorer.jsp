@@ -619,7 +619,7 @@
     }
 
     function initClocks() {
-        startGameClock();
+        startGameClock(4800, 400);
         pauseClocks();
         $("#secondsInQuarter").val(480);
         $("#shotClockSeconds").val(40);
@@ -678,7 +678,9 @@
         $("#gameClockMins").val(padDigits(gameClock.getTimeValues().minutes));
         $("#gameClockSecs").val(padDigits(gameClock.getTimeValues().seconds));
         $("#gameClockTenths").val(gameClock.getTimeValues().secondTenths);
-
+        //enable/disable controls on clock start
+        updateGameControlButtons(gameClock.getTimeValues().minutes, gameClock.getTimeValues().seconds,
+                gameClock.getTimeValues().secondTenths);
 
         gameClock.addEventListener('secondTenthsUpdated', function (e) {
 
@@ -687,6 +689,10 @@
             $("#gameClockMins").val(padDigits(gameClock.getTimeValues().minutes));
             $("#gameClockSecs").val(padDigits(gameClock.getTimeValues().seconds));
             $("#gameClockTenths").val(gameClock.getTimeValues().secondTenths);
+            //enable/disable controls if times reach zero
+            updateGameControlButtons(gameClock.getTimeValues().minutes, gameClock.getTimeValues().seconds,
+                    gameClock.getTimeValues().secondTenths);
+
             if (!hideShotClock && gameClock.getTimeValues().minutes === 0
                     && gameClock.getTimeValues().seconds < (shotClockTenths / 10)) {
                 sendHideShotClockCmd(shotClockTenths);
@@ -707,6 +713,7 @@
     }
 
     function startShotClock(shotClockTenths) {
+
         if (!hideShotClock) {
 
             var shotClockStartTenths;
@@ -722,13 +729,37 @@
             });
             $("#shotClockSecs").val(padDigits(shotClock.getTimeValues().seconds));
             $("#shotClockTenths").val(shotClock.getTimeValues().secondTenths);
+            //enable/disable controls on clock start
+            updateShotControlButtons(shotClock.getTimeValues().seconds, shotClock.getTimeValues().secondTenths);
+
             shotClock.addEventListener('secondTenthsUpdated', function (e) {
-                console.log("SHOT CLOCK", shotClock.getTimeValues());
+                //console.log("SHOT CLOCK", shotClock.getTimeValues());
                 $("#shotClockSecs").val(padDigits(shotClock.getTimeValues().seconds));
                 $("#shotClockTenths").val(shotClock.getTimeValues().secondTenths);
+                //enable/disable controls if times reach zero
+                updateShotControlButtons(shotClock.getTimeValues().seconds, shotClock.getTimeValues().secondTenths);
             });
         }
     }
+
+    function updateGameControlButtons(mins, secs, tenths) {
+        $("#gameClockMinsMinus").attr("disabled", mins === 0);
+        $("#gameClockSecsMinus").attr("disabled", secs === 0);
+        $("#gameClockTenthsMinus").attr("disabled", tenths === 0);
+        $("#gameClockMinsPlus").attr("disabled", mins > 58);
+        $("#gameClockSecsPlus").attr("disabled", secs > 58);
+        $("#gameClockTenthsPlus").attr("disabled", tenths > 8);
+
+    }
+
+    function updateShotControlButtons(secs, tenths) {
+        $("#shotClockSecsMinus").attr("disabled", secs === 0);
+        $("#shotClockTenthsMinus").attr("disabled", tenths === 0);
+        $("#shotClockSecsPlus").attr("disabled", secs > 58);
+        $("#shotClockTenthsPlus").attr("disabled", tenths > 8);
+
+    }
+
 
     function handleStartStop() {
         if (!$("#start").is(':checked')) {
@@ -770,10 +801,12 @@
         } else {
             gameClock.stop();
         }
-        var secTenths = ((+$("#gameClockMins").val() * 600) + (+$("#gameClockSecs").val() * 10)
-        + parseInt($("#gameClockTenths").val(), 10));
+        var mins = $("#gameClockMins").val();
+        var secs = $("#gameClockSecs").val();
+        var tenths = $("#gameClockTenths").val();
+        var totalTenths = ((+mins * 600) + (+secs * 10) + parseInt(tenths, 10));
         var shotTenths = ((+$("#shotClockSecs").val() * 10) + parseInt($("#shotClockTenths").val(), 10));
-        startGameClock(secTenths, shotTenths);
+        startGameClock(totalTenths, shotTenths);
         pauseClocks();
         stompIt("STOP_CLOCK", "Changed " + event.data.actionMessage);
     };
