@@ -113,7 +113,7 @@
                             <div class="form-group form-group-lg">                        
                                 <div class="col-sm-12">
                                     <div class="input-group">
-                                        <input type="checkbox" id="possession" checked data-toggle="toggle" data-onstyle="info" data-offstyle="warning" data-on="<i class='fa fa-play'></i> ---&gt" data-off="<i class='fa fa-pause'></i> &lt---">
+                                        <input type="checkbox" id="possession" checked data-toggle="toggle" data-size="large" data-onstyle="default" data-offstyle="default" data-on="<img src='images/green-arrow-right.png' width='50'/>" data-off="<img src='images/green-arrow-left.png' width='50'/>">
                                     </div>
                                 </div>
                             </div>
@@ -121,7 +121,7 @@
                             <div class="form-group form-group-lg">                        
                                 <div class="col-sm-12">
                                     <div class="input-group">
-                                        <button type="button" id="btn-umpire" class="btn btn-warning btn-lg">Umpire</button>
+                                        <button type="button" id="btn-umpire" data-size="large" class="btn btn-warning btn-lg">Umpire</button>
                                     </div>
                                 </div>
                             </div>

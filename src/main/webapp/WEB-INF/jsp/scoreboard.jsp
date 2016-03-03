@@ -103,7 +103,7 @@
         function setDefaultValues() {
             $("[id^=timeoutT]").fadeTo(0, 0.25);
             toggleShotClock(true);
-            updateDirection();
+            updateDirection("RIGHT");
             startClocks();
             pauseClocks();
 
