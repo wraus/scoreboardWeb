@@ -12,13 +12,3 @@ function pauseClocks() {
     shotClock.pause();
 }
 
-function pauseGameClock() {
-    gameClock.pause();
-    shotClock.pause();
-}
-
-function stopGameClock() {
-    gameClock.stop();
-    shotClock.stop();
-}
-
