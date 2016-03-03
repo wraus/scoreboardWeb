@@ -1,5 +1,18 @@
+/* ---------- OVERRIDING BOOTSTRAP STYLES ---------------- */
+.form-group-lg .form-control {
+    padding-right: 5px;
+    padding-left: 5px;
+    text-align: center;
+}
+.form-horizontal .form-group-lg .control-label {
+    font-weight: 400;
+    font-size: 14px;
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
 .btn-long {
-    width:200px !important;
+    width:150px !important;
 }
 .align-cntr {
     text-align: center;
@@ -25,7 +38,7 @@ div.colour-picker div {
     height:23px;
 }
 .container {
-    width:95% !important;
+    width:99% !important;
 }
 .btn-file {
     position: relative;
@@ -60,4 +73,14 @@ div.colour-picker div {
   .input-group {width:55% !important; }
 }
 
+.scorer-container {
+    padding-top: 10px;
+}
 
+.footer .container {
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-top: 3px;
+    height: 100%;
+    margin-bottom: -110px;
+}
