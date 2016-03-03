@@ -65,7 +65,7 @@ div.team {
 
 div.digits-alt {
     font-family: '7segment';
-    color: yellow;
+    color: #CCAA00 !important;
     font-size: 124px;
 }
 @media (min-width: 692px) {
@@ -313,7 +313,7 @@ div.timeout .coach-timeouts {
     text-align: left;
     font-size: 25px;
     padding-top: 10px;
-    color: #CCC;
+    color: #2EFE2E;
     border: 2px inset #888;
     box-shadow: 3px 3px 2px #000 inset;
 }
