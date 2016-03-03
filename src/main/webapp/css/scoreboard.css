@@ -65,7 +65,7 @@ div.team {
 
 div.digits-alt {
     font-family: '7segment';
-    color: yellow;
+    color: #CCAA00 !important;
     font-size: 124px;
 }
 @media (min-width: 692px) {
