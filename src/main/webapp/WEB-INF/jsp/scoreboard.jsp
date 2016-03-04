@@ -233,14 +233,9 @@
 
         function toggleShotClock(displayShotClock) {
             if (displayShotClock) {
-                $(".panel-shotclock").css("visibility", "visible");
-                $(".panel-shotclock").removeClass("shot-clock-no-height");
-                $("#period-panel").addClass("col-sm-6");
-                $("#period-panel").removeClass("col-sm-12");
-            } else { $(".panel-shotclock").css("visibility", "hidden"); 
-                $(".panel-shotclock").addClass("shot-clock-no-height");
-                $("#period-panel").removeClass("col-sm-6");
-                $("#period-panel").addClass("col-sm-12");
+                $("#shotclock-panel").css("visibility", "visible");
+            } else {
+                $("#shotclock-panel").css("visibility", "hidden");
             }
         }
 
@@ -300,7 +295,7 @@
 
                         <div class="col-sm-12 panel-shotclock-period">
 
-                            <div id="period-panel" class="panel panel-extra">
+                            <div id="period-panel" class="panel panel-extra col-sm-6">
                                 <div class="panel-heading">
                                     <h3 class="panel-title">Quarter</h3>
                                 </div>
@@ -311,7 +306,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-sm-6 panel panel-shotclock">
+                            <div id="shotclock-panel" class="col-sm-6 panel panel-shotclock">
                                 <div class="panel-heading">
                                     <h3 class="panel-title">Shot Clock</h3>
                                 </div>
