@@ -154,6 +154,7 @@
                 case "QUARTER_END":
                     stopClocks();
                     $("#shotClockSecs").html(padDigits(0));
+                    $("#gameClockMins").html(padDigits(0));
                     $("#gameClockSecs").html(padDigits(0));
                     $("#gameClockTenths").html(padDigits(0));
                     quarterSirenSound.play();
