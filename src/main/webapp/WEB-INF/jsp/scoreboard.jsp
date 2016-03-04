@@ -41,6 +41,21 @@
             setDefaultValues();
         }
 
+        gameClock.addEventListener('secondTenthsUpdated', function (e) {
+            //console.log("GAME CLOCK",gameClock.getTimeValues());
+            if(gameClock.getTimeValues().minutes === 0){
+                $("#gameClockMins").html(padDigits(gameClock.getTimeValues().seconds));
+                $("#gameClockSecs").html(gameClock.getTimeValues().secondTenths);
+            }else{
+                $("#gameClockMins").html(padDigits(gameClock.getTimeValues().minutes));
+                $("#gameClockSecs").html(padDigits(gameClock.getTimeValues().seconds));
+            }
+        });
+
+        shotClock.addEventListener('secondTenthsUpdated', function (e) {
+            $("#shotClockSecs").html(padDigits(shotClock.getTimeValues().seconds));
+        });
+
         function startClocks(gameClockTenthsSecs, shotClockTenthsSecs) {
 
             //stop clocks and reset
@@ -56,16 +71,6 @@
                 $("#gameClockMins").html(padDigits(gameClock.getTimeValues().minutes));
                 $("#gameClockSecs").html(padDigits(gameClock.getTimeValues().seconds));
             }
-            gameClock.addEventListener('secondTenthsUpdated', function (e) {
-                //console.log("GAME CLOCK",gameClock.getTimeValues());
-                if(gameClock.getTimeValues().minutes === 0){
-                    $("#gameClockMins").html(padDigits(gameClock.getTimeValues().seconds));
-                    $("#gameClockSecs").html(gameClock.getTimeValues().secondTenths);
-                }else{
-                    $("#gameClockMins").html(padDigits(gameClock.getTimeValues().minutes));
-                    $("#gameClockSecs").html(padDigits(gameClock.getTimeValues().seconds));
-                }
-            });
 
             startShotClock(shotClockTenthsSecs);
         }
@@ -75,9 +80,6 @@
             var shotClockStartTenths = shotClockTenths || 0;
             shotClock.start({precision: 'secondTenths', countdown: true, startValues: {secondTenths: shotClockStartTenths}});
             $("#shotClockSecs").html(padDigits(shotClock.getTimeValues().seconds));
-            shotClock.addEventListener('secondTenthsUpdated', function (e) {
-                $("#shotClockSecs").html(padDigits(shotClock.getTimeValues().seconds));
-            });
         }
 
         function connect() {
