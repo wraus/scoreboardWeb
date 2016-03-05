@@ -785,15 +785,31 @@
     function handleStartStop() {
         if (!$("#start").is(':checked')) {
             stopClocks();
-            var gameTenths = ((+$("#gameClockMins").val() * 600) + (+$("#gameClockSecs").val() * 10)
-            + parseInt($("#gameClockTenths").val(), 10));
-            var shotTenths = ((+$("#shotClockSecs").val() * 10) + parseInt($("#shotClockTenths").val(), 10));
-            startGameClock(gameTenths, shotTenths);
+            startGameClock(gameClockInTenths(), shotClockInTenths());
             stompIt("START_CLOCK","'Start' button clicked");
-        }else{
+        } else {
             pauseClocks();
             stompIt("STOP_CLOCK","'Stop' button clicked");
+            if (shotClockInTenths() < 150) {
+                resetShotClock({
+                                    full: false,
+                                    actionMessage: "Reset Shot clock 15 on stoppage"
+                               });
+            }
         }
+    }
+
+    function resetShotClock(event) {
+        shotClock.stop();
+        stopGameWithoutEventFire();
+        if (event.full) {
+            var resetFull = getDefaultTotalShotClockSecTenths();
+            startShotClock(resetFull);
+        } else {
+            startShotClock(150);
+        }
+        pauseClocks();
+        stompIt("STOP_CLOCK", event.actionMessage);
     }
 
     function stopGameWithoutEventFire() {
@@ -802,6 +818,16 @@
             $('#start').bootstrapToggle('on')
         }
         $('#start').on('change',handleStartStop);
+    }
+
+    function gameClockInTenths() {
+        return ((+$("#gameClockMins").val() * 600)
+            + (+$("#gameClockSecs").val() * 10)
+            + parseInt($("#gameClockTenths").val(), 10));
+    }
+
+    function shotClockInTenths() {
+        return ((+$("#shotClockSecs").val() * 10) + parseInt($("#shotClockTenths").val(), 10));
     }
 
     var clickClockTimes = function(event) {
@@ -852,21 +878,13 @@
         event.preventDefault();
         pauseClocks();
         stopGameWithoutEventFire();
-        stompIt("TIMEOUT", event.data.actionMessage);
-    };
-
-    var resetShotClock = function (event) {
-        event.preventDefault();
-        shotClock.stop();
-        stopGameWithoutEventFire();
-        if (event.data.full) {
-            var resetFull = getDefaultTotalShotClockSecTenths();
-            startShotClock(resetFull);
-        } else {
-            startShotClock(150);
+        if (shotClockInTenths() < 150) {
+            resetShotClock({
+                                full: false,
+                                actionMessage: "Reset Shot clock 15 on timeout"
+                           });
         }
-        pauseClocks();
-        stompIt("STOP_CLOCK", event.data.actionMessage);
+        stompIt("TIMEOUT", event.data.actionMessage);
     };
 
     jQuery(document).ready(function ($) {
@@ -958,15 +976,21 @@
             hideShotClock = false;
         });
 
-        $("#bth-reset-40").on('click', {
-            full: true,
-            actionMessage: "'Reset' Shot clock button clicked"
-        },resetShotClock);
+        $("#bth-reset-40").click(function (event) {
+            event.preventDefault();
+            resetShotClock({
+                            full: true,
+                            actionMessage: "'Reset' Shot clock button clicked"
+                            });
+        });
 
-        $("#bth-reset-15").on('click', {
-            full: false,
-            actionMessage: "'Reset 15' Shot clock button clicked"
-        },resetShotClock);
+        $("#bth-reset-15").click(function (event) {
+            event.preventDefault();
+            resetShotClock({
+                            full: false,
+                            actionMessage: "'Reset 15' Shot clock button clicked"
+                            });
+        });
 
         $("#btn-umpire").click(function (event) {
             // Prevent the form from submitting via the browser.
