@@ -608,7 +608,7 @@
         $('#start').off('change');
         $('#start').bootstrapToggle('on');
         $('#start').on('change', handleStartStop);
-        $('#possession').bootstrapToggle('toggle');
+        /*$('#possession').bootstrapToggle('toggle');*/
         $('#period').val(+$("#period").val() + 1);
         hideShotClock = false;
         stompIt("QUARTER_END", "Quarter clock timed out", 'true');
@@ -790,12 +790,6 @@
         } else {
             pauseClocks();
             stompIt("STOP_CLOCK","'Stop' button clicked");
-            if (shotClockInTenths() < 150) {
-                resetShotClock({
-                                    full: false,
-                                    actionMessage: "Reset Shot clock 15 on stoppage"
-                               });
-            }
         }
     }
 
@@ -805,11 +799,13 @@
         if (event.full) {
             var resetFull = getDefaultTotalShotClockSecTenths();
             startShotClock(resetFull);
+            stompIt("START_CLOCK", event.actionMessage);
         } else {
             startShotClock(150);
+            pauseClocks();
+            stompIt("STOP_CLOCK", event.actionMessage);
         }
-        pauseClocks();
-        stompIt("STOP_CLOCK", event.actionMessage);
+
     }
 
     function stopGameWithoutEventFire() {
@@ -878,12 +874,6 @@
         event.preventDefault();
         pauseClocks();
         stopGameWithoutEventFire();
-        if (shotClockInTenths() < 150) {
-            resetShotClock({
-                                full: false,
-                                actionMessage: "Reset Shot clock 15 on timeout"
-                           });
-        }
         stompIt("TIMEOUT", event.data.actionMessage);
     };
 
