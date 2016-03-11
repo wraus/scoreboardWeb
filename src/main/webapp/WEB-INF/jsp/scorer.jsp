@@ -59,7 +59,7 @@
                                 </div>
                             </div>
                             <div class="form-group form-group-lg">
-                                <label class="col-sm-3 control-label">Team Timeouts</label>
+                                <label class="col-sm-3 control-label">Player Timeouts</label>
                                 <div class="col-sm-9">
                                     <div class="input-group">
                                         <span class="input-group-btn">
@@ -154,7 +154,7 @@
                                 </div>
                             </div>
                             <div class="form-group form-group-lg">
-                                <label class="col-sm-3 control-label">Team Timeouts</label>
+                                <label class="col-sm-3 control-label">Player Timeouts</label>
                                 <div class="col-sm-9">
                                     <div class="input-group">
                                         <span class="input-group-btn">
@@ -523,7 +523,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group form-group-lg">
-                                    <label class="col-sm-4 control-label">Number of team timeouts</label>
+                                    <label class="col-sm-4 control-label">Number of player timeouts</label>
                                     <div class="col-sm-2">
                                         <input type="text" class="form-control" id="numberOfTeamTimeouts" value="4">
                                     </div>

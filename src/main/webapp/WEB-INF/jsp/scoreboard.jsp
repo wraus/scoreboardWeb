@@ -276,7 +276,7 @@
                                     <div class="col-sm-5 coach-timeouts" id="coach1Timeouts"></div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-sm-7">Team</div>
+                                    <div class="col-sm-7">Player</div>
                                     <div class="col-sm-5">Coach</div>
                                 </div>
                             </div>
@@ -346,7 +346,7 @@
                                     <div class="col-sm-5 coach-timeouts" id="coach2Timeouts"></div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-sm-7">Team</div>
+                                    <div class="col-sm-7">Player</div>
                                     <div class="col-sm-5">Coach</div>
                                 </div>
                             </div>
