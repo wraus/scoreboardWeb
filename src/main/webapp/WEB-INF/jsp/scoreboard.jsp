@@ -152,16 +152,9 @@
                     }    
                     break;
                 case "QUARTER_END":
-                    stopClocks();
-                    $("#shotClockSecs").html(padDigits(0));
-                    $("#gameClockMins").html(padDigits(0));
-                    $("#gameClockSecs").html(padDigits(0));
-                    $("#gameClockTenths").html(padDigits(0));
+                    syncClocks(message);
+                    pauseClocks();
                     quarterSirenSound.play();
-                    toggleShotClock(message.displayShotClock);
-                    break;
-                case "HIDE_SHOT_CLOCK":
-                    toggleShotClock(message.displayShotClock);
                     break;
                 case "NOTIFY_UMPIRE":
                     umpireSound.play();
@@ -177,10 +170,11 @@
                     $("#main-logo").attr("src", "${pageContext.request.contextPath}/scorer/image?key=main-logo&&default=/images/banner.png&"+new Date().getTime());
                     $("#team1-logo").attr("src", "${pageContext.request.contextPath}/scorer/image?key=team1-logo&"+new Date().getTime());
                     $("#team2-logo").attr("src", "${pageContext.request.contextPath}/scorer/image?key=team2-logo&"+new Date().getTime());
-                    toggleShotClock(message.displayShotClock);
                     renderTimeouts(message.teamTimeoutLimit, message.coachTimeoutLimit);
                     break;
             }
+
+            toggleShotClock(message.displayShotClock);
             $("[id^=timeoutT]").fadeTo(0, 0.1);
             updateTimeouts("timeoutT1P", message.team1.teamTimeouts);
             updateTimeouts("timeoutT2P", message.team2.teamTimeouts);

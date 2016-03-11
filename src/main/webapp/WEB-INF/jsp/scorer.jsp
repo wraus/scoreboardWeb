@@ -580,7 +580,7 @@
     var stompClient = null;
     var gameClock = new Timer();
     var shotClock = new Timer();
-    var hideShotClock = false;
+    var showShotClock = true;
 
     //################## Adding Clock event listeners ############################
     shotClock.addEventListener('targetAchieved', function (e) {
@@ -608,12 +608,11 @@
         $('#start').off('change');
         $('#start').bootstrapToggle('on');
         $('#start').on('change', handleStartStop);
-        /*$('#possession').bootstrapToggle('toggle');*/
         $('#period').val(+$("#period").val() + 1);
-        hideShotClock = false;
-        stompIt("QUARTER_END", "Quarter clock timed out", 'true');
+        showShotClock = true;
         startGameClock();
         pauseClocks();
+        stompIt("QUARTER_END", "Quarter clock timed out");
 
         $("#gameClockTenthsMinus").attr("disabled", true);
         $("#gameClockTenthsPlus").attr("disabled", false);
@@ -632,7 +631,7 @@
         $("#gameClockMins").val(padDigits(gameClock.getTimeValues().minutes));
         $("#gameClockSecs").val(padDigits(gameClock.getTimeValues().seconds));
         $("#gameClockTenths").val(gameClock.getTimeValues().secondTenths);
-        if (!hideShotClock && gameClock.getTimeValues().minutes === 0
+        if (showShotClock && gameClock.getTimeValues().minutes === 0
                 && gameClock.getTimeValues().seconds < (shotClockTenths / 10)) {
             sendHideShotClockCmd(shotClockTenths);
         }
@@ -731,7 +730,7 @@
 
     function startShotClock(shotClockTenths) {
 
-        if (!hideShotClock) {
+        if (showShotClock) {
 
             var shotClockStartTenths;
             if(shotClockTenths === 0){
@@ -778,8 +777,8 @@
         shotClock.stop();
         startShotClock(shotClockTenths);
         shotClock.pause();
-        stompIt("HIDE_SHOT_CLOCK","Hiding shot clock, quarter clock time remaining is less than shot clock", 'false');
-        hideShotClock = true;
+        showShotClock = false;
+        stompIt("HIDE_SHOT_CLOCK","Hiding shot clock, quarter clock time remaining is less than shot clock");
     }
 
     function handleStartStop() {
@@ -795,12 +794,12 @@
 
     function resetShotClock(event) {
         shotClock.stop();
-        stopGameWithoutEventFire();
         if (event.full) {
             var resetFull = getDefaultTotalShotClockSecTenths();
             startShotClock(resetFull);
             stompIt("START_CLOCK", event.actionMessage);
         } else {
+            stopGameWithoutEventFire();
             startShotClock(150);
             pauseClocks();
             stompIt("STOP_CLOCK", event.actionMessage);
@@ -877,6 +876,16 @@
         stompIt("TIMEOUT", event.data.actionMessage);
     };
 
+    var handleScore = function (event) {
+        event.preventDefault();
+        stopGameWithoutEventFire();
+        shotClock.stop();
+        var resetFull = getDefaultTotalShotClockSecTenths();
+        startShotClock(resetFull);
+        pauseClocks();
+        stompIt("SCORE", event.data.actionMessage);
+    };
+
     jQuery(document).ready(function ($) {
 
         //GAME (QUARTER) CLOCK events
@@ -922,17 +931,13 @@
         },changeShotTimes);
 
         //handle scores
-        $("#team1Score").change(function (event) {
-            event.preventDefault();
-            $("#bth-reset-40").trigger("click");
-            stompIt("SCORE","Team 1 scored");
-        });
+        $("#team1Score").on('change', {
+            actionMessage: "Team 1 scored"
+        },handleScore);
 
-        $("#team2Score").change(function (event) {
-            event.preventDefault();
-            $("#bth-reset-40").trigger("click");
-            stompIt("SCORE","Team 2 scored");
-        });
+        $("#team2Score").on('change', {
+            actionMessage: "Team 2 scored"
+        },handleScore);
 
         //handle timeouts
         $("#team1Timeout").on('change', {
@@ -962,8 +967,8 @@
             stopGameWithoutEventFire();
             startGameClock();
             pauseClocks();
-            stompIt("STOP_CLOCK","'Reset Quarter' button clicked", true);
-            hideShotClock = false;
+            showShotClock = true;
+            stompIt("STOP_CLOCK","'Reset Quarter' button clicked");
         });
 
         $("#bth-reset-40").click(function (event) {
@@ -1000,7 +1005,7 @@
             event.preventDefault();
             $("#team1NameLabel").text(" - " + $("#team1Name").val());
             $("#team2NameLabel").text(" - " + $("#team2Name").val());
-            stompIt("SAVE_TEAM_SETUP", "Updating Team Setup", hideShotClock);
+            stompIt("SAVE_TEAM_SETUP", "Updating Team Setup");
         });
 
         $("#btn-applySettings").click(function (event) {
@@ -1089,8 +1094,7 @@
         });
     }
 
-    function stompIt(clockCommand, logAction, showShotClock) {
-        showShotClock = showShotClock || 'true';
+    function stompIt(clockCommand, logAction) {
         var actionTime = new Date();
         var score = {};
         var team1 = {};
@@ -1102,8 +1106,7 @@
         score["action"] = logAction;
         score["actionTime"] = actionTime;
         score["period"] = $("#period").val();
-        score["displayShotClock"] = showShotClock === 'true'
-                && $('input[id=displayShotClock]:checked', '#configuration-manager').val() === 'true';
+        score["displayShotClock"] = showShotClock && $('input[id=displayShotClock]:checked', '#configuration-manager').val() === 'true';
         score["teamTimeoutLimit"] = $("#numberOfTeamTimeouts").val();
         score["coachTimeoutLimit"] = $("#numberOfCoachTimeouts").val();
         $("#team1Timeout" ).attr("max", $("#numberOfTeamTimeouts").val());
