@@ -7,7 +7,7 @@
     <groupId>au.org.sports.wrugby</groupId>
     <artifactId>scoreboard</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <packaging>jar</packaging>
+    <packaging>war</packaging>
     <name>scoreboard</name>
     <parent>
         <groupId>org.springframework.boot</groupId>
