@@ -103,7 +103,6 @@
         }
 
         function setDefaultValues() {
-            $("[id^=timeoutT]").fadeTo(0, 0.25);
             toggleShotClock(true);
             updateDirection("RIGHT");
             startClocks();
@@ -175,7 +174,7 @@
             }
 
             toggleShotClock(message.displayShotClock);
-            $("[id^=timeoutT]").fadeTo(0, 0.1);
+            // $("[id^=timeoutT]").fadeTo(0, 0.1);
             updateTimeouts("timeoutT1P", message.team1.teamTimeouts);
             updateTimeouts("timeoutT2P", message.team2.teamTimeouts);
             updateTimeouts("timeoutT1C", message.team1.coachTimeouts);
@@ -201,28 +200,24 @@
             }
         }
         function renderTimeouts(teamLimit, coachLimit) {
-            //alert(teamLimit + " - " + coachLimit);
+            // alert(teamLimit + " - " + coachLimit);
             for (teamIndex=1; teamIndex<=2; teamIndex++) {
                 var teamHtml = "";
                 var coachHtml = "";
-                for (i=1; i<=teamLimit; i++) {
-                    teamHtml += "<img id=\"timeoutT" + teamIndex + "P" + i + "\" src=\"images/team.png\" width=\"30px\" height=\"30px\"/>"+"&nbsp;";
-                }
-                for (i=1; i<=coachLimit; i++) {
-                    coachHtml += "<img id=\"timeoutT" + teamIndex + "C" + i + "\" src=\"images/coach.png\" width=\"30px\" height=\"30px\"/>"+"&nbsp;";
-                }
+                
+                var teamHtml = "<div class=\"timeoutText\" id=\"timeoutT" + teamIndex + "P" + "\">"+teamLimit+"</div>";                
+                var coachHtml = "<div class=\"timeoutText\" id=\"timeoutT" + teamIndex + "C" + "\">"+coachLimit+"</div>";
+
                 $("#team" + teamIndex + "Timeouts").html(teamHtml);
                 $("#coach" + teamIndex + "Timeouts").html(coachHtml);
             }
-            $("[id^=timeoutT]").fadeTo(0, 0.1);
+            // $("[id^=timeoutT]").fadeTo(0, 0.1);
         }
 
         function updateTimeouts(timeoutGroup, number) {
+            // alert(number);
             if (number != null) {
-                for (i=0; i<number; i++) {
-                    var num = i+1;
-                    $("#"+timeoutGroup+num).fadeTo(0, 1);
-                }
+                $("#"+timeoutGroup).html(number);
             }
         }
 
@@ -271,12 +266,14 @@
                                 <h3 class="panel-title">Timeouts</h3>
                             </div>
                             <div class="panel-body">
-                                <div class="row">
-                                    <div class="col-sm-7 team-timeouts" id="team1Timeouts"></div>
+                                <div class="row digits-alt">
+                                    <div class="col-sm-5 team-timeouts" id="team1Timeouts"></div>
+                                    <div class="col-sm-2"></div>
                                     <div class="col-sm-5 coach-timeouts" id="coach1Timeouts"></div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-sm-7">Player</div>
+                                    <div class="col-sm-5">Player</div>
+                                    <div class="col-sm-2"></div>
                                     <div class="col-sm-5">Coach</div>
                                 </div>
                             </div>
@@ -341,12 +338,14 @@
                                 <h3 class="panel-title">Timeouts</h3>
                             </div>
                             <div class="panel-body">
-                                <div class="row">
-                                    <div class="col-sm-7 team-timeouts" id="team2Timeouts"></div>
+                                <div class="row digits-alt">
+                                    <div class="col-sm-5 team-timeouts" id="team2Timeouts"></div>
+                                    <div class="col-sm-2"></div>
                                     <div class="col-sm-5 coach-timeouts" id="coach2Timeouts"></div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-sm-7">Player</div>
+                                    <div class="col-sm-5">Player</div>
+                                    <div class="col-sm-2"></div>
                                     <div class="col-sm-5">Coach</div>
                                 </div>
                             </div>

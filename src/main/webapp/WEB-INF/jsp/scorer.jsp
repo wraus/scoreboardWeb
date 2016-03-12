@@ -63,13 +63,13 @@
                                 <div class="col-sm-9">
                                     <div class="input-group">
                                         <span class="input-group-btn">
-                                            <button type="button" class="btn btn-danger btn-number btn-lg" disabled="disabled" data-type="minus" data-field="team1Timeout[]">
+                                            <button type="button" class="btn btn-danger btn-number btn-lg" data-type="minus" data-field="team1Timeout[]">
                                                 <span class="glyphicon glyphicon-minus"></span>
                                             </button>
                                         </span>
                                         <input type=text class="form-control input-number" name="team1Timeout[]" id="team1Timeout" value="0" min="0" max="4">
                                         <span class="input-group-btn">
-                                            <button type="button" class="btn btn-success btn-number btn-lg" data-type="plus" data-field="team1Timeout[]">
+                                            <button type="button" class="btn btn-success btn-number btn-lg" disabled="disabled" data-type="plus" data-field="team1Timeout[]">
                                                 <span class="glyphicon glyphicon-plus"></span>
                                             </button>
                                         </span>
@@ -81,13 +81,13 @@
                                 <div class="col-sm-9">
                                     <div class="input-group">
                                         <span class="input-group-btn">
-                                            <button type="button" class="btn btn-danger btn-number btn-lg" disabled="disabled" data-type="minus" data-field="coach1Timeout[]">
+                                            <button type="button" class="btn btn-danger btn-number btn-lg" data-type="minus" data-field="coach1Timeout[]">
                                                 <span class="glyphicon glyphicon-minus"></span>
                                             </button>
                                         </span>
                                         <input type=text class="form-control input-number" name="coach1Timeout[]" id="coach1Timeout" value="0" min="0" max="2">
                                         <span class="input-group-btn">
-                                            <button type="button" class="btn btn-success btn-number btn-lg" data-type="plus" data-field="coach1Timeout[]">
+                                            <button type="button" class="btn btn-success btn-number btn-lg" disabled="disabled" data-type="plus" data-field="coach1Timeout[]">
                                                 <span class="glyphicon glyphicon-plus"></span>
                                             </button>
                                         </span>
@@ -158,13 +158,13 @@
                                 <div class="col-sm-9">
                                     <div class="input-group">
                                         <span class="input-group-btn">
-                                            <button type="button" class="btn btn-danger btn-number btn-lg" disabled="disabled" data-type="minus" data-field="team2Timeout[]">
+                                            <button type="button" class="btn btn-danger btn-number btn-lg" data-type="minus" data-field="team2Timeout[]">
                                                 <span class="glyphicon glyphicon-minus"></span>
                                             </button>
                                         </span>
                                         <input type=text class="form-control input-number" name="team2Timeout[]" id="team2Timeout" value="0" min="0" max="4">
                                         <span class="input-group-btn">
-                                            <button type="button" class="btn btn-success btn-number btn-lg" data-type="plus" data-field="team2Timeout[]">
+                                            <button type="button" class="btn btn-success btn-number btn-lg" disabled="disabled" data-type="plus" data-field="team2Timeout[]">
                                                 <span class="glyphicon glyphicon-plus"></span>
                                             </button>
                                         </span>
@@ -176,13 +176,13 @@
                                 <div class="col-sm-9">
                                     <div class="input-group">
                                         <span class="input-group-btn">
-                                            <button type="button" class="btn btn-danger btn-number btn-lg" disabled="disabled" data-type="minus" data-field="coach2Timeout[]">
+                                            <button type="button" class="btn btn-danger btn-number btn-lg" data-type="minus" data-field="coach2Timeout[]">
                                                 <span class="glyphicon glyphicon-minus"></span>
                                             </button>
                                         </span>
                                         <input type=text class="form-control input-number" name="coach2Timeout[]" id="coach2Timeout" value="0" min="0" max="2">
                                         <span class="input-group-btn">
-                                            <button type="button" class="btn btn-success btn-number btn-lg" data-type="plus" data-field="coach2Timeout[]">
+                                            <button type="button" class="btn btn-success btn-number btn-lg" disabled="disabled" data-type="plus" data-field="coach2Timeout[]">
                                                 <span class="glyphicon glyphicon-plus"></span>
                                             </button>
                                         </span>
@@ -658,6 +658,7 @@
     function init() {
         connect();
         initClocks();
+        setTimeouts();
     }
 
     function initClocks() {
@@ -684,6 +685,13 @@
         }
         setConnected(false);
         console.log("Disconnected");
+    }
+
+    function setTimeouts() {
+        $("#team1Timeout").val($("#numberOfTeamTimeouts").val());
+        $("#team2Timeout").val($("#numberOfTeamTimeouts").val());
+        $("#coach1Timeout").val($("#numberOfCoachTimeouts").val());
+        $("#coach2Timeout").val($("#numberOfCoachTimeouts").val());
     }
 
     function getDefaultTotalGameClockSecTenths(){
@@ -1109,10 +1117,10 @@
         score["displayShotClock"] = showShotClock && $('input[id=displayShotClock]:checked', '#configuration-manager').val() === 'true';
         score["teamTimeoutLimit"] = $("#numberOfTeamTimeouts").val();
         score["coachTimeoutLimit"] = $("#numberOfCoachTimeouts").val();
-        $("#team1Timeout" ).attr("max", $("#numberOfTeamTimeouts").val());
-        $("#team2Timeout" ).attr("max", $("#numberOfTeamTimeouts").val());
-        $("#coach1Timeout" ).attr("max", $("#numberOfCoachTimeouts").val());
-        $("#coach2Timeout" ).attr("max", $("#numberOfCoachTimeouts").val());
+        $("#team1Timeout").attr("max", $("#numberOfTeamTimeouts").val());
+        $("#team2Timeout").attr("max", $("#numberOfTeamTimeouts").val());
+        $("#coach1Timeout").attr("max", $("#numberOfCoachTimeouts").val());
+        $("#coach2Timeout").attr("max", $("#numberOfCoachTimeouts").val());
 
         if (!$("#possession").is(':checked')) {
             score["direction"] = "LEFT";
