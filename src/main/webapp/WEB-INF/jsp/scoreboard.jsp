@@ -41,6 +41,21 @@
             setDefaultValues();
         }
 
+        gameClock.addEventListener('secondTenthsUpdated', function (e) {
+            //console.log("GAME CLOCK",gameClock.getTimeValues());
+            if(gameClock.getTimeValues().minutes === 0){
+                $("#gameClockMins").html(padDigits(gameClock.getTimeValues().seconds));
+                $("#gameClockSecs").html(gameClock.getTimeValues().secondTenths);
+            }else{
+                $("#gameClockMins").html(padDigits(gameClock.getTimeValues().minutes));
+                $("#gameClockSecs").html(padDigits(gameClock.getTimeValues().seconds));
+            }
+        });
+
+        shotClock.addEventListener('secondTenthsUpdated', function (e) {
+            $("#shotClockSecs").html(padDigits(shotClock.getTimeValues().seconds));
+        });
+
         function startClocks(gameClockTenthsSecs, shotClockTenthsSecs) {
 
             //stop clocks and reset
@@ -56,16 +71,6 @@
                 $("#gameClockMins").html(padDigits(gameClock.getTimeValues().minutes));
                 $("#gameClockSecs").html(padDigits(gameClock.getTimeValues().seconds));
             }
-            gameClock.addEventListener('secondTenthsUpdated', function (e) {
-                //console.log("GAME CLOCK",gameClock.getTimeValues());
-                if(gameClock.getTimeValues().minutes === 0){
-                    $("#gameClockMins").html(padDigits(gameClock.getTimeValues().seconds));
-                    $("#gameClockSecs").html(gameClock.getTimeValues().secondTenths);
-                }else{
-                    $("#gameClockMins").html(padDigits(gameClock.getTimeValues().minutes));
-                    $("#gameClockSecs").html(padDigits(gameClock.getTimeValues().seconds));
-                }
-            });
 
             startShotClock(shotClockTenthsSecs);
         }
@@ -75,9 +80,6 @@
             var shotClockStartTenths = shotClockTenths || 0;
             shotClock.start({precision: 'secondTenths', countdown: true, startValues: {secondTenths: shotClockStartTenths}});
             $("#shotClockSecs").html(padDigits(shotClock.getTimeValues().seconds));
-            shotClock.addEventListener('secondTenthsUpdated', function (e) {
-                $("#shotClockSecs").html(padDigits(shotClock.getTimeValues().seconds));
-            });
         }
 
         function connect() {
@@ -150,15 +152,9 @@
                     }    
                     break;
                 case "QUARTER_END":
-                    stopClocks();
-                    $("#shotClockSecs").html(padDigits(0));
-                    $("#gameClockSecs").html(padDigits(0));
-                    $("#gameClockTenths").html(padDigits(0));
+                    syncClocks(message);
+                    pauseClocks();
                     quarterSirenSound.play();
-                    toggleShotClock(message.displayShotClock);
-                    break;
-                case "HIDE_SHOT_CLOCK":
-                    toggleShotClock(message.displayShotClock);
                     break;
                 case "NOTIFY_UMPIRE":
                     umpireSound.play();
@@ -174,10 +170,11 @@
                     $("#main-logo").attr("src", "${pageContext.request.contextPath}/scorer/image?key=main-logo&&default=/images/banner.png&"+new Date().getTime());
                     $("#team1-logo").attr("src", "${pageContext.request.contextPath}/scorer/image?key=team1-logo&"+new Date().getTime());
                     $("#team2-logo").attr("src", "${pageContext.request.contextPath}/scorer/image?key=team2-logo&"+new Date().getTime());
-                    toggleShotClock(message.displayShotClock);
                     renderTimeouts(message.teamTimeoutLimit, message.coachTimeoutLimit);
                     break;
             }
+
+            toggleShotClock(message.displayShotClock);
             $("[id^=timeoutT]").fadeTo(0, 0.1);
             updateTimeouts("timeoutT1P", message.team1.teamTimeouts);
             updateTimeouts("timeoutT2P", message.team2.teamTimeouts);
@@ -279,7 +276,7 @@
                                     <div class="col-sm-5 coach-timeouts" id="coach1Timeouts"></div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-sm-7">Team</div>
+                                    <div class="col-sm-7">Player</div>
                                     <div class="col-sm-5">Coach</div>
                                 </div>
                             </div>
@@ -349,7 +346,7 @@
                                     <div class="col-sm-5 coach-timeouts" id="coach2Timeouts"></div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-sm-7">Team</div>
+                                    <div class="col-sm-7">Player</div>
                                     <div class="col-sm-5">Coach</div>
                                 </div>
                             </div>
