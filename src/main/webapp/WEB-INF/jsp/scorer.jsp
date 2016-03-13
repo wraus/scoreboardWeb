@@ -666,6 +666,7 @@
         pauseClocks();
         $("#secondsInQuarter").val(480);
         $("#shotClockSeconds").val(40);
+        $("#bth-reset-40").html("Reset " + getDefaultTotalShotClockSecTenths() / 10);
     }
 
     function connect() {
@@ -704,10 +705,7 @@
 
     function getDefaultTotalShotClockSecTenths(){
         var shotDefaultSecs = $("#shotClockSeconds").val();
-        if(+shotDefaultSecs === 0){
-            return 0;
-        }
-        return (+shotDefaultSecs || 480) * 10;
+        return (+shotDefaultSecs || 40) * 10;
     }
 
     function startGameClock(gameTenthsSecs, shotClockTenthsSec) {
@@ -977,6 +975,7 @@
             pauseClocks();
             showShotClock = true;
             stompIt("STOP_CLOCK","'Reset Quarter' button clicked");
+            $("#bth-reset-40").html("Reset " + getDefaultTotalShotClockSecTenths() / 10);
         });
 
         $("#bth-reset-40").click(function (event) {
