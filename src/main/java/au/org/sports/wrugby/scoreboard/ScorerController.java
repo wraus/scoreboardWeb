@@ -1,7 +1,10 @@
 package au.org.sports.wrugby.scoreboard;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -19,12 +22,15 @@ import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.ServletContext;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
 @RestController
 @Controller
 public class ScorerController {
+    @Value("${au.org.sports.wrugby.scoreboard.logFile}")
+    public String fileName;
 
     private SimpMessagingTemplate template;
 
@@ -57,7 +63,7 @@ public class ScorerController {
         }
         final HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.parseMediaType(image.getContentType()));
-        return new ResponseEntity<byte[]>(image.getImage(), headers, HttpStatus.CREATED);
+        return new ResponseEntity<>(image.getImage(), headers, HttpStatus.CREATED);
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/scorer/image")
@@ -79,5 +85,34 @@ public class ScorerController {
             redirectAttributes.addFlashAttribute("message",
                     "You failed to upload because the file was empty");
         }
+    }
+
+    @RequestMapping(value = "/scorer/log", method = RequestMethod.GET)
+    public ResponseEntity<byte[]> downloadLog() {
+        final HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.parseMediaType("text/xml"));
+        try {
+            byte[] outerTagOpen = "<scores>".getBytes();
+            File file = new File(fileName);
+            byte[] fileContent;
+            if (file.exists()) {
+                fileContent = FileUtils.readFileToByteArray(file);
+            } else {
+                fileContent = new byte[] {};
+            }
+            byte[] outerTagClose = "</scores>".getBytes();
+            byte[] joinedArray = new byte[outerTagOpen.length + fileContent.length + outerTagClose.length];
+            System.arraycopy(outerTagOpen, 0, joinedArray, 0, outerTagOpen.length);
+            System.arraycopy(fileContent, 0, joinedArray, outerTagOpen.length, fileContent.length);
+            System.arraycopy(outerTagClose, 0, joinedArray, outerTagOpen.length + fileContent.length, outerTagClose.length);
+            return new ResponseEntity<>(joinedArray, headers, HttpStatus.CREATED);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @RequestMapping(value = "/scorer/log", method = RequestMethod.DELETE)
+    public void deleteLog() {
+        FileUtils.deleteQuietly(new File(fileName));
     }
 }

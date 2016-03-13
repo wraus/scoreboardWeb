@@ -557,6 +557,8 @@
                 <div class="form-group">
                     <div class="col-sm-offset-4 col-sm-10">
                         <button type="button" id="btn-applySettings" class="btn btn-primary btn-lg">Apply Settings</button>
+                        <button type="button" id="btn-downloadLog" class="btn btn-lg">Download log</button>
+                        <button type="button" id="btn-deleteLog" class="btn btn-lg">Delete log</button>
                     </div>
                 </div>
             </form>
@@ -1019,6 +1021,19 @@
             // Prevent the form from submitting via the browser.
             event.preventDefault();
             stompIt("SAVE_TEAM_SETUP","Updating Configuration");
+        });
+
+        $("#btn-downloadLog").click(function (event) {
+            event.preventDefault();
+            window.open('/scorer/log', '_blank');
+        });
+
+        $("#btn-deleteLog").click(function (event) {
+            event.preventDefault();
+            $.ajax({
+                url: '/scorer/log',
+                type: 'DELETE'
+            });
         });
 
         $("#main-logo-select").change(function (event) {
