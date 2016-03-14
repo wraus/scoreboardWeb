@@ -805,8 +805,16 @@
         shotClock.stop();
         if (event.full) {
             var resetFull = getDefaultTotalShotClockSecTenths();
-            startShotClock(resetFull);
-            stompIt("START_CLOCK", event.actionMessage);
+            if (!$("#start").is(':checked')) {
+                // If clock is running then just reset the shot clock and leave it running
+                startShotClock(resetFull);
+                stompIt("START_CLOCK", event.actionMessage);
+            } else {
+                // If clock is not running then reset the shot clock and leave clocks stopped
+                startShotClock(resetFull);
+                pauseClocks();
+                stompIt("STOP_CLOCK", event.actionMessage);
+            }
         } else {
             stopGameWithoutEventFire();
             startShotClock(150);
