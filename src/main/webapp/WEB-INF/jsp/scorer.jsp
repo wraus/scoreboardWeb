@@ -16,6 +16,7 @@
     <script src="<c:url value='/scripts/jquery-2.1.4.js'/>"></script>
     <script src="<c:url value='/scripts/bootstrap.min.js'/>"></script>
     <script src="<c:url value='/scripts/bootstrap-toggle.min.js'/>"></script>
+    <script src="<c:url value='/scripts/bootbox.min-4.4.0.js'/>"></script>
     <script src="<c:url value='/scripts/scorer-utils.js'/>"></script>
     <script src="<c:url value='/scripts/easytimer.min.js'/>"></script>
     <script src="<c:url value='/scripts/wr-common.js'/>"></script>
@@ -573,6 +574,8 @@
                 <div class="form-group">
                     <div class="col-sm-offset-4 col-sm-10">
                         <button type="button" id="btn-applySettings" class="btn btn-primary btn-lg">Apply Settings</button>
+                        <button type="button" id="btn-downloadLog" class="btn btn-lg">Download log</button>
+                        <button type="button" id="btn-deleteLog" class="btn btn-lg">Delete log</button>
                     </div>
                 </div>
             </form>
@@ -1035,6 +1038,23 @@
             // Prevent the form from submitting via the browser.
             event.preventDefault();
             stompIt("SAVE_TEAM_SETUP","Updating Configuration");
+        });
+
+        $("#btn-downloadLog").click(function (event) {
+            event.preventDefault();
+            window.open('<c:url value='/scorer/log'/>', '_blank');
+        });
+
+        $("#btn-deleteLog").click(function (event) {
+            event.preventDefault();
+            bootbox.confirm("Are you sure you want to delete the log file?", function(result) {
+                if (result) {
+                    $.ajax({
+                        url: '<c:url value='/scorer/log'/>',
+                        type: 'DELETE'
+                    });
+                }
+            });
         });
 
         $("#main-logo-select").change(function (event) {
