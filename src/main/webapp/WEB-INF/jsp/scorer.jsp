@@ -16,6 +16,7 @@
     <script src="<c:url value='/scripts/jquery-2.1.4.js'/>"></script>
     <script src="<c:url value='/scripts/bootstrap.min.js'/>"></script>
     <script src="<c:url value='/scripts/bootstrap-toggle.min.js'/>"></script>
+    <script src="<c:url value='/scripts/bootbox.min-4.4.0.js'/>"></script>
     <script src="<c:url value='/scripts/scorer-utils.js'/>"></script>
     <script src="<c:url value='/scripts/easytimer.min.js'/>"></script>
     <script src="<c:url value='/scripts/wr-common.js'/>"></script>
@@ -1025,14 +1026,18 @@
 
         $("#btn-downloadLog").click(function (event) {
             event.preventDefault();
-            window.open('/scorer/log', '_blank');
+            window.open('<c:url value='/scorer/log'/>', '_blank');
         });
 
         $("#btn-deleteLog").click(function (event) {
             event.preventDefault();
-            $.ajax({
-                url: '/scorer/log',
-                type: 'DELETE'
+            bootbox.confirm("Are you sure you want to delete the log file?", function(result) {
+                if (result) {
+                    $.ajax({
+                        url: '<c:url value='/scorer/log'/>',
+                        type: 'DELETE'
+                    });
+                }
             });
         });
 
