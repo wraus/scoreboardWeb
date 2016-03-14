@@ -18,7 +18,7 @@
     <script src="<c:url value='/scripts/bootstrap-toggle.min.js'/>"></script>
     <script src="<c:url value='/scripts/bootbox.min-4.4.0.js'/>"></script>
     <script src="<c:url value='/scripts/scorer-utils.js'/>"></script>
-    <script src="<c:url value='/scripts/easytimer.min.js'/>"></script>
+    <script src="<c:url value='/scripts/easytimer.js'/>"></script>
     <script src="<c:url value='/scripts/wr-common.js'/>"></script>
 
     <c:set var="home">${fn:substring(url, 0, fn:length(url) - fn:length(uri))}${req.contextPath}/</c:set>
@@ -646,7 +646,7 @@
     });
 
     shotClock.addEventListener('secondTenthsUpdated', function (e) {
-        //console.log("SHOT CLOCK", shotClock.getTimeValues());
+        console.log("SHOT CLOCK", shotClock.getTimeValues());
         $("#shotClockSecs").val(padDigits(shotClock.getTimeValues().seconds));
         $("#shotClockTenths").val(shotClock.getTimeValues().secondTenths);
     });

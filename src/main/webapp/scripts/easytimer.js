@@ -274,8 +274,11 @@ var Timer = (
             function isCountdownTimerTargetAchieved() {
                 return counters.hours < target[HOURS_POSITION]
                     || (counters.hours === target[HOURS_POSITION] && (counters.minutes < target[MINUTES_POSITION]
-                        || (counters.minutes === target[MINUTES_POSITION]) && counters.seconds <= target[SECONDS_POSITION]));
+                        || (counters.minutes === target[MINUTES_POSITION] && (counters.seconds < target[SECONDS_POSITION]
+                            || (counters.seconds === target[SECONDS_POSITION] && (counters.secondTenths < target[SECOND_TENTHS_POSITION]
+                                || counters.secondTenths === target[SECOND_TENTHS_POSITION] ))))));
             }
+
 
             function isTargetAchieved() {
                 return target instanceof Array &&

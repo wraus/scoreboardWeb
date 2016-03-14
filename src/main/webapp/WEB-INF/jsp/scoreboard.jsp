@@ -13,7 +13,7 @@
     <script src="<c:url value='/scripts/sockjs-0.3.4.js'/>"></script>
     <script src="<c:url value='/scripts/stomp.js'/>"></script>
     <script src="<c:url value='/scripts/jquery-2.1.4.js'/>"></script>
-    <script src="<c:url value='/scripts/easytimer.min.js'/>"></script>
+    <script src="<c:url value='/scripts/easytimer.js'/>"></script>
     <script src="<c:url value='/scripts/wr-common.js'/>"></script>
     <script type="text/javascript">
         $(function(){
