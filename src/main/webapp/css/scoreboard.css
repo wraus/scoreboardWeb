@@ -275,20 +275,33 @@ div.timeout .panel-heading {
 }
 div.timeout .panel-body {
     padding: 0;
+
+}
+div.timeout .panel-body .row {  
+    margin:5px 0px;  
+}
+
+div.timeout .panel-body .row .timeoutText{ 
+    font-size: 30px !important;
+    text-align: center;     
+    padding: 10px 0px;    
+}    
+
+div.timeout .team-timeouts {
+    padding: 5px;
+    text-align: left;
     background-color: inherit;
     border: 4px dotted;
     border-color: #666;
     border-radius: 10px !important;
 }
-div.timeout .panel-body .row {  margin:5px; padding-left:5px; padding-top:10px;}
-
-div.timeout .team-timeouts {
-    padding: 5px;
-    text-align: left;
-}
 div.timeout .coach-timeouts {
     padding: 5px;
     text-align: right;
+    background-color: inherit;
+    border: 4px dotted;
+    border-color: #666;
+    border-radius: 10px !important;
 }
 /*--------- OVERRIDING FOOT NAVBAR STYLE -----------*/
 .navbar-default {

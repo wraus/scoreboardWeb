@@ -42,44 +42,46 @@
         }
 
         gameClock.addEventListener('secondTenthsUpdated', function (e) {
-            //console.log("GAME CLOCK",gameClock.getTimeValues());
-            if(gameClock.getTimeValues().minutes === 0){
-                $("#gameClockMins").html(padDigits(gameClock.getTimeValues().seconds));
-                $("#gameClockSecs").html(gameClock.getTimeValues().secondTenths);
-            }else{
-                $("#gameClockMins").html(padDigits(gameClock.getTimeValues().minutes));
-                $("#gameClockSecs").html(padDigits(gameClock.getTimeValues().seconds));
-            }
+            displayGameClock();
         });
 
         shotClock.addEventListener('secondTenthsUpdated', function (e) {
-            $("#shotClockSecs").html(padDigits(shotClock.getTimeValues().seconds));
+            displayShotClock();
         });
 
         function startClocks(gameClockTenthsSecs, shotClockTenthsSecs) {
-
             //stop clocks and reset
             stopClocks();
-
-            var gameTenthsSecs = gameClockTenthsSecs || 0;
-
-            gameClock.start({precision: 'secondTenths', countdown: true, startValues: {secondTenths: gameTenthsSecs}});
-            if(gameClock.getTimeValues().minutes === 0){
-                $("#gameClockMins").html(padDigits(gameClock.getTimeValues().seconds));
-                $("#gameClockSecs").html(gameClock.getTimeValues().secondTenths);
-            }else{
-                $("#gameClockMins").html(padDigits(gameClock.getTimeValues().minutes));
-                $("#gameClockSecs").html(padDigits(gameClock.getTimeValues().seconds));
-            }
-
+            startGameClock(gameClockTenthsSecs);
             startShotClock(shotClockTenthsSecs);
         }
 
-        function startShotClock(shotClockTenths ) {
+        function startGameClock(gameClockTenthsSecs) {
+            var gameTenthsSecs = gameClockTenthsSecs || 0;
+            gameClock.start({precision: 'secondTenths', countdown: true, startValues: {secondTenths: gameTenthsSecs}});
+            displayGameClock()
+        }
 
+        function startShotClock(shotClockTenths ) {
             var shotClockStartTenths = shotClockTenths || 0;
             shotClock.start({precision: 'secondTenths', countdown: true, startValues: {secondTenths: shotClockStartTenths}});
-            $("#shotClockSecs").html(padDigits(shotClock.getTimeValues().seconds));
+            displayShotClock();
+        }
+
+        function displayGameClock() {
+            if(gameClock.getTimeValues().minutes === 0){
+                $("#gameClock").html(padDigits(gameClock.getTimeValues().seconds) + "." + gameClock.getTimeValues().secondTenths);
+            }else{
+                $("#gameClock").html(padDigits(gameClock.getTimeValues().minutes) + ":" + padDigits(gameClock.getTimeValues().seconds));
+            }
+        }
+
+        function displayShotClock() {
+            if (shotClock.getTimeValues().seconds < 10) {
+                $("#shotClock").html(shotClock.getTimeValues().seconds + "." + shotClock.getTimeValues().secondTenths);
+            } else {
+                $("#shotClock").html(padDigits(shotClock.getTimeValues().seconds));
+            }
         }
 
         function connect() {
@@ -103,7 +105,6 @@
         }
 
         function setDefaultValues() {
-            $("[id^=timeoutT]").fadeTo(0, 0.25);
             toggleShotClock(true);
             updateDirection("RIGHT");
             startClocks();
@@ -144,9 +145,9 @@
                     pauseClocks();
                     break;
                 case "SHOT_CLOCK_END":
+                    syncClocks(message);
                     shotClock.stop();
                     gameClock.pause();
-                    $("#shotClockSecs").html(padDigits(0));
                     if(message.displayShotClock){
                         shotClockSound.play();
                     }    
@@ -175,7 +176,7 @@
             }
 
             toggleShotClock(message.displayShotClock);
-            $("[id^=timeoutT]").fadeTo(0, 0.1);
+            // $("[id^=timeoutT]").fadeTo(0, 0.1);
             updateTimeouts("timeoutT1P", message.team1.teamTimeouts);
             updateTimeouts("timeoutT2P", message.team2.teamTimeouts);
             updateTimeouts("timeoutT1C", message.team1.coachTimeouts);
@@ -201,28 +202,24 @@
             }
         }
         function renderTimeouts(teamLimit, coachLimit) {
-            //alert(teamLimit + " - " + coachLimit);
+            // alert(teamLimit + " - " + coachLimit);
             for (teamIndex=1; teamIndex<=2; teamIndex++) {
                 var teamHtml = "";
                 var coachHtml = "";
-                for (i=1; i<=teamLimit; i++) {
-                    teamHtml += "<img id=\"timeoutT" + teamIndex + "P" + i + "\" src=\"images/team.png\" width=\"30px\" height=\"30px\"/>"+"&nbsp;";
-                }
-                for (i=1; i<=coachLimit; i++) {
-                    coachHtml += "<img id=\"timeoutT" + teamIndex + "C" + i + "\" src=\"images/coach.png\" width=\"30px\" height=\"30px\"/>"+"&nbsp;";
-                }
+                
+                var teamHtml = "<div class=\"timeoutText\" id=\"timeoutT" + teamIndex + "P" + "\">"+teamLimit+"</div>";                
+                var coachHtml = "<div class=\"timeoutText\" id=\"timeoutT" + teamIndex + "C" + "\">"+coachLimit+"</div>";
+
                 $("#team" + teamIndex + "Timeouts").html(teamHtml);
                 $("#coach" + teamIndex + "Timeouts").html(coachHtml);
             }
-            $("[id^=timeoutT]").fadeTo(0, 0.1);
+            // $("[id^=timeoutT]").fadeTo(0, 0.1);
         }
 
         function updateTimeouts(timeoutGroup, number) {
+            // alert(number);
             if (number != null) {
-                for (i=0; i<number; i++) {
-                    var num = i+1;
-                    $("#"+timeoutGroup+num).fadeTo(0, 1);
-                }
+                $("#"+timeoutGroup).html(number);
             }
         }
 
@@ -271,12 +268,14 @@
                                 <h3 class="panel-title">Timeouts</h3>
                             </div>
                             <div class="panel-body">
-                                <div class="row">
-                                    <div class="col-sm-7 team-timeouts" id="team1Timeouts"></div>
+                                <div class="row digits-alt">
+                                    <div class="col-sm-5 team-timeouts" id="team1Timeouts"></div>
+                                    <div class="col-sm-2"></div>
                                     <div class="col-sm-5 coach-timeouts" id="coach1Timeouts"></div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-sm-7">Player</div>
+                                    <div class="col-sm-5">Player</div>
+                                    <div class="col-sm-2"></div>
                                     <div class="col-sm-5">Coach</div>
                                 </div>
                             </div>
@@ -288,7 +287,7 @@
                             <div class="panel-body game-clock">
 
                                 <div class="digits-alt">
-                                    <span id="gameClockMins">${score.gameClock.mins}</span>:<span id="gameClockSecs">${score.gameClock.secs}</span>
+                                    <span id="gameClock">${score.gameClock.mins}:${score.gameClock.secs}</span>
                                 </div>
                             </div>
                         </div>
@@ -312,7 +311,7 @@
                                 </div>
                                 <div class="panel-body shot-clock">
                                     <div class="digits-alt">
-                                        <span id="shotClockSecs">${score.shotClock.secs}</span>
+                                        <span id="shotClock">${score.shotClock.secs}</span>
                                     </div>
                                 </div>
                             </div>
@@ -341,12 +340,14 @@
                                 <h3 class="panel-title">Timeouts</h3>
                             </div>
                             <div class="panel-body">
-                                <div class="row">
-                                    <div class="col-sm-7 team-timeouts" id="team2Timeouts"></div>
+                                <div class="row digits-alt">
+                                    <div class="col-sm-5 team-timeouts" id="team2Timeouts"></div>
+                                    <div class="col-sm-2"></div>
                                     <div class="col-sm-5 coach-timeouts" id="coach2Timeouts"></div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-sm-7">Player</div>
+                                    <div class="col-sm-5">Player</div>
+                                    <div class="col-sm-2"></div>
                                     <div class="col-sm-5">Coach</div>
                                 </div>
                             </div>

@@ -16,6 +16,7 @@
     <script src="<c:url value='/scripts/jquery-2.1.4.js'/>"></script>
     <script src="<c:url value='/scripts/bootstrap.min.js'/>"></script>
     <script src="<c:url value='/scripts/bootstrap-toggle.min.js'/>"></script>
+    <script src="<c:url value='/scripts/bootbox.min-4.4.0.js'/>"></script>
     <script src="<c:url value='/scripts/scorer-utils.js'/>"></script>
     <script src="<c:url value='/scripts/easytimer.min.js'/>"></script>
     <script src="<c:url value='/scripts/wr-common.js'/>"></script>
@@ -63,13 +64,13 @@
                                 <div class="col-sm-9">
                                     <div class="input-group">
                                         <span class="input-group-btn">
-                                            <button type="button" class="btn btn-danger btn-number btn-lg" disabled="disabled" data-type="minus" data-field="team1Timeout[]">
+                                            <button type="button" class="btn btn-danger btn-number btn-lg" data-type="minus" data-field="team1Timeout[]">
                                                 <span class="glyphicon glyphicon-minus"></span>
                                             </button>
                                         </span>
                                         <input type=text class="form-control input-number" name="team1Timeout[]" id="team1Timeout" value="0" min="0" max="4">
                                         <span class="input-group-btn">
-                                            <button type="button" class="btn btn-success btn-number btn-lg" data-type="plus" data-field="team1Timeout[]">
+                                            <button type="button" class="btn btn-success btn-number btn-lg" disabled="disabled" data-type="plus" data-field="team1Timeout[]">
                                                 <span class="glyphicon glyphicon-plus"></span>
                                             </button>
                                         </span>
@@ -81,13 +82,13 @@
                                 <div class="col-sm-9">
                                     <div class="input-group">
                                         <span class="input-group-btn">
-                                            <button type="button" class="btn btn-danger btn-number btn-lg" disabled="disabled" data-type="minus" data-field="coach1Timeout[]">
+                                            <button type="button" class="btn btn-danger btn-number btn-lg" data-type="minus" data-field="coach1Timeout[]">
                                                 <span class="glyphicon glyphicon-minus"></span>
                                             </button>
                                         </span>
                                         <input type=text class="form-control input-number" name="coach1Timeout[]" id="coach1Timeout" value="0" min="0" max="2">
                                         <span class="input-group-btn">
-                                            <button type="button" class="btn btn-success btn-number btn-lg" data-type="plus" data-field="coach1Timeout[]">
+                                            <button type="button" class="btn btn-success btn-number btn-lg" disabled="disabled" data-type="plus" data-field="coach1Timeout[]">
                                                 <span class="glyphicon glyphicon-plus"></span>
                                             </button>
                                         </span>
@@ -158,13 +159,13 @@
                                 <div class="col-sm-9">
                                     <div class="input-group">
                                         <span class="input-group-btn">
-                                            <button type="button" class="btn btn-danger btn-number btn-lg" disabled="disabled" data-type="minus" data-field="team2Timeout[]">
+                                            <button type="button" class="btn btn-danger btn-number btn-lg" data-type="minus" data-field="team2Timeout[]">
                                                 <span class="glyphicon glyphicon-minus"></span>
                                             </button>
                                         </span>
                                         <input type=text class="form-control input-number" name="team2Timeout[]" id="team2Timeout" value="0" min="0" max="4">
                                         <span class="input-group-btn">
-                                            <button type="button" class="btn btn-success btn-number btn-lg" data-type="plus" data-field="team2Timeout[]">
+                                            <button type="button" class="btn btn-success btn-number btn-lg" disabled="disabled" data-type="plus" data-field="team2Timeout[]">
                                                 <span class="glyphicon glyphicon-plus"></span>
                                             </button>
                                         </span>
@@ -176,13 +177,13 @@
                                 <div class="col-sm-9">
                                     <div class="input-group">
                                         <span class="input-group-btn">
-                                            <button type="button" class="btn btn-danger btn-number btn-lg" disabled="disabled" data-type="minus" data-field="coach2Timeout[]">
+                                            <button type="button" class="btn btn-danger btn-number btn-lg" data-type="minus" data-field="coach2Timeout[]">
                                                 <span class="glyphicon glyphicon-minus"></span>
                                             </button>
                                         </span>
                                         <input type=text class="form-control input-number" name="coach2Timeout[]" id="coach2Timeout" value="0" min="0" max="2">
                                         <span class="input-group-btn">
-                                            <button type="button" class="btn btn-success btn-number btn-lg" data-type="plus" data-field="coach2Timeout[]">
+                                            <button type="button" class="btn btn-success btn-number btn-lg" disabled="disabled" data-type="plus" data-field="coach2Timeout[]">
                                                 <span class="glyphicon glyphicon-plus"></span>
                                             </button>
                                         </span>
@@ -557,6 +558,8 @@
                 <div class="form-group">
                     <div class="col-sm-offset-4 col-sm-10">
                         <button type="button" id="btn-applySettings" class="btn btn-primary btn-lg">Apply Settings</button>
+                        <button type="button" id="btn-downloadLog" class="btn btn-lg">Download log</button>
+                        <button type="button" id="btn-deleteLog" class="btn btn-lg">Delete log</button>
                     </div>
                 </div>
             </form>
@@ -658,6 +661,7 @@
     function init() {
         connect();
         initClocks();
+        setTimeouts();
     }
 
     function initClocks() {
@@ -685,6 +689,13 @@
         }
         setConnected(false);
         console.log("Disconnected");
+    }
+
+    function setTimeouts() {
+        $("#team1Timeout").val($("#numberOfTeamTimeouts").val());
+        $("#team2Timeout").val($("#numberOfTeamTimeouts").val());
+        $("#coach1Timeout").val($("#numberOfCoachTimeouts").val());
+        $("#coach2Timeout").val($("#numberOfCoachTimeouts").val());
     }
 
     function getDefaultTotalGameClockSecTenths(){
@@ -1021,6 +1032,23 @@
             stompIt("SAVE_TEAM_SETUP","Updating Configuration");
         });
 
+        $("#btn-downloadLog").click(function (event) {
+            event.preventDefault();
+            window.open('<c:url value='/scorer/log'/>', '_blank');
+        });
+
+        $("#btn-deleteLog").click(function (event) {
+            event.preventDefault();
+            bootbox.confirm("Are you sure you want to delete the log file?", function(result) {
+                if (result) {
+                    $.ajax({
+                        url: '<c:url value='/scorer/log'/>',
+                        type: 'DELETE'
+                    });
+                }
+            });
+        });
+
         $("#main-logo-select").change(function (event) {
             label = event.currentTarget.value.replace(/\\/g, '/').replace(/.*\//, '');
             $("#main-filename").val(label);
@@ -1116,10 +1144,10 @@
         score["displayShotClock"] = showShotClock && $('input[id=displayShotClock]:checked', '#configuration-manager').val() === 'true';
         score["teamTimeoutLimit"] = $("#numberOfTeamTimeouts").val();
         score["coachTimeoutLimit"] = $("#numberOfCoachTimeouts").val();
-        $("#team1Timeout" ).attr("max", $("#numberOfTeamTimeouts").val());
-        $("#team2Timeout" ).attr("max", $("#numberOfTeamTimeouts").val());
-        $("#coach1Timeout" ).attr("max", $("#numberOfCoachTimeouts").val());
-        $("#coach2Timeout" ).attr("max", $("#numberOfCoachTimeouts").val());
+        $("#team1Timeout").attr("max", $("#numberOfTeamTimeouts").val());
+        $("#team2Timeout").attr("max", $("#numberOfTeamTimeouts").val());
+        $("#coach1Timeout").attr("max", $("#numberOfCoachTimeouts").val());
+        $("#coach2Timeout").attr("max", $("#numberOfCoachTimeouts").val());
 
         if (!$("#possession").is(':checked')) {
             score["direction"] = "LEFT";
