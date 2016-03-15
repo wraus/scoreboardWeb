@@ -601,6 +601,13 @@
     var shotClock = new Timer();
     var showShotClock = true;
 
+    window.addEventListener("beforeunload", function (e) {
+        var confirmationMessage = 'This will lose the current scoreboard.';
+
+        (e || window.event).returnValue = confirmationMessage; //Gecko + IE
+        return confirmationMessage; //Gecko + Webkit, Safari, Chrome etc.
+    });
+
     //################## Adding Clock event listeners ############################
     shotClock.addEventListener('targetAchieved', function (e) {
 
