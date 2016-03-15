@@ -18,6 +18,7 @@ public class Scoreboard {
     private boolean displayShotClock = true;
     private String backgroundColour; 
     private String scrollerMessage;
+    private String themeColour;
 
     public Scoreboard() {
 
@@ -133,5 +134,13 @@ public class Scoreboard {
 
     public void setScrollerMessage(String scrollerMessage) {
         this.scrollerMessage = scrollerMessage;
+    }
+
+    public String getThemeColour() {
+        return themeColour;
+    }
+
+    public void setThemeColour(String themeColour) {
+        this.themeColour = themeColour;
     }
 }

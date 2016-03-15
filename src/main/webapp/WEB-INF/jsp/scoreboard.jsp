@@ -172,6 +172,7 @@
                     $("#team1-logo").attr("src", "${pageContext.request.contextPath}/scorer/image?key=team1-logo&"+new Date().getTime());
                     $("#team2-logo").attr("src", "${pageContext.request.contextPath}/scorer/image?key=team2-logo&"+new Date().getTime());
                     renderTimeouts(message.teamTimeoutLimit, message.coachTimeoutLimit);
+                    setTheme(message.themeColour)
                     break;
             }
 
@@ -181,6 +182,35 @@
             updateTimeouts("timeoutT2P", message.team2.teamTimeouts);
             updateTimeouts("timeoutT1C", message.team1.coachTimeouts);
             updateTimeouts("timeoutT2C", message.team2.coachTimeouts);
+        }
+
+        function setTheme(themeColour) {
+            var themeTextColor = "white";
+            var themeBorderColor = "#666";
+            var themeDigits = "#CCAA00";
+            var themeLabels = "#AAA;"
+            var themeMessage = "inherit";
+
+            if (themeColour == "DARK") {
+                themeTextColor = "#222";
+                themeBorderColor = "#333";
+                themeDigits = "#d60b26";
+                themeLabels = "#333";
+                themeMessage = "#222";
+            } 
+            $('div.score').attr('style','color: '+themeTextColor);
+            
+            $('div.timeout .team-timeouts').attr('style','border-color: '+themeBorderColor);
+            $('div.timeout .coach-timeouts').attr('style','border-color: '+themeBorderColor);
+            $('div.game-clock').attr('style','border-color: '+themeBorderColor);
+            $('div.shot-clock').attr('style','border-color: '+themeBorderColor);
+
+            $('div.timeout .timeoutText').attr('style','color: '+themeDigits);
+            $('div.game-clock .digits-alt span').attr('style','color: '+themeDigits);
+            $('div.shot-clock .digits-alt span').attr('style','color: '+themeDigits);
+
+            $('.static-label').attr('style','color: '+themeLabels);
+            $('.footer-scroller-panel').attr('style','background-color: '+themeMessage);
         }
 
         function updateDirection(direction) {
@@ -265,7 +295,7 @@
 
                         <div class="timeoutPanel scorePanel timeout">
                             <div class="panel-heading">
-                                <h3 class="panel-title">Timeouts</h3>
+                                <h3 class="panel-title static-label">Timeouts</h3>
                             </div>
                             <div class="panel-body">
                                 <div class="row digits-alt">
@@ -274,9 +304,9 @@
                                     <div class="col-sm-5 coach-timeouts" id="coach1Timeouts"></div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-sm-5">Player</div>
+                                    <div class="col-sm-5 static-label">Player</div>
                                     <div class="col-sm-2"></div>
-                                    <div class="col-sm-5">Coach</div>
+                                    <div class="col-sm-5 static-label">Coach</div>
                                 </div>
                             </div>
                         </div>
@@ -296,7 +326,7 @@
 
                             <div id="period-panel" class="panel panel-extra">
                                 <div class="panel-heading">
-                                    <h3 class="panel-title">Quarter</h3>
+                                    <h3 class="panel-title static-label">Quarter</h3>
                                 </div>
                                 <div class="panel-body shot-clock">
                                     <div class="digits-alt">
@@ -307,7 +337,7 @@
 
                             <div class="col-sm-6 panel panel-shotclock">
                                 <div class="panel-heading">
-                                    <h3 class="panel-title">Shot Clock</h3>
+                                    <h3 class="panel-title static-label">Shot Clock</h3>
                                 </div>
                                 <div class="panel-body shot-clock">
                                     <div class="digits-alt">
@@ -337,7 +367,7 @@
 
                         <div class="timeoutPanel scorePanel timeout">
                             <div class="panel-heading">
-                                <h3 class="panel-title">Timeouts</h3>
+                                <h3 class="panel-title static-label">Timeouts</h3>
                             </div>
                             <div class="panel-body">
                                 <div class="row digits-alt">
@@ -346,9 +376,9 @@
                                     <div class="col-sm-5 coach-timeouts" id="coach2Timeouts"></div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-sm-5">Player</div>
+                                    <div class="col-sm-5 static-label">Player</div>
                                     <div class="col-sm-2"></div>
-                                    <div class="col-sm-5">Coach</div>
+                                    <div class="col-sm-5 static-label">Coach</div>
                                 </div>
                             </div>
                         </div>
@@ -363,16 +393,17 @@
     <nav class="navbar navbar-default navbar-fixed-bottom footer">
         <div class="container">
             <div class="row">
-                <div class="col-sm-2 footer-image-left">
-                    <img src="/images/logo-old.svg" style="width:48px;height:60px;">
+                <div class="footer-image-left">
+                    <img src="/images/logo-old.svg" style="width:72px;height:90px;">
                 </div>
-                
-                <div class="col-sm-8">
-                <div class="footer-scroller-panel" id="footer-scroller">
-                    <marquee behavior="scroll" direction="left" id="scroller-text">Welcome to the Game!</marquee>
+                <div class="col-sm-1"></div>
+                <div class="col-sm-10">
+                    <div class="footer-scroller-panel" id="footer-scroller">
+                        <marquee behavior="scroll" direction="left" id="scroller-text">Welcome to the Game!</marquee>
+                    </div>
                 </div>
-                </div>
-                <div class="col-sm-2 footer-image-right">
+                <div class="col-sm-1"></div>
+                <div class="footer-image-right">
                     <img src="/images/auspost-logo.png">
                 </div>
             </div>

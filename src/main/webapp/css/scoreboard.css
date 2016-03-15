@@ -9,7 +9,7 @@
 }
 @font-face {
     font-family: 'ledboard';
-    src: url('../fonts/advanced_led_board-7.ttf') format('truetype');
+    src: url('../fonts/led_counter-7_italic.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
 }
@@ -204,7 +204,7 @@ div.panel-shotclock .panel-heading {
 div.panel-shotclock .panel-body {
     /*background: #363;*/
     color: #AFA !important;
-    font-size: 20px;
+    font-size: 30px !important;
     border-radius: 10px;
     margin-top: 5px;
 }
@@ -282,7 +282,7 @@ div.timeout .panel-body .row {
 }
 
 div.timeout .panel-body .row .timeoutText{ 
-    font-size: 30px !important;
+    font-size: 40px !important;
     text-align: center;     
     padding: 10px 0px;    
 }    
@@ -303,22 +303,35 @@ div.timeout .coach-timeouts {
     border-color: #666;
     border-radius: 10px !important;
 }
+
+.static-label {
+    color: #AAA;
+}
 /*--------- OVERRIDING FOOT NAVBAR STYLE -----------*/
 .navbar-default {
   background-color: inherit;
   border-color: transparent;
 }
-
+.footer {
+    overflow: visible;
+    bottom: 5px;
+}
 .footer .footer-image-right {
     text-align: right;
     font-size: 12px;
     color: #999;
+    position: absolute;
+    right: 5px;
+    bottom: 0;
 }
 
 .footer .footer-image-left {
     text-align: left;
     font-size: 12px;
     color: #999;
+    position: absolute;
+    left: 5px;
+    bottom: 0;
 }
 
 .footer .footer-scroller-panel {
