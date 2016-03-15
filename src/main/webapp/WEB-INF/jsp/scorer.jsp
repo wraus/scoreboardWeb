@@ -18,11 +18,12 @@
     <script src="<c:url value='/scripts/bootstrap-toggle.min.js'/>"></script>
     <script src="<c:url value='/scripts/bootbox.min-4.4.0.js'/>"></script>
     <script src="<c:url value='/scripts/scorer-utils.js'/>"></script>
-    <script src="<c:url value='/scripts/easytimer.min.js'/>"></script>
+    <script src="<c:url value='/scripts/easytimer.js'/>"></script>
     <script src="<c:url value='/scripts/wr-common.js'/>"></script>
 
     <c:set var="home">${fn:substring(url, 0, fn:length(url) - fn:length(uri))}${req.contextPath}/</c:set>
     <c:set var="teamColours">red,green,yellow,blue,orange,#222,#333,#DDD,white</c:set>
+    <c:set var="themeColours">LIGHT,DARK</c:set>
 </head>
 <body onload="init()">
 
@@ -543,6 +544,21 @@
                                             <ul>
                                                 <c:forTokens items="${teamColours}" delims="," var="colour">
                                                     <li><input type="radio" name="backgroundColour" value="${colour}"><div style="background:${colour};"></div></li>
+                                                </c:forTokens>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group form-group-lg">
+                                    <label class="col-sm-4 control-label">Text Theme</label>
+                                    <div class="col-sm-8">
+                                        <div class="radio colour-picker">
+                                            <ul>
+                                                <c:forTokens items="${themeColours}" delims="," var="themeColour">
+                                                    <li style="padding-right: 50px;">
+                                                        <input type="radio" name="themeColour" value="${themeColour}">${themeColour}
+                                                    </li>
                                                 </c:forTokens>
                                             </ul>
                                         </div>
@@ -1180,6 +1196,7 @@
         score["gameClock"] = gameClock;
         score["shotClock"] = shotClock;
         score["backgroundColour"] = $('input[name=backgroundColour]:checked', '#configuration-manager').val();
+        score["themeColour"] = $('input[name=themeColour]:checked', '#configuration-manager').val();
         score["scrollerMessage"] = $("#gameMessage").val();
         
         console.log("SUCCESS: ", score);
