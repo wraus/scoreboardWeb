@@ -42,44 +42,46 @@
         }
 
         gameClock.addEventListener('secondTenthsUpdated', function (e) {
-            //console.log("GAME CLOCK",gameClock.getTimeValues());
-            if(gameClock.getTimeValues().minutes === 0){
-                $("#gameClockMins").html(padDigits(gameClock.getTimeValues().seconds));
-                $("#gameClockSecs").html(gameClock.getTimeValues().secondTenths);
-            }else{
-                $("#gameClockMins").html(padDigits(gameClock.getTimeValues().minutes));
-                $("#gameClockSecs").html(padDigits(gameClock.getTimeValues().seconds));
-            }
+            displayGameClock();
         });
 
         shotClock.addEventListener('secondTenthsUpdated', function (e) {
-            $("#shotClockSecs").html(padDigits(shotClock.getTimeValues().seconds));
+            displayShotClock();
         });
 
         function startClocks(gameClockTenthsSecs, shotClockTenthsSecs) {
-
             //stop clocks and reset
             stopClocks();
-
-            var gameTenthsSecs = gameClockTenthsSecs || 0;
-
-            gameClock.start({precision: 'secondTenths', countdown: true, startValues: {secondTenths: gameTenthsSecs}});
-            if(gameClock.getTimeValues().minutes === 0){
-                $("#gameClockMins").html(padDigits(gameClock.getTimeValues().seconds));
-                $("#gameClockSecs").html(gameClock.getTimeValues().secondTenths);
-            }else{
-                $("#gameClockMins").html(padDigits(gameClock.getTimeValues().minutes));
-                $("#gameClockSecs").html(padDigits(gameClock.getTimeValues().seconds));
-            }
-
+            startGameClock(gameClockTenthsSecs);
             startShotClock(shotClockTenthsSecs);
         }
 
-        function startShotClock(shotClockTenths ) {
+        function startGameClock(gameClockTenthsSecs) {
+            var gameTenthsSecs = gameClockTenthsSecs || 0;
+            gameClock.start({precision: 'secondTenths', countdown: true, startValues: {secondTenths: gameTenthsSecs}});
+            displayGameClock()
+        }
 
+        function startShotClock(shotClockTenths ) {
             var shotClockStartTenths = shotClockTenths || 0;
             shotClock.start({precision: 'secondTenths', countdown: true, startValues: {secondTenths: shotClockStartTenths}});
-            $("#shotClockSecs").html(padDigits(shotClock.getTimeValues().seconds));
+            displayShotClock();
+        }
+
+        function displayGameClock() {
+            if(gameClock.getTimeValues().minutes === 0){
+                $("#gameClock").html(padDigits(gameClock.getTimeValues().seconds) + "." + gameClock.getTimeValues().secondTenths);
+            }else{
+                $("#gameClock").html(padDigits(gameClock.getTimeValues().minutes) + ":" + padDigits(gameClock.getTimeValues().seconds));
+            }
+        }
+
+        function displayShotClock() {
+            if (shotClock.getTimeValues().seconds < 10) {
+                $("#shotClock").html(shotClock.getTimeValues().seconds + "." + shotClock.getTimeValues().secondTenths);
+            } else {
+                $("#shotClock").html(padDigits(shotClock.getTimeValues().seconds));
+            }
         }
 
         function connect() {
@@ -143,9 +145,9 @@
                     pauseClocks();
                     break;
                 case "SHOT_CLOCK_END":
+                    syncClocks(message);
                     shotClock.stop();
                     gameClock.pause();
-                    $("#shotClockSecs").html(padDigits(0));
                     if(message.displayShotClock){
                         shotClockSound.play();
                     }    
@@ -315,7 +317,7 @@
                             <div class="panel-body game-clock">
 
                                 <div class="digits-alt">
-                                    <span id="gameClockMins">${score.gameClock.mins}</span><span>:</span><span id="gameClockSecs">${score.gameClock.secs}</span>
+                                    <span id="gameClock">${score.gameClock.mins}:${score.gameClock.secs}</span>
                                 </div>
                             </div>
                         </div>
@@ -339,7 +341,7 @@
                                 </div>
                                 <div class="panel-body shot-clock">
                                     <div class="digits-alt">
-                                        <span id="shotClockSecs">${score.shotClock.secs}</span>
+                                        <span id="shotClock">${score.shotClock.secs}</span>
                                     </div>
                                 </div>
                             </div>
