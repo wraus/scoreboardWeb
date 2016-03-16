@@ -393,19 +393,19 @@
     <nav class="navbar navbar-default navbar-fixed-bottom footer">
         <div class="container">
             <div class="row">
-                <div class="footer-image-left">
+                <%--<div class="footer-image-left">
                     <img src="/images/logo-old.svg" style="width:72px;height:90px;">
                 </div>
-                <div class="col-sm-1"></div>
-                <div class="col-sm-10">
+                <div class="col-sm-1"></div>--%>
+                <div class="col-sm-12">
                     <div class="footer-scroller-panel" id="footer-scroller">
                         <marquee behavior="scroll" direction="left" id="scroller-text">Welcome to the Game!</marquee>
                     </div>
                 </div>
-                <div class="col-sm-1"></div>
+                <%--<div class="col-sm-1"></div>
                 <div class="footer-image-right">
                     <img src="/images/auspost-logo.png">
-                </div>
+                </div>--%>
             </div>
         </div>
     </nav>
