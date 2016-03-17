@@ -105,15 +105,11 @@ For more information about how Spring Boot externalised configuration works, see
 The following properties are required for EAV connection management and for specifying log location:
 
 
-```spring.mvc.view.prefix: /WEB-INF/jsp/```
-
-```spring.mvc.view.suffix: .jsp```
-
-```server.tomcat.access-log-enabled=true```
-
-```server.tomcat.access-log-pattern=%h %l %u %t "%r" %s %b %D```
-
-```au.org.sports.wrugby.scoreboard.logFile=score.xml```
+    spring.mvc.view.prefix: /WEB-INF/jsp/
+    spring.mvc.view.suffix: .jsp
+    server.tomcat.access-log-enabled=true
+    server.tomcat.access-log-pattern=%h %l %u %t "%r" %s %b %D
+    au.org.sports.wrugby.scoreboard.logFile=score.xml
 
 ###Deployment###
 
