@@ -22,9 +22,9 @@ How it works
 6. The scoreboard application will start running on an embedded tomcat web server.
 7. Open a browser window and navigate to the URL address: <http://localhost:8080/scoreboard> to display the scoreboard.
 8. Open a separate browser window and navigate to the URL address: <http://localhost:8080/scorer> to display the scoreboard controller.
-..* In order for the scoreboard and controller timers to function correctly they need to be opened in separate windows and cannot be in an inactive tab.
-..* N.B. If the scoreboard or controller window is inactive the timers will be paused until the window/tab is active again.
-..* N.B Also, whilst running the application the browser window should not be refreshed or the game will be reset to the start.    
+  * In order for the scoreboard and controller timers to function correctly they need to be opened in separate windows and cannot be in an inactive tab.
+  * N.B. If the scoreboard or controller window is inactive the timers will be paused until the window/tab is active again.
+  * N.B Also, whilst running the application the browser window should not be refreshed or the game will be reset to the start.    
 9. Position the scoreboard's display window on the large monitor/projector display for the spectators to see.
 10. If additional scoreboards or scoreboard controllers are required simply open in a new browser window.
 11. If connecting additional devices see instructions below to share the host PC or MAC 
@@ -51,13 +51,13 @@ For configuring a MAC as a Wi-Fi hotspot please follow the instructions at the f
   
 1. The Wi-Fi hotspot option is part of the “Internet Sharing” feature in Mac OS X. You’ll find it in the System Preferences window. Click the Apple menu, select System Preferences, and click the Sharing icon.
 2. Select the “Internet Sharing” option in the list. You’ll now need to select the Internet connection you want to share with the devices.
-..* N.B The one big limitation is that you can’t both be connected to a Wi-Fi network and host a Wi-Fi network at the same time. (Though you can allow connect via bluetooth)
+  * N.B The one big limitation is that you can’t both be connected to a Wi-Fi network and host a Wi-Fi network at the same time. (Though you can allow connect via bluetooth)
 3. If your Mac is currently connected to the Internet through an Ethernet adapter, select Ethernet in the list at the top of the window and share that wired connection over Wi-Fi. 
 4. If you’re tethered to an iPhone via Bluetooth or via a USB cable, you could also select those.
 5. In the “To computers using” box, enable the Wi-Fi option. This will create a Wi-Fi hotspot, and the Internet connection you selected at the top of the window will be shared with devices that connect to the Wi-Fi network.
 6. Click the “Wi-Fi Options” button at the bottom of the window to configure your Wi-Fi hotspot. Select your preferred network name and the best Wi-Fi channel.
 7. Be sure to click the “Security” box and select “WPA2-Personal” and provide a password. 
-..* By default, the hotspot will be configured without a password and anyone will be able to connect.
+  * By default, the hotspot will be configured without a password and anyone will be able to connect.
 8. In the 'Computer Name' section of Sharing, provide an easy name for other device to connect such as **nickmac** 
 9. When you’re done setting things up, click the checkbox to the left of Internet Sharing and click Start to activate your Wi-Fi hotspot.
 
