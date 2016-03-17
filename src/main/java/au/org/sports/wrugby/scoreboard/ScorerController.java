@@ -32,6 +32,51 @@ public class ScorerController {
     @Value("${au.org.sports.wrugby.scoreboard.logFile}")
     public String fileName;
 
+    @Value("${au.org.sports.wrugby.scoreboard.preset1.quarter-length}")
+    public String preset1QuarterLength;
+
+    @Value("${au.org.sports.wrugby.scoreboard.preset2.quarter-length}")
+    public String preset2QuarterLength;
+
+    @Value("${au.org.sports.wrugby.scoreboard.preset3.quarter-length}")
+    public String preset3QuarterLength;
+
+    @Value("${au.org.sports.wrugby.scoreboard.preset1.shotclock-length}")
+    public String preset1ShotClockLength;
+
+    @Value("${au.org.sports.wrugby.scoreboard.preset2.shotclock-length}")
+    public String preset2ShotClockLength;
+
+    @Value("${au.org.sports.wrugby.scoreboard.preset3.shotclock-length}")
+    public String preset3ShotClockLength;
+
+    @Value("${au.org.sports.wrugby.scoreboard.preset1.display-shotclock}")
+    public String preset1DisplayShotClock;
+
+    @Value("${au.org.sports.wrugby.scoreboard.preset2.display-shotclock}")
+    public String preset2DisplayShotClock;
+
+    @Value("${au.org.sports.wrugby.scoreboard.preset3.display-shotclock}")
+    public String preset3DisplayShotClock;
+
+    @Value("${au.org.sports.wrugby.scoreboard.preset1.player-timeouts}")
+    public String preset1PlayerTimeouts;
+
+    @Value("${au.org.sports.wrugby.scoreboard.preset2.player-timeouts}")
+    public String preset2PlayerTimeouts;
+
+    @Value("${au.org.sports.wrugby.scoreboard.preset3.player-timeouts}")
+    public String preset3PlayerTimeouts;
+
+    @Value("${au.org.sports.wrugby.scoreboard.preset1.coach-timeouts}")
+    public String preset1CoachTimeouts;
+
+    @Value("${au.org.sports.wrugby.scoreboard.preset2.coach-timeouts}")
+    public String preset2CoachTimeouts;
+
+    @Value("${au.org.sports.wrugby.scoreboard.preset3.coach-timeouts}")
+    public String preset3CoachTimeouts;
+
     private SimpMessagingTemplate template;
 
     @Autowired
@@ -45,7 +90,24 @@ public class ScorerController {
 
     @RequestMapping(value = "/scorer", method = RequestMethod.GET)
     public ModelAndView scorerHTML() {
-        return new ModelAndView("scorer");
+        ModelAndView mav = new ModelAndView("scorer");
+        mav.addObject("preset1QuarterLength", preset1QuarterLength);
+        mav.addObject("preset2QuarterLength", preset2QuarterLength);
+        mav.addObject("preset3QuarterLength", preset3QuarterLength);
+        mav.addObject("preset1ShotClockLength", preset1ShotClockLength);
+        mav.addObject("preset2ShotClockLength", preset2ShotClockLength);
+        mav.addObject("preset3ShotClockLength", preset3ShotClockLength);
+        mav.addObject("preset1DisplayShotClock", preset1DisplayShotClock);
+        mav.addObject("preset2DisplayShotClock", preset2DisplayShotClock);
+        mav.addObject("preset3DisplayShotClock", preset3DisplayShotClock);
+        mav.addObject("preset1PlayerTimeouts", preset1PlayerTimeouts);
+        mav.addObject("preset2PlayerTimeouts", preset2PlayerTimeouts);
+        mav.addObject("preset3PlayerTimeouts", preset3PlayerTimeouts);
+        mav.addObject("preset1CoachTimeouts", preset1CoachTimeouts);
+        mav.addObject("preset2CoachTimeouts", preset2CoachTimeouts);
+        mav.addObject("preset3CoachTimeouts", preset3CoachTimeouts);
+
+        return mav;
     }
 
     @RequestMapping(value = "/scorer/image", method = RequestMethod.GET)
@@ -70,11 +132,11 @@ public class ScorerController {
     public void handleFileUpload(
             @RequestParam("key") String key,
             @RequestParam("logo") MultipartFile file,
-                                   RedirectAttributes redirectAttributes) {
+            RedirectAttributes redirectAttributes) {
         if (!file.isEmpty()) {
             try {
                 Image image = new Image(file.getBytes(), file.getContentType());
-                context.setAttribute(key , image);
+                context.setAttribute(key, image);
                 redirectAttributes.addFlashAttribute("message",
                         "You successfully uploaded ");
             } catch (Exception e) {
@@ -98,7 +160,7 @@ public class ScorerController {
             if (file.exists()) {
                 fileContent = FileUtils.readFileToByteArray(file);
             } else {
-                fileContent = new byte[] {};
+                fileContent = new byte[]{};
             }
             byte[] outerTagClose = "</scores>".getBytes();
             byte[] joinedArray = new byte[outerTagOpen.length + fileContent.length + outerTagClose.length];

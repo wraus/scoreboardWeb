@@ -24,6 +24,7 @@
     <c:set var="home">${fn:substring(url, 0, fn:length(url) - fn:length(uri))}${req.contextPath}/</c:set>
     <c:set var="teamColours">red,green,yellow,blue,orange,#222,#333,#DDD,white</c:set>
     <c:set var="themeColours">LIGHT,DARK</c:set>
+    <c:set var="presetOptions">Game,Train1,Train2</c:set>
 </head>
 <body onload="init()">
 
@@ -507,6 +508,21 @@
                             <div class="panel-body">
 
                                 <div class="form-group form-group-lg">
+                                    <label class="col-sm-4 control-label">Preset</label>
+                                    <div class="col-sm-8">
+                                        <div class="radio colour-picker">
+                                            <ul>
+                                                <c:forTokens items="${presetOptions}" delims="," var="presetOption" varStatus="id">
+                                                    <li style="padding-right: 50px;">
+                                                        <input type="radio" name="presetOption" id="preset${id.count}" value="${presetOption}">${presetOption}
+                                                    </li>
+                                                </c:forTokens>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group form-group-lg">
                                     <label class="col-sm-4 control-label">Seconds in a quarter</label>
                                     <div class="col-sm-2">
                                         <input type="text" class="form-control" id="secondsInQuarter">
@@ -601,6 +617,8 @@
     var shotClock = new Timer();
     var showShotClock = true;
     var presets = [];
+    //default to GAME preset
+    var selectedPreset = 0;
 
     function Preset() {
         this.quarterLength = 0;
@@ -701,36 +719,34 @@
     function initClocks() {
         startGameClock(getDefaultTotalGameClockSecTenths(), getDefaultTotalShotClockSecTenths());
         pauseClocks();
-        //TODO update all preset template default values
-        $("#secondsInQuarter").val(480);
-        $("#shotClockSeconds").val(40);
-
+        $("#preset1").prop("checked", true);
+        $("input[name=presetOption]:radio").trigger( "change" );
         $("#bth-reset-40").html("Reset " + getDefaultTotalShotClockSecTenths() / 10);
     }
 
     function initPresets() {
         var preset1 = new Preset();
-        preset1.quarterLength = 480;
-        preset1.shotLength = 40;
-        preset1.coachTimeouts = 2;
-        preset1.playerTimeouts = 4;
-        preset1.showShotClock = true;
+        preset1.quarterLength = ${preset1QuarterLength};
+        preset1.shotLength = ${preset1ShotClockLength};
+        preset1.coachTimeouts = ${preset1CoachTimeouts};
+        preset1.playerTimeouts = ${preset1PlayerTimeouts};
+        preset1.showShotClock = ${preset1DisplayShotClock};
         preset1.name = 'GAME';
 
         var preset2 = new Preset();
-        preset2.quarterLength = 120;
-        preset2.shotLength = 20;
-        preset2.coachTimeouts = 1;
-        preset2.playerTimeouts = 2;
-        preset2.showShotClock = false;
+        preset2.quarterLength = ${preset2QuarterLength};
+        preset2.shotLength = ${preset2ShotClockLength};
+        preset2.coachTimeouts = ${preset2CoachTimeouts};
+        preset2.playerTimeouts = ${preset2PlayerTimeouts};
+        preset2.showShotClock = ${preset2DisplayShotClock};
         preset2.name = 'TRAIN1';
 
         var preset3 = new Preset();
-        preset3.quarterLength = 60;
-        preset3.shotLength = 10;
-        preset3.coachTimeouts = 1;
-        preset3.playerTimeouts = 1;
-        preset3.showShotClock = false;
+        preset3.quarterLength = ${preset3QuarterLength};
+        preset3.shotLength = ${preset3ShotClockLength};
+        preset3.coachTimeouts = ${preset3CoachTimeouts};
+        preset3.playerTimeouts = ${preset3PlayerTimeouts};
+        preset3.showShotClock = ${preset3DisplayShotClock};
         preset3.name = 'TRAIN2';
 
         presets = [preset1, preset2, preset3];
@@ -756,26 +772,25 @@
     }
 
     function setTimeouts() {
-        //TODO select presets array using selected preset ID
-        $("#team1Timeout").val(presets[0].playerTimeouts);
-        $("#team2Timeout").val(presets[0].playerTimeouts);
-        $("#coach1Timeout").val(presets[0].coachTimeouts);
-        $("#coach2Timeout").val(presets[0].coachTimeouts);
+        $("#team1Timeout").val(presets[selectedPreset].playerTimeouts);
+        $("#team2Timeout").val(presets[selectedPreset].playerTimeouts);
+        $("#coach1Timeout").val(presets[selectedPreset].coachTimeouts);
+        $("#coach2Timeout").val(presets[selectedPreset].coachTimeouts);
     }
 
     function getDefaultTotalGameClockSecTenths(){
         //var quarterDefaultSecs = $("#secondsInQuarter").val();
-        var quarterDefaultSecs = presets[0].quarterLength;
+        var quarterDefaultSecs = presets[selectedPreset].quarterLength;
         if(+quarterDefaultSecs === 0){
             return 0;
         }
-        return (+quarterDefaultSecs || 480) * 10;
+        return (+quarterDefaultSecs || ${preset1QuarterLength}) * 10;
     }
 
     function getDefaultTotalShotClockSecTenths(){
         //var shotDefaultSecs = $("#shotClockSeconds").val();
-        var shotDefaultSecs = presets[0].shotLength;
-        return (+shotDefaultSecs || 40) * 10;
+        var shotDefaultSecs = presets[selectedPreset].shotLength;
+        return (+shotDefaultSecs || ${preset1ShotClockLength}) * 10;
     }
 
     function startGameClock(gameTenthsSecs, shotClockTenthsSec) {
@@ -1052,6 +1067,7 @@
             startGameClock();
             pauseClocks();
             showShotClock = true;
+            setTimeouts();
             stompIt("STOP_CLOCK","'Reset Quarter' button clicked");
             $("#bth-reset-40").html("Reset " + getDefaultTotalShotClockSecTenths() / 10);
         });
@@ -1093,9 +1109,27 @@
             stompIt("SAVE_TEAM_SETUP", "Updating Team Setup");
         });
 
+        //#PRESETS
+        $("input[name=presetOption]:radio").change(function (event) {
+            event.preventDefault();
+            selectedPreset = $('input[name=presetOption]:checked').index('input[name=presetOption]');
+            //populate game settings with predefined selected preset object
+            $("#secondsInQuarter").val(presets[selectedPreset].quarterLength);
+            $("#shotClockSeconds").val(presets[selectedPreset].shotLength);
+            $("#displayShotClock").prop('checked',presets[selectedPreset].showShotClock);
+            $("#numberOfTeamTimeouts").val(presets[selectedPreset].playerTimeouts);
+            $("#numberOfCoachTimeouts").val(presets[selectedPreset].coachTimeouts);
+        })
+
         $("#btn-applySettings").click(function (event) {
             // Prevent the form from submitting via the browser.
             event.preventDefault();
+            //update selected preset object with modified settings
+            presets[selectedPreset].quarterLength = $("#secondsInQuarter").val();
+            presets[selectedPreset].shotLength = $("#shotClockSeconds").val();
+            presets[selectedPreset].showShotClock = $("#displayShotClock").prop('checked');
+            presets[selectedPreset].playerTimeouts = $("#numberOfTeamTimeouts").val();
+            presets[selectedPreset].coachTimeouts = $("#numberOfCoachTimeouts").val();
             stompIt("SAVE_TEAM_SETUP","Updating Configuration");
         });
 
@@ -1208,16 +1242,13 @@
         score["action"] = logAction;
         score["actionTime"] = actionTime;
         score["period"] = $("#period").val();
-        //TODO change to select correct 'displayShotClock' value from selected preset
-        //score["displayShotClock"] = showShotClock && $('input[id=displayShotClock]:checked', '#configuration-manager').val() === 'true';
-        score["displayShotClock"] = showShotClock && presets[0].showShotClock;
-        //TODO change to select correct 'timeout max values' from selected preset
-        score["teamTimeoutLimit"] = presets[0].playerTimeouts;
-        score["coachTimeoutLimit"] = presets[0].coachTimeouts;
-        $("#team1Timeout").attr("max", presets[0].playerTimeouts);
-        $("#team2Timeout").attr("max", presets[0].playerTimeouts);
-        $("#coach1Timeout").attr("max", presets[0].coachTimeouts);
-        $("#coach2Timeout").attr("max", presets[0].coachTimeouts);
+        score["displayShotClock"] = showShotClock && presets[selectedPreset].showShotClock;
+        score["teamTimeoutLimit"] = presets[selectedPreset].playerTimeouts;
+        score["coachTimeoutLimit"] = presets[selectedPreset].coachTimeouts;
+        $("#team1Timeout").attr("max", presets[selectedPreset].playerTimeouts);
+        $("#team2Timeout").attr("max", presets[selectedPreset].playerTimeouts);
+        $("#coach1Timeout").attr("max", presets[selectedPreset].coachTimeouts);
+        $("#coach2Timeout").attr("max", presets[selectedPreset].coachTimeouts);
 
         if (!$("#possession").is(':checked')) {
             score["direction"] = "LEFT";
