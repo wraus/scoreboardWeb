@@ -65,7 +65,7 @@ div.team {
 
 div.digits-alt {
     font-family: '7segment';
-    color: #CCAA00 !important;
+    color: #FFFF00 !important;
     font-size: 124px;
 }
 @media (min-width: 692px) {
@@ -163,7 +163,7 @@ div.panel .shot-clock {
 
 div.panel .shot-clock div {
     font-size: 84px !important;
-    color: #CA0 !important;
+    color: #FFFF00 !important;
 }
 @media (min-width: 692px) {
   div.panel .shot-clock div { font-size: 30px !important; }

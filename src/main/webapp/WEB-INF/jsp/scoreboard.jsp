@@ -187,7 +187,7 @@
         function setTheme(themeColour) {
             var themeTextColor = "white";
             var themeBorderColor = "#666";
-            var themeDigits = "#CCAA00";
+            var themeDigits = "#FFFF00";
             var themeLabels = "#AAA;"
             var themeMessage = "inherit";
 
