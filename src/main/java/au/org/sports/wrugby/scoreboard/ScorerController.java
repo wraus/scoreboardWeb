@@ -58,6 +58,7 @@ public class ScorerController {
         mav.addObject("preset1", preset1);
         mav.addObject("preset2", preset2);
         mav.addObject("preset3", preset3);
+        mav.addObject("presetOptions", preset1.getName() + "," + preset2.getName() + "," + preset3.getName());
 
         return mav;
     }

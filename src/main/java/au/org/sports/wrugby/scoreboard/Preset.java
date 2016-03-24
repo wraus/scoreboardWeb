@@ -12,12 +12,15 @@ public class Preset {
 
     private String coachTimeouts;
 
-    public Preset(String quarterLength, String shotClockLength, String displayShotClock, String playerTimeouts, String coachTimeouts) {
+    private String name;
+
+    public Preset(String quarterLength, String shotClockLength, String displayShotClock, String playerTimeouts, String coachTimeouts, String name) {
         this.quarterLength = quarterLength;
         this.shotClockLength = shotClockLength;
         this.displayShotClock = displayShotClock;
         this.playerTimeouts = playerTimeouts;
         this.coachTimeouts = coachTimeouts;
+        this.name = name;
     }
 
     public String getQuarterLength() {
@@ -58,5 +61,13 @@ public class Preset {
 
     public void setCoachTimeouts(String coachTimeouts) {
         this.coachTimeouts = coachTimeouts;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

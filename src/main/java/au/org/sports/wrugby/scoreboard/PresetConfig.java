@@ -7,6 +7,9 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class PresetConfig {
 
+    @Value("${au.org.sports.wrugby.scoreboard.preset1.name}")
+    private String preset1Name;
+
     @Value("${au.org.sports.wrugby.scoreboard.preset1.quarter-length}")
     private String preset1QuarterLength;
 
@@ -22,6 +25,9 @@ public class PresetConfig {
     @Value("${au.org.sports.wrugby.scoreboard.preset1.coach-timeouts}")
     private String preset1CoachTimeouts;
 
+    @Value("${au.org.sports.wrugby.scoreboard.preset2.name}")
+    private String preset2Name;
+
     @Value("${au.org.sports.wrugby.scoreboard.preset2.quarter-length}")
     private String preset2QuarterLength;
 
@@ -36,6 +42,9 @@ public class PresetConfig {
 
     @Value("${au.org.sports.wrugby.scoreboard.preset2.coach-timeouts}")
     private String preset2CoachTimeouts;
+
+    @Value("${au.org.sports.wrugby.scoreboard.preset3.name}")
+    private String preset3Name;
 
     @Value("${au.org.sports.wrugby.scoreboard.preset3.quarter-length}")
     private String preset3QuarterLength;
@@ -57,16 +66,19 @@ public class PresetConfig {
 
     @Bean(name = "preset1")
     public Preset preset1() {
-        return new Preset(preset1QuarterLength, preset1ShotClockLength, preset1DisplayShotClock, preset1PlayerTimeouts, preset1CoachTimeouts);
+        return new Preset(preset1QuarterLength, preset1ShotClockLength, preset1DisplayShotClock,
+                preset1PlayerTimeouts, preset1CoachTimeouts, preset1Name);
     }
 
     @Bean(name = "preset2")
     public Preset preset2() {
-        return new Preset(preset2QuarterLength, preset2ShotClockLength, preset2DisplayShotClock, preset2PlayerTimeouts, preset2CoachTimeouts);
+        return new Preset(preset2QuarterLength, preset2ShotClockLength, preset2DisplayShotClock,
+                preset2PlayerTimeouts, preset2CoachTimeouts, preset2Name);
     }
 
     @Bean(name = "preset3")
     public Preset preset3() {
-        return new Preset(preset3QuarterLength, preset3ShotClockLength, preset3DisplayShotClock, preset3PlayerTimeouts, preset3CoachTimeouts);
+        return new Preset(preset3QuarterLength, preset3ShotClockLength, preset3DisplayShotClock,
+                preset3PlayerTimeouts, preset3CoachTimeouts, preset3Name);
     }
 }

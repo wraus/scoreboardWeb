@@ -24,7 +24,7 @@
     <c:set var="home">${fn:substring(url, 0, fn:length(url) - fn:length(uri))}${req.contextPath}/</c:set>
     <c:set var="teamColours">red,green,yellow,blue,orange,#222,#333,#DDD,white</c:set>
     <c:set var="themeColours">LIGHT,DARK</c:set>
-    <c:set var="presetOptions">Game,Train1,Train2</c:set>
+
 </head>
 <body onload="init()">
 
