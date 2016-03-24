@@ -726,28 +726,25 @@
 
     function initPresets() {
         var preset1 = new Preset();
-        preset1.quarterLength = ${preset1QuarterLength};
-        preset1.shotLength = ${preset1ShotClockLength};
-        preset1.coachTimeouts = ${preset1CoachTimeouts};
-        preset1.playerTimeouts = ${preset1PlayerTimeouts};
-        preset1.showShotClock = ${preset1DisplayShotClock};
-        preset1.name = 'GAME';
+        preset1.quarterLength = ${preset1.quarterLength};
+        preset1.shotLength = ${preset1.shotClockLength};
+        preset1.coachTimeouts = ${preset1.coachTimeouts};
+        preset1.playerTimeouts = ${preset1.playerTimeouts};
+        preset1.showShotClock = ${preset1.displayShotClock};
 
         var preset2 = new Preset();
-        preset2.quarterLength = ${preset2QuarterLength};
-        preset2.shotLength = ${preset2ShotClockLength};
-        preset2.coachTimeouts = ${preset2CoachTimeouts};
-        preset2.playerTimeouts = ${preset2PlayerTimeouts};
-        preset2.showShotClock = ${preset2DisplayShotClock};
-        preset2.name = 'TRAIN1';
+        preset2.quarterLength = ${preset2.quarterLength};
+        preset2.shotLength = ${preset2.shotClockLength};
+        preset2.coachTimeouts = ${preset2.coachTimeouts};
+        preset2.playerTimeouts = ${preset2.playerTimeouts};
+        preset2.showShotClock = ${preset2.displayShotClock};
 
         var preset3 = new Preset();
-        preset3.quarterLength = ${preset3QuarterLength};
-        preset3.shotLength = ${preset3ShotClockLength};
-        preset3.coachTimeouts = ${preset3CoachTimeouts};
-        preset3.playerTimeouts = ${preset3PlayerTimeouts};
-        preset3.showShotClock = ${preset3DisplayShotClock};
-        preset3.name = 'TRAIN2';
+        preset3.quarterLength = ${preset3.quarterLength};
+        preset3.shotLength = ${preset3.shotClockLength};
+        preset3.coachTimeouts = ${preset3.coachTimeouts};
+        preset3.playerTimeouts = ${preset3.playerTimeouts};
+        preset3.showShotClock = ${preset3.displayShotClock};
 
         presets = [preset1, preset2, preset3];
     }
@@ -784,13 +781,13 @@
         if(+quarterDefaultSecs === 0){
             return 0;
         }
-        return (+quarterDefaultSecs || ${preset1QuarterLength}) * 10;
+        return (+quarterDefaultSecs || ${preset1.quarterLength}) * 10;
     }
 
     function getDefaultTotalShotClockSecTenths(){
         //var shotDefaultSecs = $("#shotClockSeconds").val();
         var shotDefaultSecs = presets[selectedPreset].shotLength;
-        return (+shotDefaultSecs || ${preset1ShotClockLength}) * 10;
+        return (+shotDefaultSecs || ${preset1.shotClockLength}) * 10;
     }
 
     function startGameClock(gameTenthsSecs, shotClockTenthsSec) {
