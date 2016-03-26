@@ -512,11 +512,11 @@
                                     <div class="col-sm-8">
                                         <div class="radio colour-picker">
                                             <ul>
-                                                <c:forTokens items="${presetOptions}" delims="," var="presetOption" varStatus="id">
+                                                <c:forEach items="${presetOptions}" var="preset" varStatus="id">
                                                     <li style="padding-right: 50px;">
-                                                        <input type="radio" name="presetOption" id="preset${id.count}" value="${presetOption}">${presetOption}
+                                                        <input type="radio" name="presetOption" id="preset${id.count}" value="${preset.name}">${preset.name}
                                                     </li>
-                                                </c:forTokens>
+                                                </c:forEach>
                                             </ul>
                                         </div>
                                     </div>

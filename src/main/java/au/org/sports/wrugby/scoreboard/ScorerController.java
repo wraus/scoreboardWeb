@@ -25,6 +25,7 @@ import javax.servlet.ServletContext;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Arrays;
 
 @RestController
 @Controller
@@ -58,7 +59,7 @@ public class ScorerController {
         mav.addObject("preset1", preset1);
         mav.addObject("preset2", preset2);
         mav.addObject("preset3", preset3);
-        mav.addObject("presetOptions", preset1.getName() + "," + preset2.getName() + "," + preset3.getName());
+        mav.addObject("presetOptions", Arrays.asList(preset1,preset2,preset3));
 
         return mav;
     }
