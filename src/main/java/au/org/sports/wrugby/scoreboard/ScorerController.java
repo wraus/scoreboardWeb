@@ -25,6 +25,7 @@ import javax.servlet.ServletContext;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Arrays;
 
 @RestController
 @Controller
@@ -33,6 +34,15 @@ public class ScorerController {
     public String fileName;
 
     private SimpMessagingTemplate template;
+
+    @Autowired
+    private Preset preset1;
+
+    @Autowired
+    private Preset preset2;
+
+    @Autowired
+    private Preset preset3;
 
     @Autowired
     private ServletContext context;
@@ -45,7 +55,13 @@ public class ScorerController {
 
     @RequestMapping(value = "/scorer", method = RequestMethod.GET)
     public ModelAndView scorerHTML() {
-        return new ModelAndView("scorer");
+        ModelAndView mav = new ModelAndView("scorer");
+        mav.addObject("preset1", preset1);
+        mav.addObject("preset2", preset2);
+        mav.addObject("preset3", preset3);
+        mav.addObject("presetOptions", Arrays.asList(preset1,preset2,preset3));
+
+        return mav;
     }
 
     @RequestMapping(value = "/scorer/image", method = RequestMethod.GET)
@@ -70,11 +86,11 @@ public class ScorerController {
     public void handleFileUpload(
             @RequestParam("key") String key,
             @RequestParam("logo") MultipartFile file,
-                                   RedirectAttributes redirectAttributes) {
+            RedirectAttributes redirectAttributes) {
         if (!file.isEmpty()) {
             try {
                 Image image = new Image(file.getBytes(), file.getContentType());
-                context.setAttribute(key , image);
+                context.setAttribute(key, image);
                 redirectAttributes.addFlashAttribute("message",
                         "You successfully uploaded ");
             } catch (Exception e) {
@@ -98,7 +114,7 @@ public class ScorerController {
             if (file.exists()) {
                 fileContent = FileUtils.readFileToByteArray(file);
             } else {
-                fileContent = new byte[] {};
+                fileContent = new byte[]{};
             }
             byte[] outerTagClose = "</scores>".getBytes();
             byte[] joinedArray = new byte[outerTagOpen.length + fileContent.length + outerTagClose.length];
