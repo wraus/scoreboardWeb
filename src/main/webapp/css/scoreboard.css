@@ -140,7 +140,7 @@ div.banner-row {
 /* ---------- CLOCK PANEL ---------------- */
 div.panel .game-clock {
     /*background:#002900;*/
-    border: 4px dotted #666;
+    border: 4px dotted #FFC;
     color:#0F0;
     text-align:center;
     padding: 35px 0;
@@ -158,7 +158,7 @@ div.panel .shot-clock {
     /*background:#010;*/
     color:#0F0;
     text-align:center;
-    border: 4px dotted #666;
+    border: 4px dotted #FFC;
 }
 
 div.panel .shot-clock div {
@@ -177,6 +177,25 @@ div.panel .shot-clock div {
 @media (min-width: 1450px) {
   div.panel .shot-clock div { font-size: 84px !important; }
 }
+
+div.timeoutPanel .timeouts div {
+    text-align: center;
+    font-size: 84px !important;
+    color: #FFFF00 !important;
+}
+@media (min-width: 692px) {
+    div.timeoutPanel .timeouts div { font-size: 30px !important; }
+}
+@media (min-width: 922px) {
+    div.timeoutPanel .timeouts div { font-size: 44px !important; }
+}
+@media (min-width: 1182px) {
+    div.timeoutPanel .timeouts div { font-size: 64px !important; }
+}
+@media (min-width: 1450px) {
+    div.timeoutPanel .timeouts div { font-size: 84px !important; }
+}
+
 
 div.panel-extra {
     padding-left: 0px;
@@ -281,9 +300,8 @@ div.timeout .panel-body .row {
     margin:5px 0px;  
 }
 
-div.timeout .panel-body .row .timeoutText{ 
-    font-size: 40px !important;
-    text-align: center;     
+div.timeout .panel-body .row .timeoutText{
+    text-align: center;
     padding: 10px 0px;    
 }    
 
@@ -292,7 +310,7 @@ div.timeout .team-timeouts {
     text-align: left;
     background-color: inherit;
     border: 4px dotted;
-    border-color: #666;
+    border-color: #FFC;
     border-radius: 10px !important;
 }
 div.timeout .coach-timeouts {
@@ -300,7 +318,7 @@ div.timeout .coach-timeouts {
     text-align: right;
     background-color: inherit;
     border: 4px dotted;
-    border-color: #666;
+    border-color: #FFC;
     border-radius: 10px !important;
 }
 

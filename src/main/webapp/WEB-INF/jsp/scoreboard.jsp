@@ -255,14 +255,9 @@
 
         function toggleShotClock(displayShotClock) {
             if (displayShotClock) {
-                $(".panel-shotclock").css("visibility", "visible");
-                $(".panel-shotclock").removeClass("shot-clock-no-height");
-                $("#period-panel").addClass("col-sm-6");
-                $("#period-panel").removeClass("col-sm-12");
-            } else { $(".panel-shotclock").css("visibility", "hidden"); 
-                $(".panel-shotclock").addClass("shot-clock-no-height");
-                $("#period-panel").removeClass("col-sm-6");
-                $("#period-panel").addClass("col-sm-12");
+                $("#shotClock").css("visibility", "visible");
+            } else {
+                $("#shotClock").css("visibility", "hidden");
             }
         }
 
@@ -298,7 +293,7 @@
                                 <h3 class="panel-title static-label">Timeouts</h3>
                             </div>
                             <div class="panel-body">
-                                <div class="row digits-alt">
+                                <div class="row timeouts digits-alt">
                                     <div class="col-sm-5 team-timeouts" id="team1Timeouts"></div>
                                     <div class="col-sm-2"></div>
                                     <div class="col-sm-5 coach-timeouts" id="coach1Timeouts"></div>
@@ -335,7 +330,17 @@
                                 </div>
                             </div>
 
-                            <div class="col-sm-6 panel panel-shotclock">
+                        </div>
+
+                        <div class="col-sm-12 arrow-panel">
+                            <div class="panel-body">
+                                <div id="arrowRight"><img src="images/green-arrow-right.png"/></div>
+                                <div id="arrowLeft"><img src="images/green-arrow-left.png"/></div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-12 panel-shotclock-period">
+                            <div id="shot-clock-panel" class="panel panel-extra">
                                 <div class="panel-heading">
                                     <h3 class="panel-title static-label">Shot Clock</h3>
                                 </div>
@@ -344,14 +349,6 @@
                                         <span id="shotClock">${score.shotClock.secs}</span>
                                     </div>
                                 </div>
-                            </div>
-                            
-                        </div>
-
-                        <div class="col-sm-12 arrow-panel">
-                            <div class="panel-body">
-                                <div id="arrowRight"><img src="images/green-arrow-right.png"/></div>
-                                <div id="arrowLeft"><img src="images/green-arrow-left.png"/></div>
                             </div>
                         </div>
 
@@ -370,7 +367,7 @@
                                 <h3 class="panel-title static-label">Timeouts</h3>
                             </div>
                             <div class="panel-body">
-                                <div class="row digits-alt">
+                                <div class="row timeouts digits-alt">
                                     <div class="col-sm-5 team-timeouts" id="team2Timeouts"></div>
                                     <div class="col-sm-2"></div>
                                     <div class="col-sm-5 coach-timeouts" id="coach2Timeouts"></div>
