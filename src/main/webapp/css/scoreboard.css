@@ -323,7 +323,8 @@ div.timeout .coach-timeouts {
 }
 
 .static-label {
-    color: #AAA;
+    color: #FFF;
+    font-size: 25px;
 }
 /*--------- OVERRIDING FOOT NAVBAR STYLE -----------*/
 .navbar-default {
