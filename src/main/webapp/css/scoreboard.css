@@ -51,12 +51,6 @@ div.heading {
     color: white;
 }
 
-div.score {
-    font-family: '7segment';
-    font-size: 64px;
-    /*color: yellow;*/
-}
-
 div.team {
     font-family: "arial";
     font-size: 32px;
@@ -68,17 +62,26 @@ div.digits-alt {
     color: #FFFF00 !important;
     font-size: 124px;
 }
+
+div.score {
+    font-family: '7segment';
+}
+
 @media (min-width: 692px) {
-  div.digits-alt { font-size: 48px; }
+    div.digits-alt { font-size: 48px; }
+    div.score { font-size: 32px; }
 }
 @media (min-width: 922px) {
-  div.digits-alt { font-size: 78px; }
+    div.digits-alt { font-size: 78px; }
+    div.score { font-size: 48px; }
 }
 @media (min-width: 1182px) {
-  div.digits-alt { font-size: 96px; }
+    div.digits-alt { font-size: 96px; }
+    div.score { font-size: 68px; }
 }
 @media (min-width: 1450px) {
-  div.digits-alt { font-size: 124px; }
+    div.digits-alt { font-size: 124px; }
+    div.score { font-size: 84px; }
 }
 
 img.banner {
