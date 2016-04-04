@@ -663,7 +663,9 @@
         $('#start').bootstrapToggle('on');
         $('#start').on('change', handleStartStop);
         $('#period').val(+$("#period").val() + 1);
-        showShotClock = true;
+
+        updateShowShotClock(true);
+
         startGameClock();
         pauseClocks();
         stompIt("QUARTER_END", "Quarter clock timed out");
@@ -680,15 +682,10 @@
 
     gameClock.addEventListener('secondTenthsUpdated', function (e) {
 
-        var shotClockTenths = getDefaultTotalShotClockSecTenths();
         //console.log("GAME CLOCK",gameClock.getTimeValues().toString(), shotClockTenths);
         $("#gameClockMins").val(padDigits(gameClock.getTimeValues().minutes));
         $("#gameClockSecs").val(padDigits(gameClock.getTimeValues().seconds));
         $("#gameClockTenths").val(gameClock.getTimeValues().secondTenths);
-        if (showShotClock && gameClock.getTimeValues().minutes === 0
-                && gameClock.getTimeValues().seconds < (shotClockTenths / 10)) {
-            sendHideShotClockCmd(shotClockTenths);
-        }
     });
 
     shotClock.addEventListener('secondsUpdated', function (e) {
@@ -775,6 +772,12 @@
         $("#coach2Timeout").val(presets[selectedPreset].coachTimeouts);
     }
 
+    function updateShowShotClock(flag) {
+        showShotClock = flag;
+        $("#bth-reset-40").attr("disabled", !flag);
+        $("#bth-reset-15").attr("disabled", !flag);
+    }
+
     function getDefaultTotalGameClockSecTenths(){
         //var quarterDefaultSecs = $("#secondsInQuarter").val();
         var quarterDefaultSecs = presets[selectedPreset].quarterLength;
@@ -813,6 +816,11 @@
 
         //starting quarter clock should always start shot clock, default 40 secs if time not supplied
         var shotClockTime = shotClockTenthsSec || getDefaultTotalShotClockSecTenths();
+
+        if (!showShotClock && gameClockInTenths() > shotClockTime) {
+            updateShowShotClock(true);
+        }
+
         startShotClock(shotClockTime);
     }
 
@@ -865,7 +873,7 @@
         shotClock.stop();
         startShotClock(shotClockTenths);
         shotClock.pause();
-        showShotClock = false;
+        updateShowShotClock(false);
         stompIt("HIDE_SHOT_CLOCK","Hiding shot clock, quarter clock time remaining is less than shot clock");
     }
 
@@ -884,23 +892,39 @@
         shotClock.stop();
         if (event.full) {
             var resetFull = getDefaultTotalShotClockSecTenths();
-            if (!$("#start").is(':checked')) {
-                // If clock is running then just reset the shot clock and leave it running
-                startShotClock(resetFull);
-                stompIt("START_CLOCK", event.actionMessage);
-            } else {
-                // If clock is not running then reset the shot clock and leave clocks stopped
-                startShotClock(resetFull);
+
+            if (validateShotClockCmd(resetFull)) {
+                if (!$("#start").is(':checked')) {
+                    // If clock is running then just reset the shot clock and leave it running
+                    startShotClock(resetFull);
+                    stompIt("START_CLOCK", event.actionMessage);
+                } else {
+                    // If clock is not running then reset the shot clock and leave clocks stopped
+                    startShotClock(resetFull);
+                    pauseClocks();
+                    stompIt("STOP_CLOCK", event.actionMessage);
+                }
+            }
+        } else {
+            if (validateShotClockCmd(150)) {
+                stopGameWithoutEventFire();
+                startShotClock(150);
                 pauseClocks();
                 stompIt("STOP_CLOCK", event.actionMessage);
             }
-        } else {
-            stopGameWithoutEventFire();
-            startShotClock(150);
-            pauseClocks();
-            stompIt("STOP_CLOCK", event.actionMessage);
         }
 
+    }
+
+    function validateShotClockCmd(shotClockTenths){
+        if (showShotClock && gameClock.getTimeValues().minutes === 0
+                && gameClock.getTimeValues().seconds <= (shotClockTenths / 10)) {
+            startShotClock(shotClockTenths);
+            shotClock.pause();
+            sendHideShotClockCmd(shotClockTenths);
+            return false;
+        }
+        return true;
     }
 
     function stopGameWithoutEventFire() {
@@ -1063,7 +1087,7 @@
             stopGameWithoutEventFire();
             startGameClock();
             pauseClocks();
-            showShotClock = true;
+            updateShowShotClock(true);
             setTimeouts();
             stompIt("STOP_CLOCK","'Reset Quarter' button clicked");
             $("#bth-reset-40").html("Reset " + getDefaultTotalShotClockSecTenths() / 10);
