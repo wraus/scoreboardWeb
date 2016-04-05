@@ -399,10 +399,6 @@
                         <marquee behavior="scroll" direction="left" id="scroller-text">Welcome to the Game!</marquee>
                     </div>
                 </div>
-                <%--<div class="col-sm-1"></div>
-                <div class="footer-image-right">
-                    <img src="/images/auspost-logo.png">
-                </div>--%>
             </div>
         </div>
     </nav>
