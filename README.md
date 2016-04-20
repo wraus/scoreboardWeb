@@ -16,9 +16,9 @@ How it works
 
 1. Download and install the Wheelchair Rugby Scoreboard application from [GitHub](https://github.com/wraus/scoreboardWeb "Wheelchair Rugby Scoreboard")
 2. Ensure you have the latest version of Java JDK installed, or download from [here](https://java.com/en/download/ "Oracle Java Download Page")
-3. Copy the executable WAR file supplied under folder *dist* to a folder on your PC or MAC.
+3. Copy the executable WAR file supplied under the [code releases](https://github.com/wraus/scoreboardWeb/releases "WRAUS Releases Download Page") section to a folder on your PC or MAC.
 4. Open a Command or Terminal window and navigate to the folder where the WAR file is installed.
-5. Type: **java -jar scoreboard.war** at the command prompt.
+5. Type: **java -jar scoreboard-1.x.x.war** at the command prompt. (where x is correct version number)
 6. The scoreboard application will start running on an embedded tomcat web server.
 7. Open a browser window and navigate to the URL address: <http://localhost:8080/scoreboard> to display the scoreboard.
 8. Open a separate browser window and navigate to the URL address: <http://localhost:8080/scorer> to display the scoreboard controller.
