@@ -334,8 +334,8 @@
 
                         <div class="col-sm-12 arrow-panel">
                             <div class="panel-body">
-                                <div id="arrowRight"><img src="images/green-arrow-right.png"/></div>
-                                <div id="arrowLeft"><img src="images/green-arrow-left.png"/></div>
+                                <div id="arrowRight"><img src="images/bright-green-arrow-right.png"/></div>
+                                <div id="arrowLeft"><img src="images/bright-green-arrow-left.png"/></div>
                             </div>
                         </div>
 
