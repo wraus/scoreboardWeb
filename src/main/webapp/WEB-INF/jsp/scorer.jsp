@@ -1001,8 +1001,14 @@
         stopGameWithoutEventFire();
         shotClock.stop();
         var resetFull = getDefaultTotalShotClockSecTenths();
-        startShotClock(resetFull);
-        pauseClocks();
+
+        if(validateShotClockCmd(resetFull)){
+            startShotClock(resetFull);
+            pauseClocks();
+        }else{
+            gameClock.pause();
+        }
+
         stompIt("SCORE", event.data.actionMessage);
     };
 
